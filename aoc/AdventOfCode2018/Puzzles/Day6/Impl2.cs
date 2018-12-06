@@ -16,21 +16,35 @@
         {
             var (points, width,height) = GetCoordinates(Inputs);
             var dict = points.ToDictionary(k => k.Id, v => v);
-
+            
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    int xx = x, yy = y;
-                    var mp = points.MinBy(mb => GetDist(mb, xx, yy));
-                    var lp = mp.First();
-
-                    if (mp.Count() != 1) continue;
-
-                    var point = dict[lp.Id];
-                    if (IsInf(x, y, width, height) || point.TouchesInfinity)
+                    Point closest = points[0];
+                    int dist = 0, bestDist = GetDist(closest,x,y);
+                    bool skip = false;
+                    for (int i = 1; i < points.Count; i++)
                     {
-                        point.TouchesInfinity = true;
+                        dist = GetDist(points[i], x, y);
+                        if (dist == bestDist) //if 2 are the same, bail out on bothering with more calculations
+                        {
+                            skip = true;
+                            break;
+                        }
+
+                        if (dist < bestDist) //otherwise keep improving the closest point
+                        {
+                            bestDist = dist;
+                            closest = points[i];
+                        }
+                    }
+                    if (skip) continue; //bail out on this point as 2 are the same.
+
+                    var point = dict[closest.Id]; //using the closest;
+                    if (IsInf(x, y, width, height) || point.TouchesInfinity) //bail on this point if it's at the edge
+                    {
+                        point.TouchesInfinity = true; //and skip it for all future encounters.
                         continue;
                     }
                     point.Count++;
