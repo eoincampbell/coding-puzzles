@@ -44,9 +44,7 @@
                 depth++;
                 return null;
             }
-
-            Console.WriteLine(depth+1 + " : " + data[depth]);
-
+            
             //After reading the data, increment index value as indication to read next
             //array value in further iteration
             return new Node(data[depth++], deserialize(data, depth), deserialize(data, depth));
