@@ -13,17 +13,22 @@ namespace AdventOfCode2018
             return string.Join(",", input);
         }
 
-        public static SortedList<TKey, TValue> ToSortedList<TSource, TKey, TValue>
-        (this IEnumerable<TSource> source,
-            Func<TSource, TKey> keySelector,
-            Func<TSource, TValue> valueSelector)
+        public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(this IDictionary<TKey, TValue> source)
         {
-            // Argument checks elided
-            SortedList<TKey, TValue> ret = new SortedList<TKey, TValue>();
+            var ret = new SortedList<TKey, TValue>();
             foreach (var item in source)
             {
-                // Will throw if the key already exists
-                ret.Add(keySelector(item), valueSelector(item));
+                ret.Add(item.Key, item.Value);
+            }
+            return ret;
+        }
+
+        public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source)
+        {
+            var ret = new SortedList<TKey, TValue>();
+            foreach (var item in source)
+            {
+                ret.Add(item.Key, item.Value);
             }
             return ret;
         }
