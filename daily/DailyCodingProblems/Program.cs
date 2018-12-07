@@ -13,6 +13,7 @@
             {
                 new Puzzles.Day1.Impl()
                 , new Puzzles.Day2.Impl()
+                , new Puzzles.Day3.Impl()
             };
 
             foreach(var p in puzzles)

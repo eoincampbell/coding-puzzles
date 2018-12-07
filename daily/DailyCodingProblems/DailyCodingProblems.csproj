@@ -47,12 +47,14 @@
     <Compile Include="Base\IPuzzle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Puzzles\Day3\Impl.cs" />
     <Compile Include="Puzzles\Day2\Impl.cs" />
     <Compile Include="Puzzles\Day1\Impl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Puzzles\Day1\Instructions.md" />
+    <None Include="Puzzles\Day3\Instructions.md" />
     <None Include="Puzzles\Day2\Instructions.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
