@@ -18,8 +18,9 @@
                 //            //, new Puzzles.Day5.Impl() //recursive is way to slow
                 //, new Puzzles.Day5.Impl2()
                 //, new Puzzles.Day5.Impl3()
-                new Puzzles.Day6.Impl(),
-                new Puzzles.Day6.Impl2()
+                //new Puzzles.Day6.Impl(),
+                //new Puzzles.Day6.Impl2(),
+                new Puzzles.Day7.Impl(),
             };
 
             puzzles.ForEach(f => f.RunBothParts());
