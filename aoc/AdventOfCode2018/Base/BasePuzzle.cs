@@ -22,8 +22,6 @@
 
         private void ResetInputs()
         {
-            _stopWatch.Reset();
-            _stopWatch.Start();
             Inputs = File.ReadAllLines(_inputFile);
         }
 
