@@ -13,6 +13,11 @@ namespace AdventOfCode2018
             return string.Join(",", input);
         }
 
+        public static string ToTsv<T>(this IEnumerable<T> input)
+        {
+            return string.Join("\t", input);
+        }
+
         public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(this IDictionary<TKey, TValue> source)
         {
             var ret = new SortedList<TKey, TValue>();
