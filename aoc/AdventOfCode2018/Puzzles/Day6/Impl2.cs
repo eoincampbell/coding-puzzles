@@ -79,7 +79,7 @@
             public int X;
             public int Y;
             public int Count;
-            public bool TouchesInfinity;
+            //public bool TouchesInfinity;
             public override string ToString()
             {
                 return $"{Id}: {Count}";

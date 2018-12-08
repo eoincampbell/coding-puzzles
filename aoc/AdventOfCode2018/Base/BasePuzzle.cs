@@ -36,7 +36,7 @@
             var p1Result = await RunPart1();
             _stopWatch.Stop();
 
-            Console.WriteLine($"{Name} Part 1 | Exec: {_stopWatch.Elapsed:c} | {p1Result}");
+            Console.WriteLine($"{Name} | Part 1 | Exec: {_stopWatch.Elapsed:c} | {p1Result}");
 
             //Part 2
             ResetInputs();
@@ -45,7 +45,7 @@
             var p2Result = await RunPart2();
             _stopWatch.Stop();
 
-            Console.WriteLine($"{Name} Part 2 | Exec: {_stopWatch.Elapsed:c} | {p2Result}");
+            Console.WriteLine($"{Name} | Part 2 | Exec: {_stopWatch.Elapsed:c} | {p2Result}");
         }
 
 
