@@ -1,4 +1,4 @@
-﻿# Day 7: Day 8: Memory Maneuver
+﻿# Day 8: Memory Maneuver
 
 ## Part One
 
