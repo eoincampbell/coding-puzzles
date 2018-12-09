@@ -36,9 +36,53 @@
 
         public override async Task<string> RunPart2()
         {
-       
+            int dim = 11,
+                start = (dim - 1) / 2,
+                result = 0,
+                i = int.Parse(Inputs.First());
+            int[,] arr = new int[dim, dim];
+            for(int level = 0; level < start; level++) //track the levels
+            {
+                if (level == 0) arr[start, start] = 1;
+                else
+                {
+                    int y = start + level,
+                        x = start + level,
+                        len = level * 2;
+                    
+                    for (int k = 0; k < len; k++) arr[--x, y] = GetLookAbout(arr, x, y, i, ref result);
+                    for (int k = 0; k < len; k++) arr[x, --y] = GetLookAbout(arr, x, y, i, ref result);
+                    for (int k = 0; k < len; k++) arr[++x, y] = GetLookAbout(arr, x, y, i, ref result);
+                    for (int k = 0; k < len; k++) arr[x, ++y] = GetLookAbout(arr, x, y, i, ref result);
+                }
+            }
+            //Print(arr);
+            return await Task.FromResult($"{result}");
+        }
 
-            return await Task.FromResult($"");
+        public int GetLookAbout(int [,] arr, int x, int y, int input, ref int result)
+        {
+            var look = arr[x-1, y-1] + arr[x-1, y] + arr[x-1, y+1]
+                 + arr[x, y-1] + arr[x, y+1]
+                 + arr[x+1, y-1] + arr[x+1, y] + arr[x+1, y+1];
+
+            if (result == 0 && look > input)
+                result = look;
+
+            return look;
+        }
+
+        public void Print(int[,] arr)
+        {
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                for(int j = 0; j < arr.GetLength(1); j++)
+                {
+                    Console.Write($"{arr[i, j]:0000000} ");
+                }
+                Console.WriteLine("");
+            }
+            Console.WriteLine("");
         }
     }
 }
