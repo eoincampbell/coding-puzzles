@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Puzzles\Day6\Impl3.cs" />
     <Compile Include="Puzzles\Day9\Impl2.cs" />
     <Compile Include="Puzzles\Day9\Impl.cs" />
     <Compile Include="Puzzles\Day8\Impl2.cs" />

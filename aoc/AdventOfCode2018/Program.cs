@@ -19,12 +19,13 @@
                 //, new Puzzles.Day5.Impl2()
                 //, new Puzzles.Day5.Impl3()
                 //new Puzzles.Day6.Impl(),
-                //new Puzzles.Day6.Impl2(),
+                new Puzzles.Day6.Impl2(),
+                new Puzzles.Day6.Impl3(),
                 //new Puzzles.Day7.Impl(),
                 //new Puzzles.Day8.Impl(),
                 //new Puzzles.Day8.Impl2(),
                 //new Puzzles.Day9.Impl(),
-                new Puzzles.Day9.Impl2(),
+                //new Puzzles.Day9.Impl2(),
             };
 
             puzzles.ForEach(f => f.RunBothParts());
