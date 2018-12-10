@@ -9,8 +9,8 @@
 
     public class Impl2 : BasePuzzle
     {
-        public const string FILE = ".\\Puzzles\\Day6\\InputSimple.txt";
-        public const int P2THRESHOLD = 32; //switch this to 32 to simple input
+        public const string FILE = ".\\Puzzles\\Day6\\InputVas.txt";
+        public const int P2THRESHOLD = 10000; //switch this to 32 to simple input
 
         public Impl2() : base("Day 6b", FILE) { }
 
@@ -18,38 +18,31 @@
         {
             var (points, minx, miny, width, height) = GetCoordinates(Inputs);
             var dict = points.ToDictionary(k => k.Id, v => v);
-            
-            for (var x = minx; x < width; x++)
-                for (var y = miny; y < height; y++)
+            for (var x = minx; x <= width; x++)
+                for (var y = miny; y <= height; y++)
                 {
-                    int dist = 0, bestDist = int.MaxValue, closest = -1, numBest = 0;
-                    foreach (var p in points)
+                    int best = int.MaxValue, bestId = -1, numBest = 0;
+                    foreach (var p in points.Select(s => new {Dist = GetDist(s, x, y), Point = s.Id}))
                     {
-                        dist = GetDist(p, x, y);
-
-                        if (dist < bestDist) //otherwise keep improving the closest point
+                        if (p.Dist < best)                  //keep improving the closest point
                         {
-                            bestDist = dist;
-                            closest = p.Id;
+                            best = p.Dist;                  //new best
+                            bestId = p.Point;               //grab the id and reset the trackers
                             numBest = 1;
                         }
-                        else if (dist == bestDist)
-                        {
-                            numBest++;
-                        }
-
-                        if (!p.TouchesInfinity && IsInfinite(p.X, p.Y, minx, miny, width, height))
-                        {
-                            p.TouchesInfinity = true;
-                        }
+                        else if (best == p.Dist) numBest++; //if we've more than 1 at the shortest distance
                     }
 
-                    if (numBest > 1)
-                        continue; //bail out on this point as 2 are the same.
+                    if (numBest > 1) continue;
 
-                    dict[closest].Count++; //using the closest;
+                    if (!dict[bestId].TouchesInfinity
+                            && IsInfinite(x, y, minx, miny, width, height)) dict[bestId].TouchesInfinity = true;
+                        dict[bestId].Count++;
                 }
-            var r = points.Where(p => !p.TouchesInfinity).Max(m => m.Count);
+            
+            var r = points
+                .Where(p => !p.TouchesInfinity)
+                .Max(m => m.Count);
             return await Task.FromResult($"{r}");
         }
 
