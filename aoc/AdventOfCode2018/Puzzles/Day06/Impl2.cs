@@ -9,7 +9,7 @@
 
     public class Impl2 : BasePuzzle
     {
-        public const string FILE = ".\\Puzzles\\Day6\\InputVas.txt";
+        public const string FILE = ".\\Puzzles\\Day06\\InputVas.txt";
         public const int P2THRESHOLD = 10000; //switch this to 32 to simple input
 
         public Impl2() : base("Day 6b", FILE) { }

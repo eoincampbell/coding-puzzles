@@ -4,14 +4,13 @@
     using Base;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     public class Impl2 : BasePuzzle
     {
-        //public const string FILE = ".\\Puzzles\\Day9\\InputSimple.txt";
-        public const string FILE = ".\\Puzzles\\Day9\\Input.txt";
+        //public const string FILE = ".\\Puzzles\\Day09\\InputSimple.txt";
+        public const string FILE = ".\\Puzzles\\Day09\\Input.txt";
 
         public Impl2() : base("Day 9b", FILE) { }
 

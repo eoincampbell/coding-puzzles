@@ -51,21 +51,22 @@
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Puzzles\Day9\Impl2.cs" />
-    <Compile Include="Puzzles\Day9\Impl.cs" />
-    <Compile Include="Puzzles\Day8\Impl2.cs" />
-    <Compile Include="Puzzles\Day8\Impl.cs" />
-    <Compile Include="Puzzles\Day7\Impl.cs" />
-    <Compile Include="Puzzles\Day6\Impl2.cs" />
-    <Compile Include="Puzzles\Day6\Impl.cs" />
-    <Compile Include="Puzzles\Day3\Impl2.cs" />
-    <Compile Include="Puzzles\Day5\Impl3.cs" />
-    <Compile Include="Puzzles\Day5\Impl2.cs" />
-    <Compile Include="Puzzles\Day5\Impl.cs" />
-    <Compile Include="Puzzles\Day4\Impl.cs" />
-    <Compile Include="Puzzles\Day3\Impl.cs" />
-    <Compile Include="Puzzles\Day2\Impl.cs" />
-    <Compile Include="Puzzles\Day1\Impl.cs" />
+    <Compile Include="Puzzles\Day10\Impl.cs" />
+    <Compile Include="Puzzles\Day09\Impl2.cs" />
+    <Compile Include="Puzzles\Day09\Impl.cs" />
+    <Compile Include="Puzzles\Day08\Impl2.cs" />
+    <Compile Include="Puzzles\Day08\Impl.cs" />
+    <Compile Include="Puzzles\Day07\Impl.cs" />
+    <Compile Include="Puzzles\Day06\Impl2.cs" />
+    <Compile Include="Puzzles\Day06\Impl.cs" />
+    <Compile Include="Puzzles\Day03\Impl2.cs" />
+    <Compile Include="Puzzles\Day05\Impl3.cs" />
+    <Compile Include="Puzzles\Day05\Impl2.cs" />
+    <Compile Include="Puzzles\Day05\Impl.cs" />
+    <Compile Include="Puzzles\Day04\Impl.cs" />
+    <Compile Include="Puzzles\Day03\Impl.cs" />
+    <Compile Include="Puzzles\Day02\Impl.cs" />
+    <Compile Include="Puzzles\Day01\Impl.cs" />
     <Compile Include="Base\IPuzzle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,57 +74,64 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Puzzles\Day9\Instructions.md" />
-    <None Include="Puzzles\Day8\Instructions.md" />
-    <None Include="Puzzles\Day7\Instructions.md" />
-    <None Include="Puzzles\Day6\Instructions.md" />
-    <None Include="Puzzles\Day1\Instructions.md" />
-    <None Include="Puzzles\Day2\Instructions.md" />
-    <None Include="Puzzles\Day3\Instructions.md" />
-    <None Include="Puzzles\Day5\Instructions.md" />
-    <None Include="Puzzles\Day4\Instructions.md" />
+    <None Include="Puzzles\Day10\Instructions.md" />
+    <None Include="Puzzles\Day09\Instructions.md" />
+    <None Include="Puzzles\Day08\Instructions.md" />
+    <None Include="Puzzles\Day07\Instructions.md" />
+    <None Include="Puzzles\Day06\Instructions.md" />
+    <None Include="Puzzles\Day01\Instructions.md" />
+    <None Include="Puzzles\Day02\Instructions.md" />
+    <None Include="Puzzles\Day03\Instructions.md" />
+    <None Include="Puzzles\Day05\Instructions.md" />
+    <None Include="Puzzles\Day04\Instructions.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Puzzles\Day6\InputSimple.txt">
+    <Content Include="Puzzles\Day06\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day6\InputVas.txt">
+    <Content Include="Puzzles\Day06\InputVas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day9\Input.txt">
+    <Content Include="Puzzles\Day10\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day9\InputSimple.txt">
+    <Content Include="Puzzles\Day10\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day8\Input.txt">
+    <Content Include="Puzzles\Day09\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day8\InputSimple.txt">
+    <Content Include="Puzzles\Day09\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day7\InputSimple.txt">
+    <Content Include="Puzzles\Day08\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day7\Input.txt">
+    <Content Include="Puzzles\Day08\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day6\Input.txt">
+    <Content Include="Puzzles\Day07\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day5\Input.txt">
+    <Content Include="Puzzles\Day07\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day4\Input.txt">
+    <Content Include="Puzzles\Day06\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day3\Input.txt">
+    <Content Include="Puzzles\Day05\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day2\Input.txt">
+    <Content Include="Puzzles\Day04\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Puzzles\Day1\Input.txt">
+    <Content Include="Puzzles\Day03\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day02\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day01\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

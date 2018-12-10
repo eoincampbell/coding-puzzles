@@ -13,11 +13,11 @@
         //public const int ELF_COUNT = 2;
         //public const int TIME_OFFSET = 0;
         //public const bool SHOW_TABLE = true;
-        //public const string FILE = ".\\Puzzles\\Day7\\InputSimple.txt";
+        //public const string FILE = ".\\Puzzles\\Day07\\InputSimple.txt";
         public const int ELF_COUNT = 5;
         public const int TIME_OFFSET = 60;
         public const bool SHOW_TABLE = true;
-        public const string FILE = ".\\Puzzles\\Day7\\Input.txt";
+        public const string FILE = ".\\Puzzles\\Day07\\Input.txt";
 
 
         public Impl() : base("Day 7 ", FILE) { }

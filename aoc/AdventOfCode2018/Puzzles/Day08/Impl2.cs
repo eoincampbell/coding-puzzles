@@ -10,8 +10,8 @@
 
     public class Impl2 : BasePuzzle
     {
-        //public const string FILE = ".\\Puzzles\\Day8\\InputSimple.txt";
-        public const string FILE = ".\\Puzzles\\Day8\\Input.txt";
+        //public const string FILE = ".\\Puzzles\\Day08\\InputSimple.txt";
+        public const string FILE = ".\\Puzzles\\Day08\\Input.txt";
 
         public Impl2() : base("Day 8b", FILE) { }
 
