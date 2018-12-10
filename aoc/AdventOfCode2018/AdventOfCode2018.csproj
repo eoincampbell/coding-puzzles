@@ -85,6 +85,12 @@
     <None Include="Puzzles\Day4\Instructions.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Puzzles\Day6\InputSimple.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day6\InputVas.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Puzzles\Day9\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
