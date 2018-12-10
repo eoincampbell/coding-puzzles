@@ -20,15 +20,13 @@
         {
             var s = ProcessInput(Inputs);                                           //vars to track previous and current bounds of the rectangle, 
             int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;     //assumes it's at it's tightest when aligned. 
-                                                                                    //no idea if that's a valid assumption, or holds true in other inputs.
-            do
-            {
+            do {                                                                    //no idea if that's a valid assumption, or holds true in other inputs.
                 s.ForEach(f => f.Update(timecode));                                 //update all the stars based on the current timecode
                 pxb = nxb;                                                          //set the previous bounds
                 pyb = nyb;
                 nxb = s.Max(m => m.NextX) - s.Min(m => m.NextX);                    //recalculate the next set of bounds
                 nyb = s.Max(m => m.NextY) - s.Min(m => m.NextY);
-            } while (nxb < pxb && nyb < pyb && ++timecode > 0);                     //break when we've 
+            } while (nxb < pxb && nyb < pyb && ++timecode > 0);                     //break when we've started increasing the bounding rectangle again
 
             using (var sw = new StreamWriter(".\\day10.txt"))                       //write to file
                 for (var y = s.Min(m => m.Y); y <= s.Max(m =>m.Y); y++)             //foreach row in the sky
@@ -41,26 +39,22 @@
             return await Task.FromResult("See Day10.txt in output directory");
         }
 
-        public override async Task<string> RunPart2() => await Task.FromResult($"{_part2Answer}");
+        public override async Task<string> RunPart2() 
+            => await Task.FromResult($"{_part2Answer}");
 
         public List<Star> ProcessInput(IEnumerable<string> inputs)
         {
             var r = new Regex(@"position=<([- ]?\d+), ([- ]?\d+)> velocity=<([- ]?\d+), ([- ]?\d+)>");
 
             return Inputs
-                .Select(s => r.Match(s))
-                .Select(m => new Star
-                {
-                    StartX = int.Parse(m.Groups[1].Value),
-                    StartY = int.Parse(m.Groups[2].Value),
-                    VelX = int.Parse(m.Groups[3].Value),
-                    VelY = int.Parse(m.Groups[4].Value)
-                }).ToList();
-        }
-
-        public class Stars : List<Star>
-        {
-            public int MinX => this.Min(m => m.X);
+                .Select(s => r.Match(s).Groups)
+                .Select(g => new Star{
+                    StartX = int.Parse(g[1].Value),
+                    StartY = int.Parse(g[2].Value),
+                    VelX = int.Parse(g[3].Value),
+                    VelY = int.Parse(g[4].Value)
+                })
+                .ToList();
         }
 
         public class Star
