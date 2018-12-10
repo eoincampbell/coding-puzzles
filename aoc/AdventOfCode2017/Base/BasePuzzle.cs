@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2018.Base
+﻿namespace AdventOfCode2017.Base
 {
     using System;
     using System.Diagnostics;

@@ -7,9 +7,9 @@
     using System.Threading.Tasks;
     using MoreLinq;
 
-    public class Impl2 : BasePuzzle
+    public class Impl3 : BasePuzzle
     {
-        public Impl2() : base("Day 6b", ".\\Puzzles\\Day6\\Input.txt") { }
+        public Impl3() : base("Day 6b", ".\\Puzzles\\Day6\\Input.txt") { }
 
         public override async Task<string> RunPart1()
         {
@@ -19,20 +19,18 @@
             for (var x = minx; x < width; x++)
                 for (var y = miny; y < height; y++)
                 {
-                    int dist = 0, bestDist = int.MaxValue, closest = -1;
-                    foreach(var p in points)
-                    {
-                        dist = GetDist(p, x, y);
-                        if (dist == bestDist) break;        //if 2 are the same, bail out on bothering with more calculations
-                        
-                        if (dist < bestDist)                //otherwise keep improving the closest point
-                        {
-                            bestDist = dist;
-                            closest = p.Id;
-                        }
-                    }
-                    if (dist == bestDist) continue; //bail out on this point as 2 are the same.
-                    dict[closest].Count++; //using the closest;
+                    int closest = -1;
+
+                    var shortestDist = points
+                        .Select(s => new { PointId = s.Id, Distance = GetDist(s, x, y) })
+                        .GroupBy(g => g.Distance)
+                        .Select(ss => new { Distance = ss.Key, Points = ss})
+                        .OrderBy(o => o.Distance)
+                        .FirstOrDefault();
+
+                    if (shortestDist.Points.Count() > 1) continue;
+                    closest = shortestDist.Points.First().PointId;
+                    dict[closest].Count++;
                 }
             var r = points.Max(m => m.Count);
             return await Task.FromResult($"{r}");
