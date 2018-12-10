@@ -18,24 +18,23 @@
         
         public override async Task<string> RunPart1()
         {
-            var stars = ProcessInput(Inputs);
-            int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;
-            //vars to track previous and current bounds of the triangle, assumes it's at it's tightest when aligned. no idea if that's a valid assumption, or holds true in other inputs.
-            
+            var s = ProcessInput(Inputs);                                           //vars to track previous and current bounds of the triangle, 
+            int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;     //assumes it's at it's tightest when aligned. 
+                                                                                    //no idea if that's a valid assumption, or holds true in other inputs.
             do
             {
-                stars.ForEach(f => f.Update(timecode));                     //update all the stars based on the current timecode
-                pxb = nxb;                                                  //set the previous bounds
+                s.ForEach(f => f.Update(timecode));                                 //update all the stars based on the current timecode
+                pxb = nxb;                                                          //set the previous bounds
                 pyb = nyb;
-                nxb = stars.Max(m => m.NextX) - stars.Min(m => m.NextX);    //recalculate the next set of bounds
-                nyb = stars.Max(m => m.NextY) - stars.Min(m => m.NextY);
-            } while (nxb < pxb && nyb < pyb && ++timecode > 0);             //break when we've 
+                nxb = s.Max(m => m.NextX) - s.Min(m => m.NextX);                    //recalculate the next set of bounds
+                nyb = s.Max(m => m.NextY) - s.Min(m => m.NextY);
+            } while (nxb < pxb && nyb < pyb && ++timecode > 0);                     //break when we've 
 
-            using (var sw = new StreamWriter(".\\day10.txt"))
-                for (var y = stars.Min(m=>m.Y); y <= stars.Max(m =>m.Y); y++)
-                    for (var x = stars.Min(m => m.X); x <= stars.Max(m => m.X); x++)
-                        sw.Write((stars.Any(s => (s.X == x && s.Y == y)) ? "#" : " ") 
-                            + (x == stars.Max(m => m.X) ? Environment.NewLine : ""));
+            using (var sw = new StreamWriter(".\\day10.txt"))                       //write to file
+                for (var y = s.Min(m => m.Y); y <= s.Max(m =>m.Y); y++)             //foreach row in the sky
+                    for (var x = s.Min(m => m.X); x <= s.Max(m => m.X); x++)        //foreach col in the sky
+                        sw.Write((s.Any(a => (a.X == x && a.Y == y)) ? "#" : " ")   //print a # if x,y point is in that position
+                            + (x == s.Max(m => m.X) ? Environment.NewLine : ""));   //+ a CRLF if it's the last point on the row
             
             _part2Answer = $"{timecode}";
 
