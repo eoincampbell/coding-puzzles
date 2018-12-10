@@ -11,7 +11,8 @@
     public class Impl : BasePuzzle
     {
         //public const string FILE = ".\\Puzzles\\Day10\\InputSimple.txt";
-        public const string FILE = ".\\Puzzles\\Day10\\Input.txt";
+        public const string FILE = ".\\Puzzles\\Day10\\InputVas.txt";
+        //public const string FILE = ".\\Puzzles\\Day10\\Input.txt";
         private string _part2Answer = "";
 
         public Impl() : base("Day10 ", FILE) { }
@@ -44,7 +45,7 @@
 
         public List<Star> ProcessInput(IEnumerable<string> inputs)
         {
-            var r = new Regex(@"position=<([- ]?\d+), ([- ]?\d+)> velocity=<([- ]?\d+), ([- ]?\d+)>");
+            var r = new Regex(@"position=<([- ]{0,2}\d+), ([- ]{0,2}\d+)> velocity=<([- ]?\d+), ([- ]?\d+)>");
 
             return Inputs
                 .Select(s => r.Match(s).Groups)

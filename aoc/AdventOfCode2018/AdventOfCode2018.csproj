@@ -92,6 +92,9 @@
     <Content Include="Puzzles\Day06\InputVas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Puzzles\Day10\InputVas.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Puzzles\Day10\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
