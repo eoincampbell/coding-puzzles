@@ -18,7 +18,7 @@
         
         public override async Task<string> RunPart1()
         {
-            var s = ProcessInput(Inputs);                                           //vars to track previous and current bounds of the triangle, 
+            var s = ProcessInput(Inputs);                                           //vars to track previous and current bounds of the rectangle, 
             int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;     //assumes it's at it's tightest when aligned. 
                                                                                     //no idea if that's a valid assumption, or holds true in other inputs.
             do
