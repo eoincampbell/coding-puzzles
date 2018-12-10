@@ -19,20 +19,17 @@
         public override async Task<string> RunPart1()
         {
             var stars = ProcessInput(Inputs);
-            int timecode = 0, pxb = int.MaxValue, pyb = int.MaxValue; //previous X & Y bounds
-
-            while (true)
+            int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;
+            //vars to track previous and current bounds of the triangle, assumes it's at it's tightest when aligned. no idea if that's a valid assumption, or holds true in other inputs.
+            
+            do
             {
-                stars.ForEach(f => f.Update(timecode));
-                var nxb = stars.Max(m => m.NextX) - stars.Min(m => m.NextX);
-                var nyb = stars.Max(m => m.NextY) - stars.Min(m => m.NextY); //new X & Y bounds
-
-                if (nxb > pxb && nyb > pyb) break; //keep going while bounds are shrinking then break. (not sure if this is valid for every data set.
-
-                pxb = nxb;
+                stars.ForEach(f => f.Update(timecode));                     //update all the stars based on the current timecode
+                pxb = nxb;                                                  //set the previous bounds
                 pyb = nyb;
-                timecode++;
-            }
+                nxb = stars.Max(m => m.NextX) - stars.Min(m => m.NextX);    //recalculate the next set of bounds
+                nyb = stars.Max(m => m.NextY) - stars.Min(m => m.NextY);
+            } while (nxb < pxb && nyb < pyb && ++timecode > 0);             //break when we've 
 
             using (var sw = new StreamWriter(".\\day10.txt"))
                 for (var y = stars.Min(m=>m.Y); y <= stars.Max(m =>m.Y); y++)
@@ -42,13 +39,10 @@
             
             _part2Answer = $"{timecode}";
 
-            return await Task.FromResult($"See Day10.txt in output directory");
+            return await Task.FromResult("See Day10.txt in output directory");
         }
 
-        public override async Task<string> RunPart2()
-        {
-            return await Task.FromResult($"{_part2Answer}");
-        }
+        public override async Task<string> RunPart2() => await Task.FromResult($"{_part2Answer}");
 
         public List<Star> ProcessInput(IEnumerable<string> inputs)
         {
@@ -78,15 +72,13 @@
             public int VelY;
             public int X;
             public int Y;
-            public int NextX;
-            public int NextY;
+            public int NextX => X + VelX;
+            public int NextY => Y + VelY;
 
             public void Update(int timecode)
             {
                 X = StartX + timecode * VelX;
                 Y = StartY + timecode * VelY;
-                NextX = StartX + (timecode+1) * VelX;
-                NextY = StartY + (timecode+1) * VelY;
             }
         }
     }
