@@ -41,9 +41,9 @@
             while (available.Any())
             {
                 var next = available
-                    .OrderBy(o => o.Id)                                      //taking the first by alpha order
+                    .OrderBy(o => o.Id)                                     //taking the first by alpha order
                     .First(f => !f.Ancestors.Any()                          //where it doesn't have any ancestors (base case) 
-                                || f.Ancestors.All(a => a.Done));      //OR all it's ancestors are processed
+                                || f.Ancestors.All(a => a.Done));           //OR all it's ancestors are processed
 
                 sb.Append(next.Id);
                 next.Done = true;
