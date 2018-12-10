@@ -7,7 +7,7 @@
 
     public class Impl : BasePuzzle
     {
-        public Impl() : base("Day 1 ", ".\\Puzzles\\Day1\\Input.txt") { }
+        public Impl() : base("Day 01 ", ".\\Puzzles\\Day01\\Input.txt") { }
 
         public override async Task<string> RunPart1()
         {

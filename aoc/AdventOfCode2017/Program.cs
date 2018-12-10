@@ -10,11 +10,12 @@
         {
             var puzzles = new List<IPuzzle>
             {
-                new Puzzles.Day1.Impl()
-                , new Puzzles.Day2.Impl()
-                , new Puzzles.Day3.Impl()
-                , new Puzzles.Day4.Impl()
-                , new Puzzles.Day5.Impl()
+                //new Puzzles.Day1.Impl()
+                //, new Puzzles.Day2.Impl()
+                //, new Puzzles.Day3.Impl()
+                //, new Puzzles.Day4.Impl()
+                //, new Puzzles.Day5.Impl()
+                new Puzzles.Day6.Impl()
             };
 
             puzzles.ForEach(f => f.RunBothParts());
