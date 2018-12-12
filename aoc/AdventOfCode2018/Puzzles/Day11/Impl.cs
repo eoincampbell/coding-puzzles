@@ -13,7 +13,6 @@
         //public const string FILE = ".\\Puzzles\\Day11\\InputSimple.txt";
         //public const string FILE = ".\\Puzzles\\Day11\\InputVas.txt";
         public const string FILE = ".\\Puzzles\\Day11\\Input.txt";
-        private string _part2Answer = "";
 
         public Impl() : base("Day11 ", FILE) { }
         

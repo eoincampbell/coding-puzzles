@@ -8,6 +8,10 @@ namespace AdventOfCode2018
 {
     public static class Extensions
     {
+        public static string ToS<T>(this IEnumerable<T> input)
+        {
+            return string.Join("", input);
+        }
         public static string ToCsv<T>(this IEnumerable<T> input)
         {
             return string.Join(",", input);
