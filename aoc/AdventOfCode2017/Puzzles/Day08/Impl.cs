@@ -14,8 +14,7 @@
         public override async Task<string> RunPart1()
         {
             var (instructions, dict) = ProcessInputs(Inputs);
-
-            var maxSize = 0;
+            
             foreach (var inst in instructions)
             {
                 var currentValue = dict[inst.Reg];
