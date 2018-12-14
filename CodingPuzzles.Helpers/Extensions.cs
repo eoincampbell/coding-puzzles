@@ -8,6 +8,11 @@ namespace CodingPuzzles.Helpers
 {
     public static class Extensions
     {
+        public static int[] ToDigitArray(this int digits)
+        {
+            return digits.ToString().Select(o => Convert.ToInt32(o - 48)).ToArray();
+        }
+
         public static string ToS<T>(this IEnumerable<T> input)
         {
             return string.Join("", input);

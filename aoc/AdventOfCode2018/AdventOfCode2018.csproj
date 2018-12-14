@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FSharp.Core.3.0.2\lib\net40\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharpx.Collections, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FSharpx.Collections.1.17.0\lib\net40\FSharpx.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="MoreLinq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\morelinq.3.0.0\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
@@ -50,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
+    <Compile Include="Puzzles\Day14\Impl.cs" />
     <Compile Include="Puzzles\Day13\Impl.cs" />
     <Compile Include="Puzzles\Day12\Impl.cs" />
     <Compile Include="Puzzles\Day11\Impl.cs" />
@@ -87,6 +94,7 @@
     <None Include="Puzzles\Day03\Instructions.md" />
     <None Include="Puzzles\Day05\Instructions.md" />
     <None Include="Puzzles\Day04\Instructions.md" />
+    <None Include="Puzzles\Day14\Instructions.md" />
     <None Include="Puzzles\Day13\Instructions.md" />
     <None Include="Puzzles\Day12\Instructions.md" />
   </ItemGroup>
@@ -161,6 +169,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day01\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day14\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
