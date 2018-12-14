@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="Puzzles\Day13\Impl.cs" />
     <Compile Include="Puzzles\Day12\Impl.cs" />
     <Compile Include="Puzzles\Day11\Impl.cs" />
@@ -165,6 +164,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodingPuzzles.Helpers\CodingPuzzles.Helpers.csproj">
+      <Project>{42e449d4-8239-4bcc-a34c-9f7fa0fd36cf}</Project>
+      <Name>CodingPuzzles.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyCodingProblems", "dail
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2017", "aoc\AdventOfCode2017\AdventOfCode2017.csproj", "{5B05EEA5-E599-4B7F-AE3D-93113A997417}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingPuzzles.Helpers", "CodingPuzzles.Helpers\CodingPuzzles.Helpers.csproj", "{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{5B05EEA5-E599-4B7F-AE3D-93113A997417}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B05EEA5-E599-4B7F-AE3D-93113A997417}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B05EEA5-E599-4B7F-AE3D-93113A997417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

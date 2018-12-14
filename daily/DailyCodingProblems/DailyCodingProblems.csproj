@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
     <Compile Include="Base\IPuzzle.cs" />
+    <Compile Include="Puzzles\Day4b\Impl.cs" />
     <Compile Include="Puzzles\Day4\Impl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,10 +55,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Puzzles\Day4b\Instructions.md" />
     <None Include="Puzzles\Day4\Instructions.md" />
     <None Include="Puzzles\Day1\Instructions.md" />
     <None Include="Puzzles\Day3\Instructions.md" />
     <None Include="Puzzles\Day2\Instructions.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodingPuzzles.Helpers\CodingPuzzles.Helpers.csproj">
+      <Project>{42E449D4-8239-4BCC-A34C-9F7FA0FD36CF}</Project>
+      <Name>CodingPuzzles.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
