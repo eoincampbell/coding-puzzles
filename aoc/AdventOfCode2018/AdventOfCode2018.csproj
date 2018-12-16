@@ -56,6 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
+    <Compile Include="Puzzles\Day15\Code\Cell.cs" />
+    <Compile Include="Puzzles\Day15\Code\Game.cs" />
+    <Compile Include="Puzzles\Day15\Code\PathFinder.cs" />
+    <Compile Include="Puzzles\Day15\Code\Player.cs" />
+    <Compile Include="Puzzles\Day15\Code\Point.cs" />
+    <Compile Include="Puzzles\Day16\Impl.cs" />
+    <Compile Include="Puzzles\Day15\Impl.cs" />
     <Compile Include="Puzzles\Day14\Impl.cs" />
     <Compile Include="Puzzles\Day13\Impl.cs" />
     <Compile Include="Puzzles\Day12\Impl.cs" />
@@ -94,6 +101,8 @@
     <None Include="Puzzles\Day03\Instructions.md" />
     <None Include="Puzzles\Day05\Instructions.md" />
     <None Include="Puzzles\Day04\Instructions.md" />
+    <None Include="Puzzles\Day16\Instructions.md" />
+    <None Include="Puzzles\Day15\Instructions.md" />
     <None Include="Puzzles\Day14\Instructions.md" />
     <None Include="Puzzles\Day13\Instructions.md" />
     <None Include="Puzzles\Day12\Instructions.md" />
@@ -171,6 +180,39 @@
     <Content Include="Puzzles\Day01\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple8.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple9.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple7.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple6.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple5.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple4.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\InputSimple1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day16\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Samples\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Puzzles\Day14\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -181,5 +223,6 @@
       <Name>CodingPuzzles.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
