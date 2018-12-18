@@ -207,6 +207,9 @@
     <Content Include="Puzzles\Day15\Samples\InputSimple1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Puzzles\Day16\InputSimple.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Puzzles\Day16\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
