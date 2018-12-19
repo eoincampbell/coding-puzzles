@@ -61,6 +61,7 @@
     <Compile Include="Puzzles\Day15\Code\PathFinder.cs" />
     <Compile Include="Puzzles\Day15\Code\Player.cs" />
     <Compile Include="Puzzles\Day15\Code\Point.cs" />
+    <Compile Include="Puzzles\Day17\Impl.cs" />
     <Compile Include="Puzzles\Day16\Impl.cs" />
     <Compile Include="Puzzles\Day15\Impl.cs" />
     <Compile Include="Puzzles\Day14\Impl.cs" />
@@ -101,6 +102,7 @@
     <None Include="Puzzles\Day03\Instructions.md" />
     <None Include="Puzzles\Day05\Instructions.md" />
     <None Include="Puzzles\Day04\Instructions.md" />
+    <None Include="Puzzles\Day17\Instructions.md" />
     <None Include="Puzzles\Day16\Instructions.md" />
     <None Include="Puzzles\Day15\Instructions.md" />
     <None Include="Puzzles\Day14\Instructions.md" />
@@ -205,6 +207,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day15\Samples\InputSimple1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day17\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day17\InputSimple.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day16\InputSimple.txt">
