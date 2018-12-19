@@ -8,14 +8,9 @@ namespace CodingPuzzles.Helpers
 {
     public static class Extensions
     {
-        //public static int[] ToDigitArray(this int digits)
-        //{
-        //    return digits.ToString().Select(o => Convert.ToInt32(o - 48)).ToArray();
-        //}
-
-        private static int numDigits(int n)
+        private static int NumDigits(int n)
         {
-            if (n < 0) n = (n == Int32.MinValue) ? Int32.MaxValue : -n;
+            if (n < 0) n = (n == int.MinValue) ? int.MaxValue : -n;
             if (n < 10) return 1;
             if (n < 100) return 2;
             if (n < 1000) return 3;
@@ -24,14 +19,13 @@ namespace CodingPuzzles.Helpers
             if (n < 1000000) return 6;
             if (n < 10000000) return 7;
             if (n < 100000000) return 8;
-            if (n < 1000000000) return 9;
-            return 10;
+            return n < 1000000000 ? 9 : 10;
         }
 
         public static int[] ToDigitArray(this int digits)
         {
-            var result = new int[numDigits(digits)];
-            for (int i = result.Length - 1; i >= 0; i--)
+            var result = new int[NumDigits(digits)];
+            for (var i = result.Length - 1; i >= 0; i--)
             {
                 result[i] = digits % 10;
                 digits /= 10;
@@ -39,19 +33,9 @@ namespace CodingPuzzles.Helpers
             return result;
         }
 
-        public static string ToS<T>(this IEnumerable<T> input)
-        {
-            return string.Join("", input);
-        }
-        public static string ToCsv<T>(this IEnumerable<T> input)
-        {
-            return string.Join(",", input);
-        }
-
-        public static string ToTsv<T>(this IEnumerable<T> input)
-        {
-            return string.Join("\t", input);
-        }
+        public static string ToS<T>(this IEnumerable<T> input) => string.Join("", input);
+        public static string ToCsv<T>(this IEnumerable<T> input) => string.Join(",", input);
+        public static string ToTsv<T>(this IEnumerable<T> input) => string.Join("\t", input);
 
         public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(this IDictionary<TKey, TValue> source)
         {

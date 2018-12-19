@@ -1,12 +1,8 @@
-﻿namespace DailyCodingProblems.Puzzles.Day14
+﻿namespace DailyCodingProblems.Puzzles.Day014
 {
     using Base;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using System.Threading;
     using System.Threading.Tasks;
     
     public class Impl : BasePuzzle
@@ -28,10 +24,8 @@
                 if (d <= rad) i++;
             }
             sw.Stop();
-
-            Console.WriteLine($"{4 * i / lim} in {sw.ElapsedMilliseconds}");
-
-            return await Task.FromResult($"");
+            
+            return await Task.FromResult($"{4 * i / lim} in {sw.ElapsedMilliseconds:0,000}ms");
         }
 
         private static double GetDistance(double x1, double y1, double x2, double y2) =>
