@@ -27,7 +27,7 @@
 
     public class Impl : BasePuzzle
     {
-        public Impl() : base("Day 004") { }
+        public Impl() : base("Day 015") { }
 
         protected override async Task<string> ExecuteImpl()
         {

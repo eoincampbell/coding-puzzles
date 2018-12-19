@@ -16,7 +16,8 @@
                 //new Puzzles.Day3.Impl(),
                 //new Puzzles.Day4.Impl(),
                 //new Puzzles.Day4b.Impl(),
-                new Puzzles.Day15.Impl(),
+                new Puzzles.Day14.Impl(),
+                //new Puzzles.Day15.Impl(),
             };
 
             foreach(var p in puzzles)
