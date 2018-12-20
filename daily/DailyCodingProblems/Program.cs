@@ -14,10 +14,10 @@
                 //new Puzzles.Day001.Impl(),
                 //new Puzzles.Day002.Impl(),
                 //new Puzzles.Day003.Impl(),
-                //new Puzzles.Day004.Impl(),
+                new Puzzles.Day004.Impl(),
                 //new Puzzles.Day004b.Impl(),
                 //new Puzzles.Day014.Impl(),
-                new Puzzles.Day015.Impl(),
+                //new Puzzles.Day015.Impl(),
             };
 
             foreach(var p in puzzles)
