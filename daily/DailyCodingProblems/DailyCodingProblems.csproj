@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
     <Compile Include="Base\IPuzzle.cs" />
+    <Compile Include="Puzzles\Day011\Impl.cs" />
     <Compile Include="Puzzles\Day014\Impl.cs" />
     <Compile Include="Puzzles\Day015\Impl.cs" />
     <Compile Include="Puzzles\Day004b\Impl.cs" />
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Puzzles\Day011\Instructions.md" />
     <None Include="Puzzles\Day014\Instructions.md" />
     <None Include="Puzzles\Day015\Instructions.md" />
     <None Include="Puzzles\Day004b\Instructions.md" />
