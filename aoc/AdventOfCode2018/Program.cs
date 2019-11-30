@@ -30,8 +30,10 @@
                 //new Puzzles.Day12.Impl(),
                 //new Puzzles.Day13.Impl(),
                 //new Puzzles.Day14.Impl(),
-                new Puzzles.Day15.Impl(),
-                new Puzzles.Day15.Impl2.Impl(),
+                //  new Puzzles.Day15.Impl(),
+                //new Puzzles.Day15.Impl2.Impl(),
+                //new Puzzles.Day15.Impl(),
+                new Puzzles.Day16.Impl()
             };
 
             puzzles.ForEach(f => f.RunBothParts());

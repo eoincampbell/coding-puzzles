@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,21 +45,27 @@
   <ItemGroup>
     <Compile Include="Base\BasePuzzle.cs" />
     <Compile Include="Base\IPuzzle.cs" />
-    <Compile Include="Puzzles\Day4b\Impl.cs" />
-    <Compile Include="Puzzles\Day4\Impl.cs" />
+    <Compile Include="Puzzles\Day011\Impl.cs" />
+    <Compile Include="Puzzles\Day014\Impl.cs" />
+    <Compile Include="Puzzles\Day015\Impl.cs" />
+    <Compile Include="Puzzles\Day004b\Impl.cs" />
+    <Compile Include="Puzzles\Day004\Impl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Puzzles\Day3\Impl.cs" />
-    <Compile Include="Puzzles\Day2\Impl.cs" />
-    <Compile Include="Puzzles\Day1\Impl.cs" />
+    <Compile Include="Puzzles\Day003\Impl.cs" />
+    <Compile Include="Puzzles\Day002\Impl.cs" />
+    <Compile Include="Puzzles\Day001\Impl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Puzzles\Day4b\Instructions.md" />
-    <None Include="Puzzles\Day4\Instructions.md" />
-    <None Include="Puzzles\Day1\Instructions.md" />
-    <None Include="Puzzles\Day3\Instructions.md" />
-    <None Include="Puzzles\Day2\Instructions.md" />
+    <None Include="Puzzles\Day011\Instructions.md" />
+    <None Include="Puzzles\Day014\Instructions.md" />
+    <None Include="Puzzles\Day015\Instructions.md" />
+    <None Include="Puzzles\Day004b\Instructions.md" />
+    <None Include="Puzzles\Day004\Instructions.md" />
+    <None Include="Puzzles\Day001\Instructions.md" />
+    <None Include="Puzzles\Day003\Instructions.md" />
+    <None Include="Puzzles\Day002\Instructions.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CodingPuzzles.Helpers\CodingPuzzles.Helpers.csproj">

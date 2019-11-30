@@ -11,11 +11,14 @@
         {
             var puzzles = new List<IPuzzle>()
             {
-                //new Puzzles.Day1.Impl(),
-                //new Puzzles.Day2.Impl(),
-                //new Puzzles.Day3.Impl(),
-                //new Puzzles.Day4.Impl(),
-                new Puzzles.Day4b.Impl(),
+                //new Puzzles.Day001.Impl(),
+                //new Puzzles.Day002.Impl(),
+                //new Puzzles.Day003.Impl(),
+                //new Puzzles.Day004.Impl(),
+                //new Puzzles.Day004b.Impl(),
+                new Puzzles.Day011.Impl(),
+                //new Puzzles.Day014.Impl(),
+                //new Puzzles.Day015.Impl(),
             };
 
             foreach(var p in puzzles)
