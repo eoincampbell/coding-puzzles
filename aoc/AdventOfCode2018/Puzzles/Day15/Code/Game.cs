@@ -77,30 +77,38 @@
             {
                 if (player.HitPoints <= 0) continue;                        //this player was killed by someone else this round
                 if (!PlayersFromBothSidesRemain()) goto leaveRoundEarly;    //there are no more enemies left so this is a partial round
-                
-                
-                //Find a move
-                int closestDistance = int.MaxValue;
-                Point nextMove = player.Coordinate;
-                foreach (var other in orderedPlayers)
+
+                var enemies = orderedPlayers.Where(w => player.IsEnemyOf(w));
+
+                if (!enemies.Any(a => player.IsAdjacentTo(a)))
                 {
-                    if(!player.IsEnemyOf(other) || player.IsSelf(other)) continue; //bail out if they're teammates
-                    var (dist, nm) = Map.GetDistance(player, other);        //GetDistance & next move
-                    if (dist >= closestDistance) continue;                  //If dist is an improvement
-                    closestDistance = dist;                                 //record it & next move
-                    nextMove = nm;
+                    var nextMove = Map.GetNextMove(player, enemies);
+                    UpdatePlayer(player, nextMove);
+
+                    //Find a move
+                    //int closestDistance = int.MaxValue;
+                    //Point nextMove = player.Coordinate;
+                    //foreach (var other in orderedPlayers)
+                    //{
+                    //    if (!player.IsEnemyOf(other) || player.IsSelf(other)) continue; //bail out if they're teammates
+                    //    var (dist, nm) = Map.GetDistance(player, other);        //GetDistance & next move
+                    //    if (dist >= closestDistance) continue;                  //If dist is an improvement
+                    //    closestDistance = dist;                                 //record it & next move
+                    //    nextMove = nm;
+                    //}
+
+                    ////Take move if available
+                    //if (closestDistance > 1 && closestDistance < int.MaxValue)  //If we found a dist, but we're not already adjacent
+                    //    UpdatePlayer(player, nextMove);                         //Move
                 }
 
-                //Take move if available
-                if (closestDistance > 1 && closestDistance < int.MaxValue)  //If we found a dist, but we're not already adjacent
-                    UpdatePlayer(player, nextMove);                         //Move
-                
                 //Find an Enemy
-                var nearByEnemy = GetNearbyEnemies(player)                  //Get all adjacent players
-                    .Where(w => w.Item1.IsEnemyOf(player))                  //Where enemies
-                    .OrderBy(o => o.Item1.HitPoints)                        //Order by lowest hitpoints
-                    .ThenBy(t => t.Item2)                                   //tie break by reading order
-                    .FirstOrDefault().Item1;
+                var nearByEnemy = enemies                   //Get all adjacent players
+                    .Where(w => player.IsAdjacentTo(w))     //Where enemies
+                    .OrderBy(o => o.HitPoints)              //Order by lowest hitpoints
+                    .ThenBy(t => t.Coordinate.Y)            //tie break by reading order
+                    .ThenBy(t => t.Coordinate.X)            //tie break by reading order
+                    .FirstOrDefault();
 
                 //Attack Enemy if available
                 if (nearByEnemy == null) continue;                          //If we find someone to attack
@@ -112,24 +120,7 @@
 leaveRoundEarly:
             return fullRound;
         }
-
         
-
-        private IEnumerable<(Player,int)> GetNearbyEnemies(Player player)
-        {
-            var pu = new Point(player.Coordinate.X, player.Coordinate.Y - 1);
-            var pl = new Point(player.Coordinate.X - 1, player.Coordinate.Y);
-            var pr = new Point(player.Coordinate.X + 1, player.Coordinate.Y);
-            var pd = new Point(player.Coordinate.X, player.Coordinate.Y + 1);
-
-            //In reading order from top-bottom/left-right
-            if (Players.ContainsKey(pu)) yield return (Players[pu], 1); //above  
-            if (Players.ContainsKey(pl)) yield return (Players[pl], 2); //left
-            if (Players.ContainsKey(pr)) yield return (Players[pr], 3); //right
-            if (Players.ContainsKey(pd)) yield return (Players[pd], 4); //below
-        }
-
-
         private void RemovePlayer(Player player)
         {
             Players.Remove(player.Coordinate);

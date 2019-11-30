@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +62,7 @@
     <Compile Include="Puzzles\Day15\Code\PathFinder.cs" />
     <Compile Include="Puzzles\Day15\Code\Player.cs" />
     <Compile Include="Puzzles\Day15\Code\Point.cs" />
+    <Compile Include="Puzzles\Day15\Impl2.cs" />
     <Compile Include="Puzzles\Day16\Impl.cs" />
     <Compile Include="Puzzles\Day15\Impl.cs" />
     <Compile Include="Puzzles\Day14\Impl.cs" />

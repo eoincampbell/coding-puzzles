@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AdventOfCode2018.Puzzles.Day15.Code
 {
@@ -14,8 +15,9 @@ namespace AdventOfCode2018.Puzzles.Day15.Code
         public void Move(Point coordinate) => Coordinate = coordinate;
         public void ReceiveDamage(int damage) => HitPoints -= damage;
         public bool IsEnemyOf(Player other) => Avatar != other.Avatar;
-
         public bool IsSelf(Player other) => Id == other.Id;
+        public bool IsAdjacentTo(Player other) => 
+            (Math.Abs(other.Coordinate.X - Coordinate.X) + Math.Abs(other.Coordinate.Y - Coordinate.Y)) == 1;
     }
     public class Elf : Player
     {

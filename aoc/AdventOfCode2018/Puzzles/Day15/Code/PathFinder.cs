@@ -5,16 +5,49 @@
 
     public static class PathFinder
     {
-        public static (int, Point) GetDistance(this Square[,] map, Player current, Player other)
-        {
-            var source = current.Coordinate;
-            var dest = other.Coordinate;
+        private static readonly (int X, int Y)[] s = { (0, -1), (-1, 0), (1, 0), (0, 1) };
 
+        public static Point GetNextMove(this Square[,] map, Player current, IEnumerable<Player> enemies)
+        {
+            var options = new List<Point>();
+            foreach(var enemy in enemies)
+            {
+                foreach(var delta in s)
+                {
+                    if(map[enemy.Coordinate.X + delta.X, enemy.Coordinate.Y + delta.Y].IsFree)
+                    {
+                        options.Add(new Point(enemy.Coordinate.X + delta.X, enemy.Coordinate.Y + delta.Y));
+                    }
+                }
+            }
+
+            int bestD = int.MaxValue;
+            Point nextMove = current.Coordinate;
+            foreach(var o in options.OrderBy(o => o.Y).ThenBy(t => t.X))
+            {
+                var (d, nm) = map.GetDistance(current.Coordinate, o);
+
+                if(d < bestD)
+                {
+                    bestD = d;
+                    nextMove = nm;
+                }
+            }
+
+            return nextMove;
+        }
+
+        //public static (int, Point) GetDistance(this Square[,] map, Player current, Player other)
+        //{
+        //    var source = current.Coordinate;
+        //    var dest = other.Coordinate;
+        public static (int, Point) GetDistance(this Square[,] map, Point source, Point dest)
+        {
             int height = map.GetLength(1), width = map.GetLength(0);
             bool[,] tracker = new bool[map.GetLength(0), map.GetLength(1)];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    if (map[x, y].Weight > 1)
+                    if (!map[x, y].IsFree)
                     {
                         var t = new Point { X = x, Y = y };
                         if (t != source && t != dest)

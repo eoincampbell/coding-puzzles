@@ -6,6 +6,8 @@
         protected abstract int GetWeight();
         public Player Occupant { get; set; }
         public int Weight => GetWeight();
+
+        public bool IsFree => (Occupant == null && Type == '.');
     }
 
     public class Wall : Square
