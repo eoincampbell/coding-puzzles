@@ -7,35 +7,31 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2019.Puzzles.Day01
 {
-    public class Impl : BasePuzzle
+    public class Impl: BasePuzzle<int, int>
     {
         public Impl() : base("Day 1 ", ".\\Puzzles\\Day01\\Input.txt") { }
         
-        public override Task<string> RunPart1Async()
+        public override Task<int> RunPart1Async()
         {
-            var fuel = Inputs.Select(s => (Convert.ToInt32(s) / 3) - 2).Sum();
-
-            return Task.FromResult(fuel.ToString());
+            var fuel = Inputs.Select(s => (s / 3) - 2).Sum();
+            return Task.FromResult(fuel);
         }
 
-        public override Task<string> RunPart2Async()
+        public override Task<int> RunPart2Async()
         {
-            var totalFuel = Inputs.Select(s =>
+            int total, tFuel, mFuel;
+            total = Inputs.Select(s => 
             {
-                var mFuel = (Convert.ToInt32(s) / 3) - 2;
-                var tFule = mFuel;
-
+                tFuel = mFuel = (s / 3) - 2;
                 while (mFuel > 0)
                 {
                     mFuel = (mFuel / 3) - 2;
-                    tFule += (mFuel >= 0) ? mFuel : 0;
+                    tFuel += (mFuel >= 0) ? mFuel : 0;
                 }
-
-                return tFule;
-
+                return tFuel;
             }).Sum();
 
-            return Task.FromResult(totalFuel.ToString());
+            return Task.FromResult(total);
         }
     }
 }

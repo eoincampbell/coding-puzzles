@@ -4,14 +4,16 @@
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
+    using System.Linq;
+    using System.Collections.Generic;
 
-    public abstract class BasePuzzle : IPuzzle
+    public abstract class BasePuzzle<TInput, TOutput> : IPuzzle<TOutput>
     {
         private readonly string _inputFile;
 
         private readonly Stopwatch _stopWatch;
 
-        protected string[] Inputs;
+        protected IEnumerable<TInput> Inputs;
 
         protected BasePuzzle(string name, string inputFile)
         {
@@ -22,7 +24,8 @@
 
         private async Task ResetInputsAsync()
         {
-            Inputs = await File.ReadAllLinesAsync(_inputFile);
+            var inputs = await File.ReadAllLinesAsync(_inputFile); 
+            Inputs = inputs.Select(s => (TInput)Convert.ChangeType(s, typeof(TInput)));
         }
 
         public string Name { get; }
@@ -49,7 +52,7 @@
         }
 
 
-        public abstract Task<string> RunPart1Async();
-        public abstract Task<string> RunPart2Async();
+        public abstract Task<TOutput> RunPart1Async();
+        public abstract Task<TOutput> RunPart2Async();
     }
 }

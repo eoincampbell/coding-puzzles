@@ -9,6 +9,7 @@ namespace AdventOfCode2019
     {
         public static async Task Main(string[] args)
         {
+
             var puzzles = new List<IPuzzle>
             {
                 new Puzzles.Day01.Impl()
