@@ -6,7 +6,7 @@
 
     public class Impl : BasePuzzle<string,int>
     {
-        public Impl() : base("Day 02", ".\\Puzzles\\Day02\\Input.txt") {}
+        public Impl() : base("Day 02: 1202 Program Alarm", ".\\Puzzles\\Day02\\Input.txt") {}
         
         //4462686
         public override async Task<int> RunPart1Async() =>
@@ -16,9 +16,9 @@
         public override async Task<int> RunPart2Async()
         {
             for(var noun = 0; noun <= 99; noun++)
-            for(var verb = 0; verb <= 99; verb++)
-                if (await RunIntCode(GetIntCode(noun, verb)) == 19690720)
-                    return (noun * 100) + verb;
+                for(var verb = 0; verb <= 99; verb++)
+                    if (await RunIntCode(GetIntCode(noun, verb)) == 19690720)
+                        return (noun * 100) + verb;
             
             return 0;
         }

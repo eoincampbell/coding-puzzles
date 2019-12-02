@@ -36,7 +36,7 @@
             var result = await func();
             _stopWatch.Stop();
 
-            Console.WriteLine($"{Name} | Part {part} | Exec: {_stopWatch.Elapsed:c} | {result}");
+            Console.WriteLine($"{Name,-50} | Part {part} | Exec: {_stopWatch.Elapsed:c} | {result}");
         }
 
         public async Task RunBothPartsAsync()
