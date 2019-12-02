@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdventOfCode2019.Puzzles.Day02
+﻿namespace AdventOfCode2019.Puzzles.Day02
 {
-    using System.Linq;
+    using System;
     using System.Threading.Tasks;
     using Base;
 

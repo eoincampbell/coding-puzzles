@@ -7,10 +7,4 @@
         string Name { get; }
         Task RunBothPartsAsync();
     }
-
-    public interface IPuzzle<TOutput> : IPuzzle
-    {
-        Task<TOutput> RunPart1Async();
-        Task<TOutput> RunPart2Async();
-    }
 }

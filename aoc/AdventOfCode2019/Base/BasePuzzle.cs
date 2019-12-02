@@ -5,9 +5,8 @@
     using System.IO;
     using System.Threading.Tasks;
     using System.Linq;
-    using System.Collections.Generic;
 
-    public abstract class BasePuzzle<TInput, TOutput> : IPuzzle<TOutput>
+    public abstract class BasePuzzle<TInput, TOutput> : IPuzzle
     {
         private readonly string _inputFile;
         private readonly Stopwatch _stopWatch;
