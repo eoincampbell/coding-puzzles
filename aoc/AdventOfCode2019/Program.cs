@@ -12,7 +12,7 @@ namespace AdventOfCode2019
 
             var puzzles = new List<IPuzzle>
             {
-                //new Puzzles.Day01.Impl()
+                new Puzzles.Day01.Impl(),
                 new Puzzles.Day02.Impl()
             };
 

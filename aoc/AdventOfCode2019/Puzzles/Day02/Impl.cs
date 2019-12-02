@@ -17,23 +17,25 @@ namespace AdventOfCode2019.Puzzles.Day02
         //4462686
         public override Task<int> RunPart1Async()
         {
-            var c = Inputs.First().Split(',').Select(s => Convert.ToInt32(s)).ToArray();
+            var c = GetCode();
 
             c[1] = 12;
             c[2] = 2;
 
             var r = RunIntCode(c);
 
-            return Task.FromResult(c[0]);
+            return Task.FromResult(r);
         }
 
         //5936
         public override Task<int> RunPart2Async()
         {
-            var c = Inputs.First().Split(',').Select(s => Convert.ToInt32(s)).ToArray();
-            
-            for (var n = 0; n <= 99; n++)
-            for (var v = 0; v <= 99; v++)
+            var c = GetCode();
+
+            var r = Enumerable.Range(0, 100).ToList();
+
+            foreach (var n in r)
+            foreach (var v in r)
             {
                 var cc = (int[]) c.Clone();
                 cc[1] = n;
@@ -44,6 +46,12 @@ namespace AdventOfCode2019.Puzzles.Day02
 
             return Task.FromResult(0);
         }
+
+        public int [] GetCode() => Inputs
+            .First()
+            .Split(',')
+            .Select(s => Convert.ToInt32(s))
+            .ToArray();
 
         public int RunIntCode(int[] c)
         {
@@ -61,7 +69,6 @@ namespace AdventOfCode2019.Puzzles.Day02
             }
 
             return c[0];
-
         }
     }
 }
