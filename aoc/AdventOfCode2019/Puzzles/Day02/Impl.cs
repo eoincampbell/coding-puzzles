@@ -10,63 +10,46 @@ namespace AdventOfCode2019.Puzzles.Day02
 
     public class Impl : BasePuzzle<string,int>
     {
-        public Impl() : base("Day 02", ".\\Puzzles\\Day02\\Input.txt")
-        {
-        }
-
+        public Impl() : base("Day 02", ".\\Puzzles\\Day02\\Input.txt") {}
+        
         //4462686
-        public override Task<int> RunPart1Async()
-        {
-            var c = GetCode();
-
-            c[1] = 12;
-            c[2] = 2;
-
-            var r = RunIntCode(c);
-
-            return Task.FromResult(r);
-        }
+        public override async Task<int> RunPart1Async() =>
+            await RunIntCode(GetIntCode(12,2));
 
         //5936
-        public override Task<int> RunPart2Async()
+        public override async Task<int> RunPart2Async()
         {
-            var c = GetCode();
-
-            var r = Enumerable.Range(0, 100).ToList();
-
-            foreach (var n in r)
-            foreach (var v in r)
-            {
-                var cc = (int[]) c.Clone();
-                cc[1] = n;
-                cc[2] = v;
-                if (RunIntCode(cc) == 19690720)
-                    return Task.FromResult((n * 100) + v);
-            }
-
-            return Task.FromResult(0);
+            for(var noun = 0; noun <= 99; noun++)
+            for(var verb = 0; verb <= 99; verb++)
+                if (await RunIntCode(GetIntCode(noun, verb)) == 19690720)
+                    return (noun * 100) + verb;
+            
+            return 0;
         }
 
-        public int [] GetCode() => Inputs
-            .First()
-            .Split(',')
-            .Select(s => Convert.ToInt32(s))
-            .ToArray();
-
-        public int RunIntCode(int[] c)
+        public int[] GetIntCode(int noun, int verb)
         {
-            var i = 0; 
+            var arr = Array.ConvertAll(Inputs[0].Split(','), int.Parse);
+            arr[1] = noun;
+            arr[2] = verb;
+            return arr;
+        }
 
-            while (c[i] != 99)
+        public async Task<int> RunIntCode(int[] c, int i = 0)
+        {
+            await Task.Run(() =>
             {
-                c[c[i + 3]] = c[i] switch
-                    {
-                        1 => c[c[i + 1]] + c[c[i + 2]],
-                        2 => c[c[i + 1]] * c[c[i + 2]],
-                        _ => throw new NotSupportedException()
-                    };
-                i += 4;
-            }
+                while (c[i] != 99)
+                {
+                    c[c[i + 3]] = c[i] switch
+                        {
+                            1 => c[c[i + 1]] + c[c[i + 2]],
+                            2 => c[c[i + 1]] * c[c[i + 2]],
+                            _ => throw new NotSupportedException()
+                        };
+                    i += 4;
+                }
+            });
 
             return c[0];
         }

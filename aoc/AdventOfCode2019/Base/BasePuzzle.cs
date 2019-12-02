@@ -10,10 +10,12 @@
     public abstract class BasePuzzle<TInput, TOutput> : IPuzzle<TOutput>
     {
         private readonly string _inputFile;
-
         private readonly Stopwatch _stopWatch;
+        protected TInput[] Inputs;
+        public string Name { get; }
 
-        protected IEnumerable<TInput> Inputs;
+        public abstract Task<TOutput> RunPart1Async();
+        public abstract Task<TOutput> RunPart2Async();
 
         protected BasePuzzle(string name, string inputFile)
         {
@@ -22,37 +24,26 @@
             _stopWatch = new Stopwatch();
         }
 
-        private async Task ResetInputsAsync()
-        {
-            var inputs = await File.ReadAllLinesAsync(_inputFile); 
-            Inputs = inputs.Select(s => (TInput)Convert.ChangeType(s, typeof(TInput)));
-        }
+        private async Task ResetInputsAsync() =>
+            Inputs = (await File.ReadAllLinesAsync(_inputFile))
+                .Select(s => (TInput) Convert.ChangeType(s, typeof(TInput)))
+                .ToArray();
 
-        public string Name { get; }
+        private async Task RunPart(int part, Func<Task<TOutput>> func)
+        {
+            await ResetInputsAsync();
+            _stopWatch.Reset();
+            _stopWatch.Start();
+            var result = await func();
+            _stopWatch.Stop();
+
+            Console.WriteLine($"{Name} | Part {part} | Exec: {_stopWatch.Elapsed:c} | {result}");
+        }
 
         public async Task RunBothPartsAsync()
         {
-            //Part 1
-            await ResetInputsAsync();
-            _stopWatch.Reset();
-            _stopWatch.Start();
-            var p1Result = await RunPart1Async();
-            _stopWatch.Stop();
-
-            Console.WriteLine($"{Name} | Part 1 | Exec: {_stopWatch.Elapsed:c} | {p1Result}");
-
-            //Part 2
-            await ResetInputsAsync();
-            _stopWatch.Reset();
-            _stopWatch.Start();
-            var p2Result = await RunPart2Async();
-            _stopWatch.Stop();
-
-            Console.WriteLine($"{Name} | Part 2 | Exec: {_stopWatch.Elapsed:c} | {p2Result}");
+            await RunPart(1, RunPart1Async);
+            await RunPart(2, RunPart2Async);
         }
-
-
-        public abstract Task<TOutput> RunPart1Async();
-        public abstract Task<TOutput> RunPart2Async();
     }
 }

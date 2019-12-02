@@ -12,36 +12,19 @@ namespace AdventOfCode2019.Puzzles.Day01
         public Impl() : base("Day 1 ", ".\\Puzzles\\Day01\\Input.txt") { }
         
         //3481005
-        
-        public override Task<int> RunPart1Async()
-        {
-            var fuel = Inputs.Select(Fuel).Sum();
-            return Task.FromResult(fuel);
-        }
+        public override async Task<int> RunPart1Async() 
+            => Inputs.Select(CalcFuel).Sum();
 
         //5218616
-        public override Task<int> RunPart2Async()
-        {
-            var fuel = Inputs.Select(FuelForFuel).Sum();
-            return Task.FromResult(fuel);
-        }
+        public override async Task<int> RunPart2Async() 
+            => Inputs.Select(CalcFuelForFuel).Sum();
 
-        public int Fuel(int x) => (x / 3) - 2;
+        private static int CalcFuel(int mass) 
+            => (mass / 3) - 2;
 
-        public int FuelForFuel(int x) => Fuel(x) > 0 ? Fuel(x) + FuelForFuel(Fuel(x)) : 0;
-
-
-        //Scribbles
-        //int total, tFuel, mFuel;
-        //total = Inputs.Select(s => 
-        //{
-        //    tFuel = mFuel = (s / 3) - 2;
-        //    while (mFuel > 0)
-        //    {
-        //        mFuel = (mFuel / 3) - 2;
-        //        tFuel += (mFuel >= 0) ? mFuel : 0;
-        //    }
-        //    return tFuel;
-        //}).Sum();
+        private static int CalcFuelForFuel(int mass) 
+            => CalcFuel(mass) > 0 
+                ? CalcFuel(mass) + CalcFuelForFuel(CalcFuel(mass)) 
+                : 0;
     }
 }
