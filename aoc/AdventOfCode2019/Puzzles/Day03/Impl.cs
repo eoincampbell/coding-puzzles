@@ -8,7 +8,7 @@
 
     public class Impl : BasePuzzle<string, int>
     {
-        public Impl() : base("Day 03: ", ".\\Puzzles\\Day03\\Input.txt") { }
+        public Impl() : base("Day 03: Crossed Wires", ".\\Puzzles\\Day03\\Input.txt") { }
 
         public (Dict firstWire, Dict secondWire) GetWires(string a, string b) => (GetWire(a), GetWire(b));
 
@@ -40,20 +40,20 @@
 
         public override async Task<int> RunPart1Async()
         {
-            var w = GetWires(Inputs[0], Inputs[1]);
+            var (a, b) = GetWires(Inputs[0], Inputs[1]);
             //399
-            return w.firstWire.Keys
-                .Intersect(w.secondWire.Keys)
+            return a.Keys
+                .Intersect(b.Keys)
                 .Min(p => Math.Abs(p.x) + Math.Abs(p.y));
         }
 
         public override async Task<int> RunPart2Async()
         {
-            var w = GetWires(Inputs[0], Inputs[1]);
+            var (a, b) = GetWires(Inputs[0], Inputs[1]);
             //15678
-            return w.firstWire.Keys
-                .Intersect(w.secondWire.Keys)
-                .Min(key => w.firstWire[key] + w.secondWire[key]);
+            return a.Keys
+                .Intersect(b.Keys)
+                .Min(key => a[key] + b[key]);
         }
     }
 }
