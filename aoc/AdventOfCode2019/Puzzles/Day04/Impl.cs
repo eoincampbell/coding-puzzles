@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode2019.Puzzles.Day04
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Base;
 
@@ -14,21 +15,18 @@
 
         public int DoWork(Func<int, int, int, int, int, int, bool> checkFunc)
         {
-            var h = 0;
-            for (var i = Inputs[0]; i <= Inputs[1]; i++)
-            {
-                var (a, b, c, d, e, f) = Split(i);
-                if (checkFunc(a, b, c, d, e, f)) h++;
-            }
-            return h;
+            return Enumerable.Range(Inputs[0], Inputs[1] - Inputs[0])
+                .Select(Split).Count(x => checkFunc(x.a, x.b, x.c, x.d, x.e, x.f));
         }
 
-        public bool CheckPartA(int a, int b, int c, int d, int e, int f) =>
-            (a <= b && b <= c && c <= d && d <= e && e <= f) &&
-            (a == b || b == c || c == d || d == e || e == f);
+        private static bool Check(int a, int b, int c, int d, int e, int f) => 
+            (a <= b && b <= c && c <= d && d <= e && e <= f);
 
-        public bool CheckPartB(int a, int b, int c, int d, int e, int f) =>
-            (a <= b && b <= c && c <= d && d <= e && e <= f) &&
+        private static bool CheckPartA(int a, int b, int c, int d, int e, int f) =>
+            Check(a,b,c,d,e,f) && (a == b || b == c || c == d || d == e || e == f);
+
+        private static bool CheckPartB(int a, int b, int c, int d, int e, int f) =>
+            Check(a,b,c,d,e,f) && 
             (
                 (a == b && b < c) ||
                 (b == c && c < d && b > a) ||
@@ -37,7 +35,7 @@
                 (e == f && e > d)
             );
 
-        public (int a, int b, int c, int d, int e, int f) Split(int i)
+        private static (int a, int b, int c, int d, int e, int f) Split(int i)
         {
             var f = i % 10;
             var e = (i / 10) % 10;
@@ -48,7 +46,5 @@
 
             return (a, b, c, d, e, f);
         }
-
-        
     }
 }
