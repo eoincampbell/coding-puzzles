@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode2019.Puzzles.Day04
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -15,8 +16,7 @@
 
         public int DoWork(Func<int, int, int, int, int, int, bool> checkFunc)
         {
-            return Enumerable.Range(Inputs[0], Inputs[1] - Inputs[0])
-                .Select(Split).Count(x => checkFunc(x.a, x.b, x.c, x.d, x.e, x.f));
+            return GetRange(Inputs[0], Inputs[1]).Select(Split).Count(x => checkFunc(x.a, x.b, x.c, x.d, x.e, x.f));
         }
 
         private static bool Check(int a, int b, int c, int d, int e, int f) => 
@@ -45,6 +45,19 @@
             var a = (i / 100000) % 10;
 
             return (a, b, c, d, e, f);
+        }
+
+        public IEnumerable<int> GetRange(int s, int e)
+        {
+            while (s <= e)
+            {
+                if      (s / 100000                             > s % 100000 / 10000) s += 10000;
+                else if (s % 100000 / 10000                     > s % 10000 / 1000) s += 1000;
+                else if (s % 100000 % 10000 / 1000              > s % 1000 / 100) s += 100;
+                else if (s % 100000 % 10000 % 1000 / 100        > s % 100 / 10) s += 10;
+                else if (s % 100000 % 10000 % 1000 % 100 / 10   > s % 10) s++;
+                else yield return s++;
+            }
         }
     }
 }
