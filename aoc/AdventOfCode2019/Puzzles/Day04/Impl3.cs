@@ -40,11 +40,30 @@
             while (s <= e)
             {
                 var ss = s.ToString();
-                if (ss[0] > ss[1]) s += 10000;
-                else if (ss[1] > ss[2]) s += 1000;
-                else if (ss[2] > ss[3]) s += 100;
-                else if (ss[3] > ss[4]) s += 10;
-                else if (ss[4] > ss[5]) s++;
+                if (ss[0] > ss[1])
+                {
+                    s += 10000;
+                    s = (s / 10000) * 10000;
+                }
+                else if (ss[1] > ss[2])
+                {
+                    s += 1000;
+                    s = (s / 1000) * 1000;
+                }
+                else if (ss[2] > ss[3])
+                {
+                    s += 100;
+                    s = (s / 100) * 100;
+                }
+                else if (ss[3] > ss[4])
+                {
+                    s += 10;
+                    s = (s / 10) * 10;
+                }
+                else if (ss[4] > ss[5])
+                {
+                    s++;
+                }
                 else
                 {
                     yield return s;
