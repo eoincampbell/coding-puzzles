@@ -13,8 +13,8 @@ namespace AdventOfCode2019
                 //new Puzzles.Day01.Impl(),
                 //new Puzzles.Day02.Impl(),
                 //new Puzzles.Day03.Impl(),
-                new Puzzles.Day04.Impl(),
-                new Puzzles.Day04.Impl2(),
+                //new Puzzles.Day04.Impl(),
+                //new Puzzles.Day04.Impl2(),
                 new Puzzles.Day04.Impl3(),
                 //new Puzzles.Day05.Impl()
             };
