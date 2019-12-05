@@ -5,118 +5,119 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
+    using CommandDict = System.Collections.Generic.Dictionary<int, (int inputCount, int movePointerForward, System.Action<int[], int[]> command)>;
 
     public class Impl : BasePuzzle<string, int>
     {
         public Impl() : base("Day 05: ", ".\\Puzzles\\Day05\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
-        {
-            var vm = new IntCodeVM(Inputs[0]);
-            return vm.RunProgram(1).Last(); //16225258
-        }
-
-        public override async Task<int> RunPart2Async()
-        { 
-            var vm = new IntCodeVM(Inputs[0]);
-            return vm.RunProgram(5).Last(); //2808771
-        }
+        public override async Task<int> RunPart1Async() 
+            => RunVm(Inputs[0], 1); //16225258
+        
+        public override async Task<int> RunPart2Async() 
+            => RunVm(Inputs[0], 5); //2808771
+        
+        private static int RunVm(string tape, int input) 
+            => (new IntCodeVm(tape, input)).RunProgram().Last();
     }
 
-    public class IntCodeVM
+    public class IntCodeVm
     {
-        private readonly int[] _tape;
+        private bool _halt;
         private int _pointer;
+        private readonly int _input;
+        private readonly int[] _tape;
+        private readonly List<int> _outputs = new List<int>();
+        private readonly CommandDict _commands;
 
-        public IntCodeVM(string tape)
+        public IntCodeVm(string tape, int input)
         {
             _tape = Array.ConvertAll(tape.Split(','), int.Parse);
-            _pointer = 0;
+            _input = input;
+            _commands = new CommandDict
+            {
+                {01, (inputCount: 2, movePointerForward: 4, Add)},
+                {02, (inputCount: 2, movePointerForward: 4, Mul)},
+                {03, (inputCount: 0, movePointerForward: 2, Inp)},
+                {04, (inputCount: 1, movePointerForward: 2, Out)},
+                {05, (inputCount: 2, movePointerForward: 0, Jit)},
+                {06, (inputCount: 2, movePointerForward: 0, Jif)},
+                {07, (inputCount: 2, movePointerForward: 4, Les)},
+                {08, (inputCount: 2, movePointerForward: 4, Equ)},
+                {99, (inputCount: 0, movePointerForward: 1, Hlt)}
+            };
         }
 
-        public IEnumerable<int> RunProgram(int input)
+        public IEnumerable<int> RunProgram()
         {
-            var halt = false;
-            while (!halt)
+            while (!_halt)
             {
-                var result = ProcessCommand(input, out halt);
-                foreach (var v in result) yield return v;
-            }
-        }
-
-        private int GetValue(int offset, int mode) =>
-            (mode == 0) ? _tape[_tape[_pointer + offset]] : _tape[_pointer + offset];
-
-        private void SetValue(int offset, int mode, int value) => 
-            _tape[ (mode == 0) ? _tape[_pointer + offset] : _pointer + offset] = value;
-            
-        private void AdvancePointer(int advance) => 
-            _pointer += advance;
-
-        private void SetPointer(int newPointer) => 
-            _pointer = newPointer;
-
-        private int[] ProcessCommand(int input, out bool halt)
-        {
-            halt = false;
-            var outputs = new List<int>();
-            var poc = _tape[_pointer];
-            var opCode = poc % 100;
-            var p1mode = poc / 100 % 10;
-            var p2mode = poc / 100 / 10 % 10;
-            var p3mode = poc / 100 / 100 % 10;
-
-            var p1 = opCode switch
-            {
-                int i when (new[] {1, 2, 4, 5, 6, 7, 8}).Contains(i) => GetValue(1, p1mode),
-                _ => 0
-            };
-            var p2 = opCode switch
-            {
-                int i when (new[] {1, 2, 5, 6, 7, 8}).Contains(i) => GetValue(2, p2mode),
-                _ => 0
-            };
-
-            switch (opCode)
-            {
-                case 1:
-                    SetValue(3, p3mode, p1 + p2);
-                    AdvancePointer(4);
-                    break;
-                case 2:
-                    SetValue(3, p3mode, p1 * p2);
-                    AdvancePointer(4);
-                    break;
-                case 3:
-                    SetValue(1, p1mode, input); ////THIS MIGHT BE A BUG CHECK LATER - not sure mode should come into it.
-                    AdvancePointer(2);
-                    break;
-                case 4:
-                    outputs.Add(p1);
-                    AdvancePointer(2);
-                    break;
-                case 5:
-                    if (p1 != 0) SetPointer(p2);
-                    else AdvancePointer(3);
-                    break;
-                case 6:
-                    if (p1 == 0) SetPointer(p2);
-                    else AdvancePointer(3);
-                    break;
-                case 7:
-                    SetValue(3, p3mode, (p1 < p2) ? 1 : 0);
-                    AdvancePointer(4);
-                    break;
-                case 8:
-                    SetValue(3, p3mode, (p1 == p2) ? 1 : 0);
-                    AdvancePointer(4);
-                    break;
-                case 99:
-                    halt = true;
-                    break;
+                var poc = _tape[_pointer];
+                var opCode = poc % 100;
+                var modes = GetModes(poc);
+                var (inputCount, movePtrForward, command) = _commands[opCode];
+                command(modes, GetParams(inputCount, modes));
+                _pointer += movePtrForward;
             }
 
-            return outputs.ToArray();
+            return _outputs;
         }
+
+        private static int[] GetModes(int poc) 
+            => new []
+            {
+                poc / 100 % 10,      //p1 
+                poc / 100 / 10 % 10, //p2 
+                poc / 100 / 100 % 10 //p3
+            };
+
+        private int [] GetParams(int count, int[] modes) 
+            => Enumerable
+                .Range(1, count)
+                .Select(i => GetValue(i, modes[i - 1]))
+                .ToArray();
+
+        private int GetValue(int offset, int mode) 
+            => (mode == 0) 
+                ? _tape[_tape[_pointer + offset]] 
+                : _tape[_pointer + offset];
+
+        private void SetValue(int offset, int[] modes, int value)
+        {
+            var idx = (modes[offset - 1] == 0)
+                ? _tape[_pointer + offset]
+                : _pointer + offset;
+            _tape[idx] = value;
+        }
+
+        #region command implementations 
+
+        private void Add(int[] modes, int[] p) => SetValue(3, modes, p[0]+p[1]);
+
+        private void Mul(int[] modes, int[] p) => SetValue(3, modes, p[0]*p[1]);
+
+        private void Inp(int[] modes, int[] p) => SetValue(1, modes, _input);
+
+        private void Out(int[] modes, int[] p) => _outputs.Add(p[0]);
+        
+        private void Jit(int[] modes, int[] p) 
+            => _pointer = (p[0] != 0) 
+                ? p[1] 
+                : _pointer + 3;
+
+        private void Jif(int[] modes, int[] p) 
+            => _pointer = (p[0] == 0) 
+                ? p[1] 
+                : _pointer + 3;
+        
+        private void Les(int[] modes, int[] p) 
+            => SetValue(3, modes, (p[0] < p[1]) ? 1 : 0);
+        
+        private void Equ(int[] modes, int[] p) 
+            => SetValue(3, modes, (p[0] == p[1]) ? 1 : 0);
+
+        private void Hlt(int[] modes, int[] p) => _halt = true;
+
+        #endregion 
     }
 }
