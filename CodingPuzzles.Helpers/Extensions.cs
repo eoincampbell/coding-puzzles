@@ -8,6 +8,19 @@ namespace CodingPuzzles.Helpers
 {
     public static class Extensions
     {
+        public static int Pow(this int x, int pow)
+        {
+            int ret = 1;
+            while (pow != 0)
+            {
+                if ((pow & 1) == 1)
+                    ret *= x;
+                x *= x;
+                pow >>= 1;
+            }
+            return ret;
+        }
+
         private static int NumDigits(int n)
         {
             if (n < 0) n = (n == int.MinValue) ? int.MaxValue : -n;
