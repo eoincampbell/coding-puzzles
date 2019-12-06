@@ -1,8 +1,5 @@
 ﻿namespace AdventOfCode2019.Puzzles.Day06
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
