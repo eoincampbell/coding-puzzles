@@ -12,13 +12,13 @@
         public Impl() : base("Day 05: ", ".\\Puzzles\\Day05\\Input.txt") { }
 
         public override async Task<int> RunPart1Async() 
-            => RunVm(Inputs[0], 1); //16225258
+            => await RunVm(Inputs[0], 1); //16225258
         
         public override async Task<int> RunPart2Async() 
-            => RunVm(Inputs[0], 5); //2808771
-        
-        private static int RunVm(string tape, int input) 
-            => (new IntCodeVm(tape, input)).RunProgram().Last();
+            => await RunVm(Inputs[0], 5); //2808771
+
+        private static Task<int> RunVm(string tape, int input)
+            => Task.Run(() => (new IntCodeVm(tape, input)).RunProgram().Last());
     }
 
     public class IntCodeVm

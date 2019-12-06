@@ -17,6 +17,8 @@
     <None Remove="Puzzles\Day04\Input.txt" />
     <None Remove="Puzzles\Day05\Input-test.txt" />
     <None Remove="Puzzles\Day05\Input.txt" />
+    <None Remove="Puzzles\Day06\Input-test.txt" />
+    <None Remove="Puzzles\Day06\Input.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +47,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day05\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day06\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day06\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
