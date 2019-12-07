@@ -34,9 +34,13 @@ namespace AdventOfCode2019.Puzzles.Day02
                 var vm = new IntCodeVm(Inputs[0], null);
                 vm.SetValue(1, noun);
                 vm.SetValue(2, verb);
+                //vm.LogAction = WriteOutput;
                 var _ = vm.RunProgram();
                 return vm.GetValue(0);
             });
         }
+
+        public void WriteOutput(string arg)
+            => System.Diagnostics.Debug.WriteLine(arg);
     }
 }

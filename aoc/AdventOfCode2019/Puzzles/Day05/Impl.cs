@@ -19,9 +19,21 @@ namespace AdventOfCode2019.Puzzles.Day05
             => await RunVm(Inputs[0], 1); 
         
         public override async Task<int> RunPart2Async() 
-            => await RunVm(Inputs[0], 5); 
+            => await RunVm(Inputs[0], 5);
 
-        private static Task<int> RunVm(string tape, int input)
-            => Task.Run(() => (new IntCodeVm(tape, new Queue<int>(new int[] { input }))).RunProgram().Last());
+        private async Task<int> RunVm(string tape, int input)
+        {
+            return await Task.Run(() =>
+            {
+                var inputs = new Queue<int>();
+                inputs.Enqueue(input);
+                var vm = new IntCodeVm(tape, inputs);
+                vm.LogAction = WriteOutput;
+                return vm.RunProgram().Last();
+            });
+        }
+
+        public void WriteOutput(string arg)
+            => System.Diagnostics.Debug.WriteLine(arg);
     }
 }

@@ -18,6 +18,7 @@
         private int _currentOutput;
         private readonly List<int> _outputs = new List<int>();
         private readonly CommandDict _commands;
+        public Action<string> LogAction;
 
         public bool IsHalted { get; private set; }
         public bool Pause { get; set; }
@@ -48,12 +49,7 @@
         {
             while (!IsHalted)
             {
-                var poc = _tape[Pointer];
-                var opCode = poc % 100;
-                var modes = GetModes(poc);
-                var (inputCount, movePtrForward, command) = _commands[opCode];
-                command(modes, GetParams(inputCount, modes));
-                Pointer += movePtrForward;
+                ProcessNextCommand();
             }
             return _outputs;
         }
@@ -63,14 +59,21 @@
             Pause = false;
             while (!Pause && !IsHalted)
             {
-                var poc = _tape[Pointer];
-                var opCode = poc % 100;
-                var modes = GetModes(poc);
-                var (inputCount, movePtrForward, command) = _commands[opCode];
-                command(modes, GetParams(inputCount, modes));
-                Pointer += movePtrForward;
+                ProcessNextCommand();
             }
             return _currentOutput;
+        }
+
+        private void ProcessNextCommand()
+        {
+            var poc = _tape[Pointer];
+            var opCode = poc % 100;
+            var modes = GetModes(poc);
+            var (inputCount, movePtrForward, command) = _commands[opCode];
+            var param = GetParams(inputCount, modes);
+            command(modes, param);
+            LogAction?.Invoke($"{opCode:00} {Pointer:0000} {command.Method.Name:10} {string.Join(" ",param)}");
+            Pointer += movePtrForward;
         }
 
         private static Mode[] GetModes(int poc)
