@@ -19,6 +19,12 @@
     <None Remove="Puzzles\Day05\Input.txt" />
     <None Remove="Puzzles\Day06\Input-test.txt" />
     <None Remove="Puzzles\Day06\Input.txt" />
+    <None Remove="Puzzles\Day07\Input-test.txt" />
+    <None Remove="Puzzles\Day07\Input-test2.txt" />
+    <None Remove="Puzzles\Day07\Input-test3.txt" />
+    <None Remove="Puzzles\Day07\Input-test4.txt" />
+    <None Remove="Puzzles\Day07\Input-test5.txt" />
+    <None Remove="Puzzles\Day07\Input.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,9 +61,28 @@
     <Content Include="Puzzles\Day06\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Puzzles\Day07\Input-test4.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day07\Input-test5.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day07\Input-test3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day07\Input-test2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day07\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day07\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Combinatorics" Version="1.1.0.19" />
     <PackageReference Include="QuickGraph" Version="3.6.61119.7" />
   </ItemGroup>
 

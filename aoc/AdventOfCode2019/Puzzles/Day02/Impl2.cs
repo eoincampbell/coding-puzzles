@@ -34,7 +34,7 @@ namespace AdventOfCode2019.Puzzles.Day02
                 var tape = Array.ConvertAll(Inputs[0].Split(','), int.Parse);
                 tape[1] = noun;
                 tape[2] = verb;
-                new IntCodeVm(tape, 0).RunProgram();
+                new IntCodeVm(tape, null).RunProgram();
                 return tape[0];
             });
         }

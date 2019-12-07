@@ -6,6 +6,7 @@
  */
 namespace AdventOfCode2019.Puzzles.Day05
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -21,6 +22,6 @@ namespace AdventOfCode2019.Puzzles.Day05
             => await RunVm(Inputs[0], 5); 
 
         private static Task<int> RunVm(string tape, int input)
-            => Task.Run(() => (new IntCodeVm(tape, input)).RunProgram().Last());
+            => Task.Run(() => (new IntCodeVm(tape, new Queue<int>(new int[] { input }))).RunProgram().Last());
     }
 }

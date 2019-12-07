@@ -8,19 +8,21 @@
     public class IntCodeVm
     {
         private bool _halt;
+        private bool _pause;
         private int _pointer;
-        private readonly int _input;
+        private readonly Queue<int> _inputs;
         private readonly int[] _tape;
+        private int _currentOutput;
         private readonly List<int> _outputs = new List<int>();
         private readonly CommandDict _commands;
 
-        public IntCodeVm(string tape, int input)
-            : this(Array.ConvertAll(tape.Split(','), int.Parse), input) { }
+        public IntCodeVm(string tape, Queue<int> inputs)
+            : this(Array.ConvertAll(tape.Split(','), int.Parse), inputs) { }
 
-        public IntCodeVm(int [] tape, int input)
+        public IntCodeVm(int [] tape, Queue<int> inputs)
         {
             _tape = tape;
-            _input = input;
+            _inputs = inputs;
             _commands = new CommandDict
             {
                 {01, (inputCount: 2, movePointerForward: 4, Add)},
@@ -48,6 +50,23 @@
             }
             return _outputs;
         }
+
+        public int RunProgramPauseAtOutput()
+        {
+            _pause = false;
+            while (!_pause && !_halt)
+            {
+                var poc = _tape[_pointer];
+                var opCode = poc % 100;
+                var modes = GetModes(poc);
+                var (inputCount, movePtrForward, command) = _commands[opCode];
+                command(modes, GetParams(inputCount, modes));
+                _pointer += movePtrForward;
+            }
+            return _currentOutput;
+        }
+
+        public bool IsHalted => _halt;
 
         private static int[] GetModes(int poc)
             => new[]
@@ -84,11 +103,14 @@
             => SetValue(3, modes, p[0] * p[1]);
 
         private void Inp(int[] modes, int[] p) 
-            => SetValue(1, modes, _input);
+            => SetValue(1, modes, _inputs.Dequeue());
 
-        private void Out(int[] modes, int[] p) 
-            => _outputs.Add(p[0]);
-
+        private void Out(int[] modes, int[] p)
+        {
+            _outputs.Add(p[0]);
+            _currentOutput = p[0];
+            _pause = true;
+        }
         private void Jit(int[] modes, int[] p)
             => _pointer = (p[0] != 0)
                 ? p[1]
