@@ -1,4 +1,11 @@
-﻿namespace AdventOfCode2019.Puzzles.Day02
+﻿/*
+ * Day 02: 1202 Program Alarm
+ * https://adventofcode.com/2019/day/2
+ * Part 1: 4462686
+ * Part 2: 5936
+ */
+
+namespace AdventOfCode2019.Puzzles.Day02
 {
     using System;
     using System.Threading.Tasks;
@@ -8,11 +15,9 @@
     {
         public Impl() : base("Day 02: 1202 Program Alarm", ".\\Puzzles\\Day02\\Input.txt") {}
         
-        //4462686
-        public override async Task<int> RunPart1Async() =>
-            await RunIntCode(GetIntCode(12,2));
+        public override async Task<int> RunPart1Async() 
+            => await RunIntCode(GetIntCode(12,2));
 
-        //5936
         public override async Task<int> RunPart2Async()
         {
             for(var noun = 0; noun <= 99; noun++)

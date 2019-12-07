@@ -1,4 +1,11 @@
-﻿namespace AdventOfCode2019.Puzzles.Day01
+﻿/*
+ * Day 1: The Tyranny of the Rocket Equation
+ * https://adventofcode.com/2019/day/1
+ * Part 1: 3481005
+ * Part 2: 5218616
+ */
+
+namespace AdventOfCode2019.Puzzles.Day01
 {
     using Base;
     using System.Linq;
@@ -8,11 +15,9 @@
     {
         public Impl() : base("Day 01: The Tyranny of the Rocket Equation", ".\\Puzzles\\Day01\\Input.txt") { }
         
-        //3481005
         public override async Task<int> RunPart1Async()
             => await Task.Run(() => Inputs.Select(CalcFuel).Sum());
 
-        //5218616
         public override async Task<int> RunPart2Async() 
             => await Task.Run(() => Inputs.Select(CalcFuelForFuel).Sum());
 

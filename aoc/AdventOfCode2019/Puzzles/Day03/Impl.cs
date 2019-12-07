@@ -1,4 +1,11 @@
-﻿namespace AdventOfCode2019.Puzzles.Day03
+﻿/*
+ * Day 03: Crossed Wires
+ * https://adventofcode.com/2019/day/3
+ * Part 1: 399
+ * Part 2: 15678
+ */
+
+namespace AdventOfCode2019.Puzzles.Day03
 {
     using System;
     using System.Linq;
@@ -10,11 +17,33 @@
     {
         public Impl() : base("Day 03: Crossed Wires", ".\\Puzzles\\Day03\\Input.txt") { }
 
-        public (Dict firstWire, Dict secondWire) GetWires(string a, string b) => (GetWire(a), GetWire(b));
+        public override async Task<int> RunPart1Async()
+        {
+            return await Task.Run(() => {
+                var (a, b) = GetWires(Inputs[0], Inputs[1]);
+                return a.Keys
+                    .Intersect(b.Keys)
+                    .Min(p => Math.Abs(p.x) + Math.Abs(p.y));
+            });
+        }
 
-        public (char dir, int dist) Parse(string i) => (i[0], int.Parse(i[1..]));
+        public override async Task<int> RunPart2Async()
+        {
+            return await Task.Run(() => {
+                var (a, b) = GetWires(Inputs[0], Inputs[1]);
+                return a.Keys
+                    .Intersect(b.Keys)
+                    .Min(key => a[key] + b[key]);
+            });
+        }
 
-        public (int x, int y) GetPoint(char dir, ref int x, ref int y)
+        private (Dict firstWire, Dict secondWire) GetWires(string a, string b) 
+            => (GetWire(a), GetWire(b));
+
+        public static (char dir, int dist) Parse(string i) 
+            => (i[0], int.Parse(i[1..]));
+
+        public static (int x, int y) GetPoint(char dir, ref int x, ref int y)
         {
             return dir switch
                 {
@@ -36,24 +65,6 @@
                     dict.TryAdd(GetPoint(dir, ref x, ref y), ++d);
                 
             return dict;
-        }
-
-        public override async Task<int> RunPart1Async()
-        {
-            var (a, b) = GetWires(Inputs[0], Inputs[1]);
-            //399
-            return a.Keys
-                .Intersect(b.Keys)
-                .Min(p => Math.Abs(p.x) + Math.Abs(p.y));
-        }
-
-        public override async Task<int> RunPart2Async()
-        {
-            var (a, b) = GetWires(Inputs[0], Inputs[1]);
-            //15678
-            return a.Keys
-                .Intersect(b.Keys)
-                .Min(key => a[key] + b[key]);
         }
     }
 }
