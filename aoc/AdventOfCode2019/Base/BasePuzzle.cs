@@ -23,7 +23,7 @@
             _stopWatch = new Stopwatch();
         }
 
-        private async Task ResetInputsAsync() =>
+        public async Task ResetInputsAsync() =>
             Inputs = (await File.ReadAllLinesAsync(_inputFile))
                 .Select(s => (TInput) Convert.ChangeType(s, typeof(TInput)))
                 .ToArray();

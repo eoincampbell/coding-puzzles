@@ -7,6 +7,10 @@
     <StartupObject />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;NU1701</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Puzzles\Day01\Input.txt" />
     <None Remove="Puzzles\Day02\Input.txt" />
@@ -25,6 +29,20 @@
     <None Remove="Puzzles\Day07\Input-test4.txt" />
     <None Remove="Puzzles\Day07\Input-test5.txt" />
     <None Remove="Puzzles\Day07\Input.txt" />
+    <None Remove="Puzzles\Day08\Input-test.txt" />
+    <None Remove="Puzzles\Day08\Input.txt" />
+    <None Remove="Puzzles\Day09\Input-test.txt" />
+    <None Remove="Puzzles\Day09\Input.txt" />
+    <None Remove="Puzzles\Day10\Input-test.txt" />
+    <None Remove="Puzzles\Day10\Input.txt" />
+    <None Remove="Puzzles\Day11\Input-test.txt" />
+    <None Remove="Puzzles\Day11\Input.txt" />
+    <None Remove="Puzzles\Day12\Input-test.txt" />
+    <None Remove="Puzzles\Day12\Input.txt" />
+    <None Remove="Puzzles\Day13\Input-test.txt" />
+    <None Remove="Puzzles\Day13\Input.txt" />
+    <None Remove="Puzzles\Day14\Input-test.txt" />
+    <None Remove="Puzzles\Day14\Input.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +95,48 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day07\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day08\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day08\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day09\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day09\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day10\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day10\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day11\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day11\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day12\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day12\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day13\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day13\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day14\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day14\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -14,7 +14,7 @@ namespace AdventOfCode2019.Puzzles.Day01
     public class Impl: BasePuzzle<int, int>
     {
         public Impl() : base("Day 01: The Tyranny of the Rocket Equation", ".\\Puzzles\\Day01\\Input.txt") { }
-        
+
         public override async Task<int> RunPart1Async()
             => await Task.Run(() => Inputs.Select(CalcFuel).Sum());
 
