@@ -13,7 +13,7 @@ namespace AdventOfCode2019.Puzzles.Day03
     using Base;
     using Dict = System.Collections.Generic.Dictionary<(int x, int y), int>;
 
-    public class Impl : BasePuzzle<string, int>
+    public class Impl : Puzzle<string, int>
     {
         public Impl() : base("Day 03: Crossed Wires", ".\\Puzzles\\Day03\\Input.txt") { }
 

@@ -11,7 +11,7 @@ namespace AdventOfCode2019.Puzzles.Day04
     using System.Threading.Tasks;
     using Base;
 
-    public class Impl : BasePuzzle<int, int>
+    public class Impl : Puzzle<int, int>
     {
         public Impl() : base("Day 04: Secure Container (Ints - No Optimizaton)", ".\\Puzzles\\Day04\\Input.txt") { }
 

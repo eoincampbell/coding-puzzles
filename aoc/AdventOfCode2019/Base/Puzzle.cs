@@ -6,7 +6,13 @@
     using System.Threading.Tasks;
     using System.Linq;
 
-    public abstract class BasePuzzle<TInput, TOutput> : IPuzzle
+    public interface IPuzzle
+    {
+        string Name { get; }
+        Task RunBothPartsAsync();
+    }
+
+    public abstract class Puzzle<TInput, TOutput> : IPuzzle
     {
         private readonly string _inputFile;
         private readonly Stopwatch _stopWatch;
@@ -16,7 +22,7 @@
         public abstract Task<TOutput> RunPart1Async();
         public abstract Task<TOutput> RunPart2Async();
 
-        protected BasePuzzle(string name, string inputFile)
+        protected Puzzle(string name, string inputFile)
         {
             Name = name;
             _inputFile = inputFile;

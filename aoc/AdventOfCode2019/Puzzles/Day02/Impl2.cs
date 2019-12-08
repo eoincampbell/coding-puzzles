@@ -10,7 +10,7 @@ namespace AdventOfCode2019.Puzzles.Day02
     using System.Threading.Tasks;
     using Base;
 
-    public class Impl2 : BasePuzzle<string,int>
+    public class Impl2 : Puzzle<string,int>
     {
         public Impl2() : base("Day 02: 1202 Program Alarm (IntCodeVm)", ".\\Puzzles\\Day02\\Input.txt") {}
 

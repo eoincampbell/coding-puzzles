@@ -11,7 +11,7 @@ namespace AdventOfCode2019.Puzzles.Day01
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Impl: BasePuzzle<int, int>
+    public class Impl: Puzzle<int, int>
     {
         public Impl() : base("Day 01: The Tyranny of the Rocket Equation", ".\\Puzzles\\Day01\\Input.txt") { }
 

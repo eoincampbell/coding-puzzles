@@ -12,7 +12,7 @@ namespace AdventOfCode2019.Puzzles.Day07
     using Base;
     using Combinatorics.Collections;
     
-    public class Impl : BasePuzzle<string, int>
+    public class Impl : Puzzle<string, int>
     {
         public Impl() : base("Day 07: Amplification Circuit", ".\\Puzzles\\Day07\\Input.txt") { }
 
@@ -32,7 +32,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                         vm.AddInput(ps);
                         vm.AddInput(nextInput);
                         vm.RunProgram();
-                        nextInput = vm.GetOutput();
+                        nextInput = vm.GetNextOutput();
                     }
 
                     if (nextInput > bestOutput)
@@ -60,7 +60,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                         for (int i = 0; i < 5; i++)
                         {
                             vms[i].RunProgramPauseAtOutput();
-                            var nextOutput = vms[i].GetOutput();
+                            var nextOutput = vms[i].GetNextOutput();
                                 
                             if (i == 4 && vms[4].IsHalted)
                                 result = nextOutput;

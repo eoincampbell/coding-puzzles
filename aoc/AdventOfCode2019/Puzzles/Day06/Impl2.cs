@@ -13,7 +13,7 @@
     using QuickGraph.Algorithms;
     using Graph = QuickGraph.UndirectedGraph<string, QuickGraph.Edge<string>>;
 
-    public class Impl2 : BasePuzzle<string, int>
+    public class Impl2 : Puzzle<string, int>
     {
         private Graph _graph;
         public Impl2() : base("Day 06: Universal Orbit Map (QuickGraph)", ".\\Puzzles\\Day06\\Input.txt") { }        

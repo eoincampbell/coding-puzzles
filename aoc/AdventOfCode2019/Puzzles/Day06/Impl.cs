@@ -12,7 +12,7 @@ namespace AdventOfCode2019.Puzzles.Day06
     using System.Threading.Tasks;
     using Base;
 
-    public class Impl : BasePuzzle<string, int>
+    public class Impl : Puzzle<string, int>
     {
         public Impl() : base("Day 06: Universal Orbit Map", ".\\Puzzles\\Day06\\Input.txt") { }
 

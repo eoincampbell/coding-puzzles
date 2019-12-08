@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
     using Base;
 
-    public class Impl3 : BasePuzzle<int, int>
+    public class Impl3 : Puzzle<int, int>
     {
         public Impl3() : base("Day 04: Secure Container (Strings - Optimized)", ".\\Puzzles\\Day04\\Input.txt") { }
 

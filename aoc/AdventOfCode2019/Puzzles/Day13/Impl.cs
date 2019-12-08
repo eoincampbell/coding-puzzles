@@ -9,7 +9,7 @@ namespace AdventOfCode2019.Puzzles.Day13
     using System.Threading.Tasks;
     using Base;
     
-    public class Impl : BasePuzzle<string, int>
+    public class Impl : Puzzle<string, int>
     {
         public Impl() : base("Day 13: ", ".\\Puzzles\\Day13\\Input.txt") { }
 
