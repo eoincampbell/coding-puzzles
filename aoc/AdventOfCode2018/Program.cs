@@ -6,7 +6,7 @@
     
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var puzzles = new List<IPuzzle>
             {
@@ -33,7 +33,8 @@
                 //  new Puzzles.Day15.Impl(),
                 //new Puzzles.Day15.Impl2.Impl(),
                 //new Puzzles.Day15.Impl(),
-                new Puzzles.Day16.Impl()
+                //new Puzzles.Day16.Impl()
+                new Puzzles.Day17.Impl()
             };
 
             puzzles.ForEach(f => f.RunBothParts());

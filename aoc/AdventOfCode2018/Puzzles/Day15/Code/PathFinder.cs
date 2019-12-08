@@ -12,11 +12,11 @@
             var options = new List<Point>();
             foreach(var enemy in enemies)
             {
-                foreach(var delta in s)
+                foreach(var (X, Y) in s)
                 {
-                    if(map[enemy.Coordinate.X + delta.X, enemy.Coordinate.Y + delta.Y].IsFree)
+                    if(map[enemy.Coordinate.X + X, enemy.Coordinate.Y + Y].IsFree)
                     {
-                        options.Add(new Point(enemy.Coordinate.X + delta.X, enemy.Coordinate.Y + delta.Y));
+                        options.Add(new Point(enemy.Coordinate.X + X, enemy.Coordinate.Y + Y));
                     }
                 }
             }

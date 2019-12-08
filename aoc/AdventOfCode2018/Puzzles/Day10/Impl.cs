@@ -19,7 +19,7 @@
         
         public override async Task<string> RunPart1()
         {
-            var s = ProcessInput(Inputs);                                           //vars to track previous and current bounds of the rectangle, 
+            var s = ProcessInput();                                           //vars to track previous and current bounds of the rectangle, 
             int timecode = 0, pxb, pyb, nxb = int.MaxValue, nyb = int.MaxValue;     //assumes it's at it's tightest when aligned. 
             do {                                                                    //no idea if that's a valid assumption, or holds true in other inputs.
                 s.ForEach(f => f.Update(timecode));                                 //update all the stars based on the current timecode
@@ -43,7 +43,7 @@
         public override async Task<string> RunPart2() 
             => await Task.FromResult($"{_part2Answer}");
 
-        public List<Star> ProcessInput(IEnumerable<string> inputs)
+        public List<Star> ProcessInput()
         {
             var r = new Regex(@"position=<([- ]{0,2}\d+), ([- ]{0,2}\d+)> velocity=<([- ]?\d+), ([- ]?\d+)>");
 

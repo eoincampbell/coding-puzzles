@@ -1,4 +1,5 @@
 ﻿using AdventOfCode2019.Base;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,6 +34,7 @@ namespace AdventOfCode2019
             foreach (var puzzle in puzzles) 
             {
                 await puzzle.RunBothPartsAsync();
+                
             }
         }
     }
