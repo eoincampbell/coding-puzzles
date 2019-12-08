@@ -28,9 +28,11 @@ namespace AdventOfCode2019.Puzzles.Day07
                     var nextInput = 0;
                     foreach (var ps in phaseSettings)
                     {
-                        var inputs = new Queue<int>(new int[] { ps, nextInput });
-                        var vm = new IntCodeVm(Inputs[0], inputs);
-                        nextInput = vm.RunProgram().Last();
+                        var vm = new IntCodeVm(Inputs[0]);
+                        vm.AddInput(ps);
+                        vm.AddInput(nextInput);
+                        vm.RunProgram();
+                        nextInput = vm.GetOutput();
                     }
 
                     if (nextInput > bestOutput)
@@ -49,21 +51,23 @@ namespace AdventOfCode2019.Puzzles.Day07
 
                 foreach (var phaseSettings in c)
                 {
-                    var inputs = GetInputs(phaseSettings);
-                    var vms = GetVms(inputs);
+                    //var inputs = GetInputs(phaseSettings);
+                    var vms = GetVms(phaseSettings);
                     var result = 0;
 
                     while (!vms[0].IsHalted)
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            var nextOutput = vms[i].RunProgramPauseAtOutput();
-                            if (i == 4 && vms[0].IsHalted)
+                            vms[i].RunProgramPauseAtOutput();
+                            var nextOutput = vms[i].GetOutput();
+                                
+                            if (i == 4 && vms[4].IsHalted)
                                 result = nextOutput;
                             else
                             {
                                 var nextInputIdx = i + 1 == 5 ? 0 : i + 1;
-                                inputs[nextInputIdx].Enqueue(nextOutput);
+                                vms[nextInputIdx].AddInput(nextOutput);
                             }
                         }
                     }
@@ -75,23 +79,19 @@ namespace AdventOfCode2019.Puzzles.Day07
             });
         }
 
-        private IList<IntCodeVm> GetVms(IList<Queue<int>> inputs) 
-            => Enumerable.Range(0, 5)
-                    .Select(r => new IntCodeVm(Inputs[0], inputs[r]))
-                    .ToList();
-
-        private IList<Queue<int>> GetInputs(IList<int> phaseSettings)
+        private IList<IntCodeVm> GetVms(IList<int> phaseSettings)
         {
-            var inputs = new List<Queue<int>>
-                {
-                    new Queue<int>(new int[] { phaseSettings[0], 0 })
-                };
-            inputs.AddRange(
-                Enumerable.Range(1, 4)
-                .Select(r => new Queue<int>(new int[] { phaseSettings[r] }))
-                );
+            return Enumerable.Range(0, 5)
+                    .Select(r =>
+                    {
+                        var vm = new IntCodeVm(Inputs[0]);
+                        vm.AddInput(phaseSettings[r]);
+                        if (r == 0)
+                            vm.AddInput(0);
 
-            return inputs;
+                        return vm;
+                    })
+                    .ToList();
         }
     }
 }

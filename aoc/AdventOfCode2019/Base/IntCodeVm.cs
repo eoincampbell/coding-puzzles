@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using CommandDict = System.Collections.Generic.Dictionary<int, (int inputCount, int movePointerForward, System.Action<Mode[], int[]> command)>;
+    using CommandDict = System.Collections.Generic.Dictionary<int, IVmCommand>;
 
     public enum Mode
     {
@@ -11,57 +11,91 @@
         Immediate = 1
     }
 
+    public interface IVmCommand
+    {
+        int OpCode { get; }
+        int InputCount { get; }
+        int MovePtrForward { get; }
+        string CommandName { get; }
+        Func<Mode[], int[], int> Execute { get; }
+    }
+
+    public class VmCommand : IVmCommand
+    {
+        public VmCommand(int opCode, string commandName, int inputCount, int movePtrFoward, Func<Mode[], int[], int> execute)
+        {
+            OpCode = opCode;
+            CommandName = commandName;
+            InputCount = inputCount;
+            MovePtrForward = movePtrFoward;
+            Execute = execute;
+        }
+
+        public int OpCode { get; }
+        public int InputCount { get; }
+        public int MovePtrForward { get; }
+        public string CommandName { get; }
+        public Func<Mode[], int[], int> Execute { get; }
+    }
+
+    public class StateMachines
+    {
+        public StateMachines(int[] tape)
+        {
+
+        }
+    }
+
     public class IntCodeVm
     {
-        private readonly Queue<int> _inputs;
         private readonly int[] _tape;
-        private int _currentOutput;
-        private readonly List<int> _outputs = new List<int>();
+        private Queue<int> Inputs { get; set; }
+        private Queue<int> Outputs { get; set; }
+        private int _lastOutput;
         private readonly CommandDict _commands;
         public Action<string> LogAction;
 
         public bool IsHalted { get; private set; }
-        public bool Pause { get; set; }
+        public bool IsPaused { get; set; }
         public int Pointer { get; private set; }
 
-        public IntCodeVm(string tape, Queue<int> inputs)
-            : this(Array.ConvertAll(tape.Split(','), int.Parse), inputs) { }
+        public IntCodeVm(string tape)
+            : this(Array.ConvertAll(tape.Split(','), int.Parse)) { }
 
-        public IntCodeVm(int [] tape, Queue<int> inputs)
+        public IntCodeVm(int [] tape)
         {
             _tape = tape;
-            _inputs = inputs;
+            Inputs = new Queue<int>();
+            Outputs = new Queue<int>();
             _commands = new CommandDict
             {
-                {01, (inputCount: 2, movePointerForward: 4, Add)},
-                {02, (inputCount: 2, movePointerForward: 4, Mul)},
-                {03, (inputCount: 0, movePointerForward: 2, Input)},
-                {04, (inputCount: 1, movePointerForward: 2, Output)},
-                {05, (inputCount: 2, movePointerForward: 0, JumpIfTrue)},
-                {06, (inputCount: 2, movePointerForward: 0, JumpIfFalse)},
-                {07, (inputCount: 2, movePointerForward: 4, LessThan)},
-                {08, (inputCount: 2, movePointerForward: 4, EqualTo)},
-                {99, (inputCount: 0, movePointerForward: 1, Halt)}
+                {01, new VmCommand(01, "ADD", 2, 4, Add)},
+                {02, new VmCommand(02, "MUL", 2, 4, Mul)},
+                {03, new VmCommand(03, "INP", 0, 2, Input)},
+                {04, new VmCommand(04, "OUT", 1, 2, Output)},
+                {05, new VmCommand(05, "JIT", 2, 0, JumpIfTrue)},
+                {06, new VmCommand(06, "JIF", 2, 0, JumpIfFalse)},
+                {07, new VmCommand(07, "LES", 2, 4, LessThan)},
+                {08, new VmCommand(08, "EQU", 2, 4, EqualTo)},
+                {99, new VmCommand(99, "HLT", 0, 1, Halt)},
             };
         }
 
-        public IEnumerable<int> RunProgram()
+        public void RunProgram()
         {
             while (!IsHalted)
             {
                 ProcessNextCommand();
             }
-            return _outputs;
         }
 
-        public int RunProgramPauseAtOutput()
+        public void RunProgramPauseAtOutput()
         {
-            Pause = false;
-            while (!Pause && !IsHalted)
+            IsPaused = false;
+            while (!IsPaused && !IsHalted)
             {
                 ProcessNextCommand();
             }
-            return _currentOutput;
         }
 
         private void ProcessNextCommand()
@@ -69,11 +103,28 @@
             var poc = _tape[Pointer];
             var opCode = poc % 100;
             var modes = GetModes(poc);
-            var (inputCount, movePtrForward, command) = _commands[opCode];
-            var param = GetParams(inputCount, modes);
-            command(modes, param);
-            LogAction?.Invoke($"{opCode:00} {Pointer:0000} {command.Method.Name:10} {string.Join(" ",param)}");
-            Pointer += movePtrForward;
+            var c = _commands[opCode];
+            var param = GetParams(c.InputCount, modes);
+            var pointer = c.Execute(modes, param);
+            LogAction?.Invoke($"{opCode:00} {Pointer:0000} {c.Execute.Method.Name:10} {string.Join(" ",param)}");
+            Pointer = pointer + c.MovePtrForward;
+        }
+
+        public void AddInput(int input) => Inputs.Enqueue(input);
+        public int GetOutput()
+        {
+            int temp;
+            if (Outputs.TryDequeue(out temp)) 
+                _lastOutput = temp;
+
+            return _lastOutput;
+        }
+
+        public IEnumerable<int> GetOutputs()
+        {
+            var o = Outputs.ToList();
+            _lastOutput = o.Last();
+            return o;
         }
 
         private static Mode[] GetModes(int poc)
@@ -110,39 +161,63 @@
         }
 
         #region command implementations 
-        private void Add(Mode[] modes, int[] p) 
-            => SetValueOffset(3, modes, p[0] + p[1]);
-
-        private void Mul(Mode[] modes, int[] p) 
-            => SetValueOffset(3, modes, p[0] * p[1]);
-
-        private void Input(Mode[] modes, int[] p) 
-            => SetValueOffset(1, modes, _inputs.Dequeue());
-
-        private void Output(Mode[] modes, int[] p)
+        private int Add(Mode[] modes, int[] p)
         {
-            _outputs.Add(p[0]);
-            _currentOutput = p[0];
-            Pause = true;
+            SetValueOffset(3, modes, p[0] + p[1]);
+            return Pointer;
         }
-        private void JumpIfTrue(Mode[] modes, int[] p)
-            => Pointer = (p[0] != 0)
+
+        private int Mul(Mode[] modes, int[] p)
+        {
+            SetValueOffset(3, modes, p[0] * p[1]);
+            return Pointer;
+        }
+
+        private int Input(Mode[] modes, int[] p)
+        {
+            SetValueOffset(1, modes, Inputs.Dequeue());
+            return Pointer;
+        }
+
+        private int Output(Mode[] modes, int[] p)
+        {
+            Outputs.Enqueue(p[0]);
+            IsPaused = true;
+            return Pointer;
+        }
+
+        private int JumpIfTrue(Mode[] modes, int[] p)
+        {
+            return (p[0] != 0)
                 ? p[1]
                 : Pointer + 3;
+        }
 
-        private void JumpIfFalse(Mode[] modes, int[] p)
-            => Pointer = (p[0] == 0)
+        private int JumpIfFalse(Mode[] modes, int[] p)
+        {
+            return (p[0] == 0)
                 ? p[1]
                 : Pointer + 3;
+        }
 
-        private void LessThan(Mode[] modes, int[] p)
-            => SetValueOffset(3, modes, (p[0] < p[1]) ? 1 : 0);
+        private int LessThan(Mode[] modes, int[] p)
+        {
+            SetValueOffset(3, modes, (p[0] < p[1]) ? 1 : 0);
+            return Pointer;
+        }
 
-        private void EqualTo(Mode[] modes, int[] p)
-            => SetValueOffset(3, modes, (p[0] == p[1]) ? 1 : 0);
+        private int EqualTo(Mode[] modes, int[] p)
+        {
+            SetValueOffset(3, modes, (p[0] == p[1]) ? 1 : 0);
+            return Pointer;
+        }
 
-        private void Halt(Mode[] modes, int[] p) 
-            => IsHalted = true;
-        #endregion             
+        private int Halt(Mode[] modes, int[] p)
+        {
+            IsHalted = true;
+            return Pointer;
+        }
+
+            #endregion             
     }
 }

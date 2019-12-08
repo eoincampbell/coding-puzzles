@@ -6,6 +6,7 @@
  */
 namespace AdventOfCode2019.Puzzles.Day05
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -25,15 +26,16 @@ namespace AdventOfCode2019.Puzzles.Day05
         {
             return await Task.Run(() =>
             {
-                var inputs = new Queue<int>();
-                inputs.Enqueue(input);
-                var vm = new IntCodeVm(tape, inputs);
-                vm.LogAction = WriteOutput;
-                return vm.RunProgram().Last();
+                var vm = new IntCodeVm(tape);
+                vm.AddInput(input);
+                vm.RunProgram();
+
+                return vm.GetOutputs().Last();
+
             });
         }
 
         public void WriteOutput(string arg)
-            => System.Diagnostics.Debug.WriteLine(arg);
+            => Console.WriteLine(arg);
     }
 }

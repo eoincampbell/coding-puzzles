@@ -31,11 +31,11 @@ namespace AdventOfCode2019.Puzzles.Day02
         {
             return await Task.Run(() =>
             {
-                var vm = new IntCodeVm(Inputs[0], null);
+                var vm = new IntCodeVm(Inputs[0]);
                 vm.SetValue(1, noun);
                 vm.SetValue(2, verb);
                 //vm.LogAction = WriteOutput;
-                var _ = vm.RunProgram();
+                vm.RunProgram();
                 return vm.GetValue(0);
             });
         }
