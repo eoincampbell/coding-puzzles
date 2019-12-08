@@ -1,8 +1,8 @@
 ﻿/*
- * Day 08: 
+ * Day 08: Space Image Format
  * https://adventofcode.com/2019/day/8
- * Part 1: 
- * Part 2: 
+ * Part 1: 1560
+ * Part 2: PRINTS UGCUH
  */
 namespace AdventOfCode2019.Puzzles.Day08
 {
@@ -14,7 +14,7 @@ namespace AdventOfCode2019.Puzzles.Day08
     
     public class Impl : Puzzle<string, int>
     {
-        public Impl() : base("Day 08: ", ".\\Puzzles\\Day08\\Input.txt") { }
+        public Impl() : base("Day 08: Space Image Format", ".\\Puzzles\\Day08\\Input.txt") { }
 
         public IList<string> GetLayers(string input)
             => Enumerable.Range(0, input.Length / 150)
