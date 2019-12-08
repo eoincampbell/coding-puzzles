@@ -226,7 +226,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day08.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(1560, a);
         }
         [Test]
         public async Task Puzzle08_Impl1_Part2()
@@ -234,7 +234,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day08.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(15000, a);
         }
 
         [Test]

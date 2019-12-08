@@ -47,8 +47,7 @@
 
         private void ProcessNextCommand()
         {
-            var foc= _sm.GetValue();
-            var oc = foc % 100;
+            var oc = _sm.GetValue() % 100;
             var com = _coms[(Commands)oc];
             com.Execute();
             LogAction?.Invoke($"{oc:00} {_sm.Pointer:0000} {com.CommandName}");            

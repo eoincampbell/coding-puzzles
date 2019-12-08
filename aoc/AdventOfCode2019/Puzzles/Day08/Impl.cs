@@ -6,6 +6,9 @@
  */
 namespace AdventOfCode2019.Puzzles.Day08
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Base;
     
@@ -13,20 +16,33 @@ namespace AdventOfCode2019.Puzzles.Day08
     {
         public Impl() : base("Day 08: ", ".\\Puzzles\\Day08\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
-        {
-            return await Task.Run(() =>
-            {
-                return 0;
-            });
-        }
+        public IList<string> GetLayers(string input)
+            => Enumerable.Range(0, input.Length / 150)
+                .Select(i => input[(i * 150)..((i * 150) + 150)])
+                .ToList();
+        
 
-        public override async Task<int> RunPart2Async()
-        {
-            return await Task.Run(() =>
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
             {
-                return 0;
+                var r = (from l in GetLayers(Inputs[0])
+                         orderby l.Count(s => s == '0')
+                         select (l.Count(s => s == '1'), l.Count(s => s == '2'))).First();
+
+                return r.Item1 * r.Item2;
             });
-        }
+
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
+            {
+                var layers = GetLayers(Inputs[0]);
+                for(var i = 0; i < 150; i++)
+                    foreach(var layer in layers)
+                        if (layer[i] != '2') 
+                        {
+                            Console.Write((layer[i] == '0' ? " " : "#") + ((i % 25 == 24) ? Environment.NewLine : ""));
+                            break;
+                        }
+                
+                return Inputs[0].Length;
+            });
     }
 }
