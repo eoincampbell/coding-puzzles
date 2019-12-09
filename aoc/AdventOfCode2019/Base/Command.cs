@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode2019.Base
 {
     using System.Linq;
+    using System.Numerics;
 
     internal interface ICommand
     {
@@ -34,20 +35,20 @@
 
         public abstract int InputCount { get; }
         public abstract Commands CommandName { get; }
-        private static Mode[] GetModes(long fullOpCode)
+        private static Mode[] GetModes(BigInteger fullOpCode)
             => new[]
             {
-                (Mode)(fullOpCode / 100 % 10),      //p1 
-                (Mode)(fullOpCode / 100 / 10 % 10), //p2 
-                (Mode)(fullOpCode / 100 / 100 % 10) //p3
+                (Mode)((int)(fullOpCode / 100 % 10)),      //p1 
+                (Mode)((int)(fullOpCode / 100 / 10 % 10)), //p2 
+                (Mode)((int)(fullOpCode / 100 / 100 % 10)) //p3
             };
 
-        private long[] GetParams(StateMachine sm, Mode[] modes)
+        private BigInteger[] GetParams(StateMachine sm, Mode[] modes)
             => Enumerable.Range(1, InputCount)
                 .Select(i => sm.GetValueOffset(i, modes[i - 1]))
                 .ToArray();
 
-        protected (Mode[] modes, long[] parameters) GetData(StateMachine sm)
+        protected (Mode[] modes, BigInteger[] parameters) GetData(StateMachine sm)
         {
             var modes = GetModes(sm.GetValue());
             var parameters = GetParams(sm, modes);
@@ -60,7 +61,7 @@
             ExecuteImpl(modes, p);
         }
 
-        protected virtual void ExecuteImpl(Mode[] modes, long[] p) { }
+        protected virtual void ExecuteImpl(Mode[] modes, BigInteger[] p) { }
     }
 
     internal sealed class AddCommand : Command
@@ -68,7 +69,7 @@
         public AddCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.ADD;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.SetValueOffset(3, modes, p[0] + p[1]);
             _sm.SetPointer(_sm.Pointer + 4);
@@ -80,7 +81,7 @@
         public MultiplyCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.MUL;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.SetValueOffset(3, modes, p[0] * p[1]);
             _sm.SetPointer(_sm.Pointer + 4);
@@ -92,7 +93,7 @@
         public InputCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 0;
         public override Commands CommandName => Commands.INP;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.SetValueOffset(1, modes, _vm.GetNextInput());
             _sm.SetPointer(_sm.Pointer + 2);
@@ -105,7 +106,7 @@
         public OutputCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 1;
         public override Commands CommandName => Commands.OUT;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _vm.AddOutput(p[0]);
             _vm.Pause();
@@ -117,7 +118,7 @@
         public JumpIfTrueCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.JIT;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             var newPointer = (p[0] != 0)
                 ? p[1]
@@ -132,7 +133,7 @@
         public JumpIfFalseCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.JIF;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             var newPointer = (p[0] == 0)
                ? p[1]
@@ -146,7 +147,7 @@
         public LessThanCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.LES;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.SetValueOffset(3, modes, (p[0] < p[1]) ? 1 : 0);
             _sm.SetPointer(_sm.Pointer + 4);
@@ -158,7 +159,7 @@
         public EqualToCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 2;
         public override Commands CommandName => Commands.EQU;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.SetValueOffset(3, modes, (p[0] == p[1]) ? 1 : 0);
             _sm.SetPointer(_sm.Pointer + 4);
@@ -170,7 +171,7 @@
         public RelativeBaseCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 1;
         public override Commands CommandName => Commands.REL;
-        protected override void ExecuteImpl(Mode[] modes, long[] p)
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             _sm.ModifyRelativeBasePoint(p[0]);
             _sm.SetPointer(_sm.Pointer + 2);
@@ -183,6 +184,6 @@
         public HaltCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 0;
         public override Commands CommandName => Commands.HLT;
-        protected override void ExecuteImpl(Mode[] modes, long[] p) => _vm.Halt();
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p) => _vm.Halt();
     }
 }

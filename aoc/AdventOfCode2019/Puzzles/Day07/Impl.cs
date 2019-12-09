@@ -8,24 +8,25 @@ namespace AdventOfCode2019.Puzzles.Day07
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Numerics;
     using System.Threading.Tasks;
     using Base;
     using Combinatorics.Collections;
     
-    public class Impl : Puzzle<string, int>
+    public class Impl : Puzzle<string, BigInteger>
     {
         public Impl() : base("Day 07: Amplification Circuit", ".\\Puzzles\\Day07\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
+        public override async Task<BigInteger> RunPart1Async()
         {
             return await Task.Run(() =>
             {
                 var c = new Permutations<int>(new int[] { 0, 1, 2, 3, 4 }, GenerateOption.WithoutRepetition);
-                var bestOutput = 0L;
+                BigInteger bestOutput = 0;
 
                 foreach (var phaseSettings in c)
                 {
-                    var nextInput = 0L;
+                    BigInteger nextInput = 0;
                     foreach (var ps in phaseSettings)
                     {
                         var vm = new IntCodeVm(Inputs[0]);
@@ -38,22 +39,22 @@ namespace AdventOfCode2019.Puzzles.Day07
                     if (nextInput > bestOutput)
                         bestOutput = nextInput;
                 }
-                return (int)bestOutput;
+                return bestOutput;
             });
         }
 
-        public override async Task<int> RunPart2Async()
+        public override async Task<BigInteger> RunPart2Async()
         {
             return await Task.Run(() =>
             {
                 var c = new Permutations<int>(new int[] { 5, 6, 7, 8, 9 }, GenerateOption.WithoutRepetition);
-                var bestOutput = 0L;
+                BigInteger bestOutput = 0;
 
                 foreach (var phaseSettings in c)
                 {
                     //var inputs = GetInputs(phaseSettings);
                     var vms = GetVms(phaseSettings);
-                    var result = 0L;
+                    BigInteger result = 0;
 
                     while (!vms[0].IsHalted)
                     {
@@ -75,7 +76,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                     if (result > bestOutput)
                         bestOutput = result;
                 }
-                return (int)bestOutput;
+                return bestOutput;
             });
         }
 
