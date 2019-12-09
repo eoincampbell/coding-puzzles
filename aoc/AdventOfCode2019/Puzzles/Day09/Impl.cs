@@ -10,7 +10,8 @@ namespace AdventOfCode2019.Puzzles.Day09
     using System.Numerics;
     using System.Threading.Tasks;
     using Base;
-    
+    using Base.IntCode;
+
     public class Impl : Puzzle<string, BigInteger>
     {
         public Impl() : base("Day 09: Sensor Boost", ".\\Puzzles\\Day09\\Input.txt") { }
@@ -22,7 +23,7 @@ namespace AdventOfCode2019.Puzzles.Day09
         private static async Task<BigInteger> RunVm(string tape, int input) => await Task.Run(() =>
         {
             var vm = new IntCodeVm(tape);
-            vm.AddInput(input);
+            vm.SetInput(input);
             vm.RunProgram();
             var results = vm.GetOutputs().ToList();
             return results.Last();

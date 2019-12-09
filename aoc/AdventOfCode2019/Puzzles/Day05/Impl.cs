@@ -12,6 +12,7 @@ namespace AdventOfCode2019.Puzzles.Day05
     using System.Numerics;
     using System.Threading.Tasks;
     using Base;
+    using Base.IntCode;
 
     public class Impl : Puzzle<string, BigInteger>
     {
@@ -28,7 +29,7 @@ namespace AdventOfCode2019.Puzzles.Day05
             return await Task.Run(() =>
             {
                 var vm = new IntCodeVm(tape);
-                vm.AddInput(input);
+                vm.SetInput(input);
                 vm.RunProgram();
 
                 return vm.GetOutputs().Last();

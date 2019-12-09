@@ -9,6 +9,7 @@ namespace AdventOfCode2019.Puzzles.Day02
     using System;
     using System.Threading.Tasks;
     using Base;
+    using Base.IntCode;
 
     public class Impl2 : Puzzle<string,int>
     {

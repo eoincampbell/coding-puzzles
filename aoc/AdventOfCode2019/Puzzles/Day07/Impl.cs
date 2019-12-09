@@ -11,6 +11,7 @@ namespace AdventOfCode2019.Puzzles.Day07
     using System.Numerics;
     using System.Threading.Tasks;
     using Base;
+    using Base.IntCode;
     using Combinatorics.Collections;
     
     public class Impl : Puzzle<string, BigInteger>
@@ -30,10 +31,10 @@ namespace AdventOfCode2019.Puzzles.Day07
                     foreach (var ps in phaseSettings)
                     {
                         var vm = new IntCodeVm(Inputs[0]);
-                        vm.AddInput(ps);
-                        vm.AddInput(nextInput);
+                        vm.SetInput(ps);
+                        vm.SetInput(nextInput);
                         vm.RunProgram();
-                        nextInput = vm.GetNextOutput();
+                        nextInput = vm.GetOutput();
                     }
 
                     if (nextInput > bestOutput)
@@ -61,14 +62,14 @@ namespace AdventOfCode2019.Puzzles.Day07
                         for (int i = 0; i < 5; i++)
                         {
                             vms[i].RunProgramPauseAtOutput();
-                            var nextOutput = vms[i].GetNextOutput();
+                            var nextOutput = vms[i].GetOutput();
                                 
                             if (i == 4 && vms[4].IsHalted)
                                 result = nextOutput;
                             else
                             {
                                 var nextInputIdx = i + 1 == 5 ? 0 : i + 1;
-                                vms[nextInputIdx].AddInput(nextOutput);
+                                vms[nextInputIdx].SetInput(nextOutput);
                             }
                         }
                     }
@@ -86,9 +87,9 @@ namespace AdventOfCode2019.Puzzles.Day07
                     .Select(r =>
                     {
                         var vm = new IntCodeVm(Inputs[0]);
-                        vm.AddInput(phaseSettings[r]);
+                        vm.SetInput(phaseSettings[r]);
                         if (r == 0)
-                            vm.AddInput(0);
+                            vm.SetInput(0);
 
                         return vm;
                     })
