@@ -1,5 +1,4 @@
 ﻿using AdventOfCode2019.Base;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

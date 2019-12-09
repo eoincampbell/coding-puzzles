@@ -1,7 +1,6 @@
 ﻿namespace AdventOfCode2019.Base
 {
     using System;
-    using System.Collections.Generic;
     using System.Numerics;
     using Memory = System.Collections.Generic.Dictionary<System.Numerics.BigInteger, System.Numerics.BigInteger>;
 
@@ -26,20 +25,14 @@
 
         public void ModifyRelativeBasePoint(BigInteger value) => _relativePointerBase += value;
 
-        public BigInteger GetValue()
-        {
-            if(!_memory.ContainsKey(Pointer))
-                _memory.Add(Pointer, 0);
-
-            return _memory[Pointer];
-        }
+        public BigInteger GetValue() => GetValue(Pointer);
 
         public BigInteger GetValue(BigInteger pointer)
         {
-            if(!_memory.ContainsKey(pointer))
+            if (!_memory.TryGetValue(pointer, out var val))
                 _memory.Add(pointer, 0);
-
-            return _memory[pointer];
+            
+            return val;
         }
 
         public BigInteger GetValueOffset(int offset, Mode mode)
@@ -53,8 +46,14 @@
             };
         }
 
-        public void SetValue(BigInteger pointer, BigInteger value) => _memory[pointer] = value;
-        
+        public void SetValue(BigInteger pointer, BigInteger value)
+        {
+            if (!_memory.ContainsKey(pointer)) 
+                _memory.Add(pointer, value);
+            else
+                _memory[pointer] = value;
+        }
+
         public void SetValueOffset(int offset, Mode[] modes, BigInteger value)
         {
             var idx = modes[offset - 1] switch
@@ -65,10 +64,7 @@
                 _ => throw new NotSupportedException()
             };
 
-            if (!_memory.ContainsKey(idx)) 
-                _memory.Add(idx, 0);
-
-            _memory[idx] = value;
+            SetValue(idx, value);
         }
     }
 }

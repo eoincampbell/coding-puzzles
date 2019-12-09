@@ -9,7 +9,7 @@
         void Execute();
     }
 
-    internal enum Commands : int
+    internal enum Commands
     {
         ADD = 1,
         MUL = 2,
@@ -24,13 +24,13 @@
     }
     internal abstract class Command : ICommand
     {
-        protected StateMachine _sm;
-        protected IntCodeVm _vm;
+        protected StateMachine Sm;
+        protected IntCodeVm Vm;
 
         protected Command(IntCodeVm vm, StateMachine sm)
         {
-            _vm = vm;
-            _sm = sm;
+            Vm = vm;
+            Sm = sm;
         }
 
         public abstract int InputCount { get; }
@@ -57,7 +57,7 @@
 
         public void Execute()
         {
-            var (modes, p) = GetData(_sm);
+            var (modes, p) = GetData(Sm);
             ExecuteImpl(modes, p);
         }
 
@@ -71,8 +71,8 @@
         public override Commands CommandName => Commands.ADD;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.SetValueOffset(3, modes, p[0] + p[1]);
-            _sm.SetPointer(_sm.Pointer + 4);
+            Sm.SetValueOffset(3, modes, p[0] + p[1]);
+            Sm.SetPointer(Sm.Pointer + 4);
         }
     }
 
@@ -83,8 +83,8 @@
         public override Commands CommandName => Commands.MUL;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.SetValueOffset(3, modes, p[0] * p[1]);
-            _sm.SetPointer(_sm.Pointer + 4);
+            Sm.SetValueOffset(3, modes, p[0] * p[1]);
+            Sm.SetPointer(Sm.Pointer + 4);
         }
     }
 
@@ -95,8 +95,8 @@
         public override Commands CommandName => Commands.INP;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.SetValueOffset(1, modes, _vm.GetNextInput());
-            _sm.SetPointer(_sm.Pointer + 2);
+            Sm.SetValueOffset(1, modes, Vm.GetNextInput());
+            Sm.SetPointer(Sm.Pointer + 2);
         }
     }
 
@@ -108,9 +108,9 @@
         public override Commands CommandName => Commands.OUT;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _vm.AddOutput(p[0]);
-            _vm.Pause();
-            _sm.SetPointer(_sm.Pointer + 2);
+            Vm.AddOutput(p[0]);
+            Vm.Pause();
+            Sm.SetPointer(Sm.Pointer + 2);
         }
     }
     internal sealed class JumpIfTrueCommand : Command
@@ -122,9 +122,9 @@
         {
             var newPointer = (p[0] != 0)
                 ? p[1]
-                : _sm.Pointer + 3;
+                : Sm.Pointer + 3;
 
-            _sm.SetPointer(newPointer);
+            Sm.SetPointer(newPointer);
         }
     }
 
@@ -137,9 +137,9 @@
         {
             var newPointer = (p[0] == 0)
                ? p[1]
-               : _sm.Pointer + 3;
+               : Sm.Pointer + 3;
 
-            _sm.SetPointer(newPointer);
+            Sm.SetPointer(newPointer);
         }
     }
     internal sealed class LessThanCommand : Command
@@ -149,8 +149,8 @@
         public override Commands CommandName => Commands.LES;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.SetValueOffset(3, modes, (p[0] < p[1]) ? 1 : 0);
-            _sm.SetPointer(_sm.Pointer + 4);
+            Sm.SetValueOffset(3, modes, (p[0] < p[1]) ? 1 : 0);
+            Sm.SetPointer(Sm.Pointer + 4);
         }
     }
 
@@ -161,8 +161,8 @@
         public override Commands CommandName => Commands.EQU;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.SetValueOffset(3, modes, (p[0] == p[1]) ? 1 : 0);
-            _sm.SetPointer(_sm.Pointer + 4);
+            Sm.SetValueOffset(3, modes, (p[0] == p[1]) ? 1 : 0);
+            Sm.SetPointer(Sm.Pointer + 4);
         }
     }
 
@@ -173,8 +173,8 @@
         public override Commands CommandName => Commands.REL;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            _sm.ModifyRelativeBasePoint(p[0]);
-            _sm.SetPointer(_sm.Pointer + 2);
+            Sm.ModifyRelativeBasePoint(p[0]);
+            Sm.SetPointer(Sm.Pointer + 2);
         }
     }
 
@@ -184,6 +184,6 @@
         public HaltCommand(IntCodeVm vm, StateMachine sm) : base(vm, sm) { }
         public override int InputCount => 0;
         public override Commands CommandName => Commands.HLT;
-        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p) => _vm.Halt();
+        protected override void ExecuteImpl(Mode[] modes, BigInteger[] p) => Vm.Halt();
     }
 }
