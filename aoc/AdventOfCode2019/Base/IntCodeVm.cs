@@ -3,25 +3,32 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Numerics;
+
+    using Memory = System.Collections.Generic.Dictionary<System.Numerics.BigInteger, System.Numerics.BigInteger>;
+
     using CommandDict = System.Collections.Generic.Dictionary<Commands, ICommand>;
     
     public class IntCodeVm
     {
         private readonly StateMachine _sm;
-        private readonly Queue<long> _in = new Queue<long>();
-        private readonly Queue<long> _out = new Queue<long>();
+        private readonly Queue<BigInteger> _in = new Queue<BigInteger>();
+        private readonly Queue<BigInteger> _out = new Queue<BigInteger>();
         private readonly CommandDict _commands;
-        private long _lastOutput;
+        private BigInteger _lastOutput;
         public Action<string> LogAction;
         public bool IsHalted { get; private set; }
         public bool IsPaused { get; private set; }
 
-        public IntCodeVm(string tape) : this(Array.ConvertAll(tape.Split(','), long.Parse)) { }
-        public IntCodeVm(long [] tape)
+        public IntCodeVm(string memory) : this(Array.ConvertAll(memory.Split(','), BigInteger.Parse)) { }
+        public IntCodeVm(BigInteger [] memory)
         {
-            Array.Resize(ref tape, 0xffff);
+            var mem = memory
+                .Select((value, index) => new { value, index })
+                .ToDictionary(pair => new BigInteger(pair.index), pair => pair.value);
+
             
-            _sm = new StateMachine(tape);
+            _sm = new StateMachine(mem);
             _commands = new CommandDict
             {
                 {Commands.ADD, new AddCommand(this, _sm)},
@@ -50,7 +57,7 @@
 
         private void ProcessNextCommand()
         {
-            var oc = _sm.GetValue() % 100;
+            var oc = (int) (_sm.GetValue() % 100);
             var com = _commands[(Commands)oc];
             com.Execute();
             LogAction?.Invoke($"{oc:00} {_sm.Pointer:0000} {com.CommandName}");            
@@ -58,17 +65,17 @@
 
         public void Halt() => IsHalted = true;
         public void Pause() => IsPaused = true;
-        public void SetValue(int ptr, long val) => _sm.SetValue(ptr, val);
-        public void AddInput(long input) => _in.Enqueue(input);
-        public void AddOutput(long output) => _out.Enqueue(output);
-        public long GetValue(int ptr) => _sm.GetValue(ptr);
-        public long GetNextInput() => _in.Dequeue();
-        public long GetNextOutput()
+        public void SetValue(BigInteger ptr, BigInteger val) => _sm.SetValue(ptr, val);
+        public void AddInput(BigInteger input) => _in.Enqueue(input);
+        public void AddOutput(BigInteger output) => _out.Enqueue(output);
+        public BigInteger GetValue(BigInteger ptr) => _sm.GetValue(ptr);
+        public BigInteger GetNextInput() => _in.Dequeue();
+        public BigInteger GetNextOutput()
         {
-            if (_out.TryDequeue(out long temp)) _lastOutput = temp;
+            if (_out.TryDequeue(out BigInteger temp)) _lastOutput = temp;
             return _lastOutput;
         }
-        public IEnumerable<long> GetOutputs()
+        public IEnumerable<BigInteger> GetOutputs()
         {
             while (_out.Any())
             {

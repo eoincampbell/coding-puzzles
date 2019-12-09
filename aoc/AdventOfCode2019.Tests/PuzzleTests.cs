@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2019.Tests
 {
+    using System.Numerics;
+
     public class PuzzleTests
     {
         [SetUp]
@@ -149,7 +151,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day05.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(16225258, a);
+            Assert.AreEqual(new BigInteger(16225258), a);
         }
 
 
@@ -159,7 +161,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day05.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(2808771, a);
+            Assert.AreEqual(new BigInteger(2808771), a);
         }
 
         [Test]
@@ -207,7 +209,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day07.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(22012, a);
+            Assert.AreEqual(new BigInteger(22012), a);
         }
 
 
@@ -217,7 +219,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day07.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(4039164, a);
+            Assert.AreEqual(new BigInteger(4039164), a);
         }
 
         [Test]
@@ -243,7 +245,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day09.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(2465411646, a);
+            Assert.AreEqual(new BigInteger(2465411646), a);
         }
         [Test]
         public async Task Puzzle09_Impl1_Part2()
@@ -251,7 +253,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day09.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(69781, a);
+            Assert.AreEqual(new BigInteger(69781), a);
         }
 
         [Test]

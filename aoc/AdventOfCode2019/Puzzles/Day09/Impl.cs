@@ -7,31 +7,25 @@
 namespace AdventOfCode2019.Puzzles.Day09
 {
     using System.Linq;
+    using System.Numerics;
     using System.Threading.Tasks;
     using Base;
     
-    public class Impl : Puzzle<string, long>
+    public class Impl : Puzzle<string, BigInteger>
     {
-        public Impl() : base("Day 09: ", ".\\Puzzles\\Day09\\Input.txt") { }
+        public Impl() : base("Day 09: Sensor Boost", ".\\Puzzles\\Day09\\Input.txt") { }
 
-        public override async Task<long> RunPart1Async()
-        {
-            return await Task.Run(() => RunVm(Inputs[0], 1));
-        }
+        public override async Task<BigInteger> RunPart1Async() => await RunVm(Inputs[0], 1);
 
-        public override async Task<long> RunPart2Async()
-        {
-            return await Task.Run(() => RunVm(Inputs[0], 2));
-        }
-        
-        private static long RunVm(string tape, int input)
+        public override async Task<BigInteger> RunPart2Async() => await RunVm(Inputs[0], 2);
+
+        private static async Task<BigInteger> RunVm(string tape, int input) => await Task.Run(() =>
         {
             var vm = new IntCodeVm(tape);
             vm.AddInput(input);
             vm.RunProgram();
             var results = vm.GetOutputs().ToList();
             return results.Last();
-        }
-
+        });
     }
 }
