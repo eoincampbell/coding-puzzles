@@ -8,18 +8,23 @@
     public class IntCodeVm
     {
         private readonly StateMachine _sm;
-        private readonly Queue<int> _in = new Queue<int>();
-        private readonly Queue<int> _out = new Queue<int>();
+        private readonly Queue<long> _in = new Queue<long>();
+        private readonly Queue<long> _out = new Queue<long>();
         private readonly CommandDict _coms;
-        private int _lastOutput;
+        private long _lastOutput;
         public Action<string> LogAction;
         public bool IsHalted { get; private set; }
         public bool IsPaused { get; private set; }
 
-        public IntCodeVm(string tape) : this(Array.ConvertAll(tape.Split(','), int.Parse)) { }
-        public IntCodeVm(int [] tape)
+        public IntCodeVm(string tape) : this(Array.ConvertAll(tape.Split(','), long.Parse)) { }
+        public IntCodeVm(long [] tape)
         {
-            _sm = new StateMachine(tape);
+            var tapeLength = tape.Length;
+            var padding = 65536 - tapeLength;
+            var paddedTape = new long [padding];
+
+
+            _sm = new StateMachine(tape.Concat(paddedTape).ToArray());
             _coms = new CommandDict
             {
                 {Commands.ADD, new AddCommand(this, _sm)},
@@ -30,6 +35,7 @@
                 {Commands.JIF, new JumpIfFalseCommand(this, _sm)},
                 {Commands.LES, new LessThanCommand(this, _sm)},
                 {Commands.EQU, new EqualToCommand(this, _sm)},
+                {Commands.REL, new RelativeBaseCommand(this, _sm)},
                 {Commands.HLT, new HaltCommand(this, _sm)},
             };
         }
@@ -55,17 +61,17 @@
 
         public void Halt() => IsHalted = true;
         public void Pause() => IsPaused = true;
-        public void SetValue(int ptr, int val) => _sm.SetValue(ptr, val);
-        public void AddInput(int input) => _in.Enqueue(input);
-        public void AddOutput(int output) => _out.Enqueue(output);
-        public int GetValue(int ptr) => _sm.GetValue(ptr);
-        public int GetNextInput() => _in.Dequeue();
-        public int GetNextOutput()
+        public void SetValue(int ptr, long val) => _sm.SetValue(ptr, val);
+        public void AddInput(long input) => _in.Enqueue(input);
+        public void AddOutput(long output) => _out.Enqueue(output);
+        public long GetValue(int ptr) => _sm.GetValue(ptr);
+        public long GetNextInput() => _in.Dequeue();
+        public long GetNextOutput()
         {
-            if (_out.TryDequeue(out int temp)) _lastOutput = temp;
+            if (_out.TryDequeue(out long temp)) _lastOutput = temp;
             return _lastOutput;
         }
-        public IEnumerable<int> GetOutputs()
+        public IEnumerable<long> GetOutputs()
         {
             while (_out.Any())
             {

@@ -30,7 +30,7 @@ namespace AdventOfCode2019.Puzzles.Day05
                 vm.AddInput(input);
                 vm.RunProgram();
 
-                return vm.GetOutputs().Last();
+                return (int)vm.GetOutputs().Last();
 
             });
         }

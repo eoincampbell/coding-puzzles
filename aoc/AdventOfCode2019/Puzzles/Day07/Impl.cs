@@ -21,11 +21,11 @@ namespace AdventOfCode2019.Puzzles.Day07
             return await Task.Run(() =>
             {
                 var c = new Permutations<int>(new int[] { 0, 1, 2, 3, 4 }, GenerateOption.WithoutRepetition);
-                var bestOutput = 0;
+                var bestOutput = 0L;
 
                 foreach (var phaseSettings in c)
                 {
-                    var nextInput = 0;
+                    var nextInput = 0L;
                     foreach (var ps in phaseSettings)
                     {
                         var vm = new IntCodeVm(Inputs[0]);
@@ -38,7 +38,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                     if (nextInput > bestOutput)
                         bestOutput = nextInput;
                 }
-                return bestOutput;
+                return (int)bestOutput;
             });
         }
 
@@ -47,13 +47,13 @@ namespace AdventOfCode2019.Puzzles.Day07
             return await Task.Run(() =>
             {
                 var c = new Permutations<int>(new int[] { 5, 6, 7, 8, 9 }, GenerateOption.WithoutRepetition);
-                var bestOutput = 0;
+                var bestOutput = 0L;
 
                 foreach (var phaseSettings in c)
                 {
                     //var inputs = GetInputs(phaseSettings);
                     var vms = GetVms(phaseSettings);
-                    var result = 0;
+                    var result = 0L;
 
                     while (!vms[0].IsHalted)
                     {
@@ -75,7 +75,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                     if (result > bestOutput)
                         bestOutput = result;
                 }
-                return bestOutput;
+                return (int)bestOutput;
             });
         }
 

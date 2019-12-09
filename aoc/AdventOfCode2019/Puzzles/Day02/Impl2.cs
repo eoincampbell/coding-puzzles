@@ -36,7 +36,7 @@ namespace AdventOfCode2019.Puzzles.Day02
                 vm.SetValue(2, verb);
                 //vm.LogAction = WriteOutput;
                 vm.RunProgram();
-                return vm.GetValue(0);
+                return (int)vm.GetValue(0);
             });
         }
 
