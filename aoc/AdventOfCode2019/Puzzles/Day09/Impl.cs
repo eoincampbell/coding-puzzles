@@ -6,7 +6,6 @@
  */
 namespace AdventOfCode2019.Puzzles.Day09
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -20,7 +19,12 @@ namespace AdventOfCode2019.Puzzles.Day09
             return await Task.Run(() => RunVm(Inputs[0], 1));
         }
 
-        private long RunVm(string tape, int input)
+        public override async Task<long> RunPart2Async()
+        {
+            return await Task.Run(() => RunVm(Inputs[0], 2));
+        }
+        
+        private static long RunVm(string tape, int input)
         {
             var vm = new IntCodeVm(tape);
             vm.AddInput(input);
@@ -29,10 +33,5 @@ namespace AdventOfCode2019.Puzzles.Day09
             return results.Last();
         }
 
-        public override async Task<long> RunPart2Async()
-        {
-            return await Task.Run(() => RunVm(Inputs[0], 2));
-
-        }
     }
 }

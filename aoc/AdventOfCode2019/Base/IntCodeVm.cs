@@ -10,7 +10,7 @@
         private readonly StateMachine _sm;
         private readonly Queue<long> _in = new Queue<long>();
         private readonly Queue<long> _out = new Queue<long>();
-        private readonly CommandDict _coms;
+        private readonly CommandDict _commands;
         private long _lastOutput;
         public Action<string> LogAction;
         public bool IsHalted { get; private set; }
@@ -19,13 +19,10 @@
         public IntCodeVm(string tape) : this(Array.ConvertAll(tape.Split(','), long.Parse)) { }
         public IntCodeVm(long [] tape)
         {
-            var tapeLength = tape.Length;
-            var padding = 65536 - tapeLength;
-            var paddedTape = new long [padding];
-
-
-            _sm = new StateMachine(tape.Concat(paddedTape).ToArray());
-            _coms = new CommandDict
+            Array.Resize(ref tape, 0xffff);
+            
+            _sm = new StateMachine(tape);
+            _commands = new CommandDict
             {
                 {Commands.ADD, new AddCommand(this, _sm)},
                 {Commands.MUL, new MultiplyCommand(this, _sm)},
@@ -54,7 +51,7 @@
         private void ProcessNextCommand()
         {
             var oc = _sm.GetValue() % 100;
-            var com = _coms[(Commands)oc];
+            var com = _commands[(Commands)oc];
             com.Execute();
             LogAction?.Invoke($"{oc:00} {_sm.Pointer:0000} {com.CommandName}");            
         }
