@@ -11,7 +11,7 @@ namespace AdventOfCode2019.Puzzles.Day10
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
-    using Dict = System.Collections.Generic.Dictionary<Asteroid, System.Collections.Generic.Dictionary<double, System.Collections.Generic.List<Asteroid>>>;
+    using Dict = System.Collections.Generic.Dictionary<Asteroid, System.Collections.Generic.Dictionary<double, System.Collections.Generic.SortedList<double, Asteroid>>>;
     
     public class Impl : Puzzle<string, int>
     {
@@ -24,7 +24,6 @@ namespace AdventOfCode2019.Puzzles.Day10
                 return asteroids.ToList().OrderByDescending(o => o.Value.Count())
                     .First().Value.Count();
             });
-        
 
         public override async Task<int> RunPart2Async()
             => await Task.Run(() =>
@@ -33,17 +32,17 @@ namespace AdventOfCode2019.Puzzles.Day10
                 var src = asteroids.ToList().OrderByDescending(o => o.Value.Count())
                     .First().Key;
 
-                var angles = asteroids[src];
                 var targets = new List<Asteroid>();
-                foreach (var ang in angles)
-                {
-                    var i = 0;
-                    foreach (var asteroid in ang.Value.OrderBy(s => s.Distance))
+
+                foreach (var ang in asteroids[src])
+                    ang.Value
+                    .Select((ast, idx) => (Asteroid: ast.Value, Angle: ast.Value.Angle + (360 * idx)))
+                    .ToList()
+                    .ForEach(f =>
                     {
-                        asteroid.SweepAngle = asteroid.Angle + (360 * i++);
-                        targets.Add(asteroid);
-                    }
-                }
+                        f.Asteroid.SweepAngle = f.Angle;//angle;
+                        targets.Add(f.Asteroid);
+                    });
 
                 return targets.OrderBy(t => t.SweepAngle).Skip(199).Take(1).Select(s => (s.X * 100) + s.Y).First();
             });
@@ -55,27 +54,23 @@ namespace AdventOfCode2019.Puzzles.Day10
             for (var y = 0; y < Inputs.Length; y++)
             for (var x = 0; x < Inputs[y].Length; x++)
                 if (Inputs[y][x] == '#')
-                    asteroids.Add(new Asteroid(x,y), new Dictionary<double, List<Asteroid>>());
+                    asteroids.Add(new Asteroid(x,y), new Dictionary<double, SortedList<double, Asteroid>>());
 
             foreach (var src in asteroids.Keys)
-            foreach (var (t,a) in asteroids.Keys.Where(s => s != src).Select(t => (t, GetAngle(src, t))))
+            foreach (var (t,d,a) in asteroids.Keys.Where(s => s != src).Select(t => (t, GetDist(src, t), GetAngle(src, t))))
             {
-                var newTrg = new Asteroid(t.X, t.Y, GetDist(src, t), a);
+                var newTrg = new Asteroid(t.X, t.Y, d, a);
                 if (asteroids[src].ContainsKey(a))
-                    asteroids[src][a].Add(newTrg);
+                    asteroids[src][a].Add(d,newTrg);
                 else
-                    asteroids[src].Add(a, new List<Asteroid> {newTrg});
+                    asteroids[src].Add(a, new SortedList<double, Asteroid> { { d, newTrg } });
             }
 
             return asteroids;
         }
 
         private static double GetAngle(Asteroid s, Asteroid t)
-            => FixAngle(Math.Atan2(t.Y - s.Y, t.X - s.X) * 180 / Math.PI);
-
-        private static double FixAngle(double angle)
-            => (angle < 0 ? angle + 450 : angle + 90) % 360;
-
+            => ((Math.Atan2(t.Y - s.Y, t.X - s.X) * 180 / Math.PI) + 450) % 360;
         private static double GetDist(Asteroid src, Asteroid trg)
             => Math.Sqrt(Math.Pow(trg.X - src.X, 2) + Math.Pow(trg.Y - src.Y, 2));
     }
