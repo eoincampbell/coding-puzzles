@@ -36,6 +36,8 @@
     <None Remove="Puzzles\Day09\Input-test3.txt" />
     <None Remove="Puzzles\Day09\Input.txt" />
     <None Remove="Puzzles\Day10\Input-test.txt" />
+    <None Remove="Puzzles\Day10\Input-test2.txt" />
+    <None Remove="Puzzles\Day10\Input-test3.txt" />
     <None Remove="Puzzles\Day10\Input.txt" />
     <None Remove="Puzzles\Day11\Input-test.txt" />
     <None Remove="Puzzles\Day11\Input.txt" />
@@ -115,6 +117,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day09\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day10\Input-test3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day10\Input-test2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day10\Input-test.txt">
