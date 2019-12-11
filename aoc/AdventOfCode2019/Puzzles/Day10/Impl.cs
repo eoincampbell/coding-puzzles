@@ -35,10 +35,10 @@ namespace AdventOfCode2019.Puzzles.Day10
 
                 var angles = asteroids[src];
                 var targets = new List<Asteroid>();
-                foreach (var ang in angles)
+                foreach (var ang in angles.Values)
                 {
                     var i = 0;
-                    foreach (var asteroid in ang.Value.OrderBy(s => s.Distance))
+                    foreach (var asteroid in ang.OrderBy(s => s.Distance))
                     {
                         asteroid.SweepAngle = asteroid.Angle + (360 * i++);
                         targets.Add(asteroid);
