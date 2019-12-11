@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Numerics;
 
@@ -29,15 +30,19 @@
 
         #region Program Control Flow
 
-        public void RunProgram()
+        public bool RunProgram()
         {
             while (!IsHalted) ProcessNextCommand();
+
+            return IsHalted;
         }
 
-        public void RunProgramPauseAtOutput()
+        public bool RunProgramPauseAtOutput()
         {
             IsPaused = false;
             while (!IsPaused && !IsHalted) ProcessNextCommand();
+
+            return IsHalted;
         }
 
         private void ProcessNextCommand()
@@ -66,8 +71,17 @@
         //Output
         public BigInteger GetOutput()
         {
-            if (_out.TryDequeue(out var temp)) _lastOutput = temp;
-            return _lastOutput;
+            if (_out.TryDequeue(out var temp))
+            {
+                _lastOutput = temp;
+                return _lastOutput;
+            }
+            else
+            {
+                Debug.WriteLine("Possible Bork! Returning a previous output");
+                return _lastOutput;
+            }
+            
         }
         public IEnumerable<BigInteger> GetOutputs()
         {
