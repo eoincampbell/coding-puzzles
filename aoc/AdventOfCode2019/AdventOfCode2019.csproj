@@ -46,6 +46,14 @@
     <None Remove="Puzzles\Day12\Input.txt" />
     <None Remove="Puzzles\Day13\Input-test.txt" />
     <None Remove="Puzzles\Day13\Input.txt" />
+    <None Remove="Puzzles\Day18\Input-test.txt" />
+    <None Remove="Puzzles\Day18\Input.txt" />
+    <None Remove="Puzzles\Day17\Input-test.txt" />
+    <None Remove="Puzzles\Day17\Input.txt" />
+    <None Remove="Puzzles\Day16\Input-test.txt" />
+    <None Remove="Puzzles\Day16\Input.txt" />
+    <None Remove="Puzzles\Day15\Input-test.txt" />
+    <None Remove="Puzzles\Day15\Input.txt" />
     <None Remove="Puzzles\Day14\Input-test.txt" />
     <None Remove="Puzzles\Day14\Input.txt" />
   </ItemGroup>
@@ -148,6 +156,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day13\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day18\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day18\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day17\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day17\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day16\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day16\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day15\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day14\Input-test.txt">

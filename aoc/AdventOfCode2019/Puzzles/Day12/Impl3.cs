@@ -14,10 +14,10 @@ namespace AdventOfCode2019.Puzzles.Day12
     using Base;
     using MoonHash = System.Collections.Generic.HashSet<(int, int, int, int, int, int, int, int)>;
 
-    public class Impl : Puzzle<string, long>
+    public class Impl3 : Puzzle<string, long>
     {
         //public Impl() : base("Day 12: The N-Body Problem", ".\\Puzzles\\Day12\\Input-test.txt") { }
-        public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
+        public Impl3() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
 
         public override async Task<long> RunPart1Async()
             => await Task.Run(() =>
@@ -99,6 +99,7 @@ namespace AdventOfCode2019.Puzzles.Day12
 
         private static long LeastCommonMultiple(long a, long b)
             => (a / GreatestCommonFactor(a, b)) * b;
+
 
         private class Moon
         {
