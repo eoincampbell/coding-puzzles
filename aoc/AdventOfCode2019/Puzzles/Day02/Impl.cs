@@ -36,7 +36,7 @@ namespace AdventOfCode2019.Puzzles.Day02
             return arr;
         }
 
-        public async Task<int> RunIntCode(int[] c, int i = 0)
+        public async static Task<int> RunIntCode(int[] c, int i = 0)
         {
             await Task.Run(() =>
             {

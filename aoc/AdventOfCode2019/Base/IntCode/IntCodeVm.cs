@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Numerics;
 
@@ -11,19 +10,18 @@
         private readonly StateMachine _sm;
         private readonly Queue<BigInteger> _in = new Queue<BigInteger>();
         private readonly Queue<BigInteger> _out = new Queue<BigInteger>();
-       
+        public Action<string> LogAction { get; set; }
         private BigInteger _lastOutput;
-        public Action<string> LogAction;
         public bool IsHalted { get; private set; }
         public bool IsPaused { get; private set; }
 
-        public IntCodeVm(string memory) : this(Array.ConvertAll(memory.Split(','), BigInteger.Parse)) { }
+        public IntCodeVm(string memory) : this(Array.ConvertAll(memory?.Split(','), BigInteger.Parse)) { }
 
         public IntCodeVm(IEnumerable<BigInteger> memory)
         {
             var mem = memory
                 .Select((value, index) => new { value, index })
-                .ToDictionary(pair => new BigInteger(pair.index), pair => pair.value);
+                .ToDictionary(k => new BigInteger(k.index), v => v.value);
 
             _sm = new StateMachine(mem);
         }
@@ -61,35 +59,20 @@
         #region IO
         
         //Values
-        public BigInteger GetValue(BigInteger ptr) => _sm.GetValue(ptr);
-        public void SetValue(BigInteger ptr, BigInteger val) => _sm.SetValue(ptr, val);
+        public BigInteger GetValue(BigInteger p) => _sm.GetValue(p);
+        public void SetValue(BigInteger p, BigInteger val) => _sm.SetValue(p, val);
 
         //Inputs
         public BigInteger GetInput() => _in.Dequeue();
         public void SetInput(BigInteger input) => _in.Enqueue(input);
         
         //Output
-        public BigInteger GetOutput()
-        {
-            if (_out.TryDequeue(out var temp))
-            {
-                _lastOutput = temp;
-                return _lastOutput;
-            }
-            else
-            {
-                Debug.WriteLine("Possible Bork! Returning a previous output");
-                return _lastOutput;
-            }
-            
-        }
+        public BigInteger GetOutput() => _out.TryDequeue(out var temp) ? _lastOutput = temp : _lastOutput;
+        
         public IEnumerable<BigInteger> GetOutputs()
         {
             while (_out.Any())
-            {
-                _lastOutput = _out.Dequeue();
-                yield return _lastOutput;
-            }
+                yield return (_lastOutput = _out.Dequeue());
         }
         public void SetOutput(BigInteger output) => _out.Enqueue(output);
 

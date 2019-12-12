@@ -41,7 +41,7 @@ namespace AdventOfCode2019.Puzzles.Day02
             });
         }
 
-        public void WriteOutput(string arg)
+        public static void WriteOutput(string arg)
             => System.Diagnostics.Debug.WriteLine(arg);
     }
 }

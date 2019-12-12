@@ -11,6 +11,12 @@
         public abstract int InputCount { get; }
         public abstract Command CommandName { get; }
 
+        public CommandBase()
+        {
+            Sm = new StateMachine(null);
+            Vm = new IntCodeVm("");
+        }
+
         public void Execute(IntCodeVm vm, StateMachine sm)
         { 
             Vm = vm;

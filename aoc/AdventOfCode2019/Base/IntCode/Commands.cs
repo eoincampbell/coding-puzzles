@@ -20,6 +20,6 @@
         };
 
         public static ICommand Get(BigInteger key)
-            => Values.GetValueOrDefault((Command) ((int) key));
+            => Values.GetValueOrDefault((Command)((int)key));
     }
 }

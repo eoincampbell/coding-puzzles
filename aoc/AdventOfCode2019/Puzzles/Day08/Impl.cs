@@ -8,6 +8,7 @@ namespace AdventOfCode2019.Puzzles.Day08
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -16,7 +17,7 @@ namespace AdventOfCode2019.Puzzles.Day08
     {
         public Impl() : base("Day 08: Space Image Format", ".\\Puzzles\\Day08\\Input.txt") { }
 
-        public IList<string> GetLayers(string input)
+        public static IList<string> GetLayers([NotNull]string input)
             => Enumerable.Range(0, input.Length / 150)
                 .Select(i => input[(i * 150)..((i * 150) + 150)])
                 .ToList();

@@ -21,15 +21,15 @@ namespace AdventOfCode2019.Puzzles.Day10
             => await Task.Run(() => 
             { 
                 var asteroids = GetAsteroids();
-                return asteroids.ToList().OrderByDescending(o => o.Value.Count())
-                    .First().Value.Count();
+                return asteroids.ToList().OrderByDescending(o => o.Value.Count)
+                    .First().Value.Count;
             });
 
         public override async Task<int> RunPart2Async()
             => await Task.Run(() =>
             {
                 var asteroids = GetAsteroids();
-                var src = asteroids.ToList().OrderByDescending(o => o.Value.Count())
+                var src = asteroids.ToList().OrderByDescending(o => o.Value.Count)
                     .First().Key;
 
                 var targets = new List<Asteroid>();
@@ -51,7 +51,7 @@ namespace AdventOfCode2019.Puzzles.Day10
         {
             var asteroids = new Dict();
             
-            for (var y = 0; y < Inputs.Length; y++)
+            for (var y = 0; y < Inputs.Count; y++)
             for (var x = 0; x < Inputs[y].Length; x++)
                 if (Inputs[y][x] == '#')
                     asteroids.Add(new Asteroid(x,y), new Dictionary<double, SortedList<double, Asteroid>>());
@@ -75,7 +75,7 @@ namespace AdventOfCode2019.Puzzles.Day10
             => Math.Sqrt(Math.Pow(trg.X - src.X, 2) + Math.Pow(trg.Y - src.Y, 2));
     }
 
-    public class Asteroid
+    public class Asteroid : IEquatable<Asteroid>
     {
         public Asteroid(int x, int y) { X = x; Y = y; }
         public Asteroid(int x, int y, double d, double a) : this(x,y) { Distance = d; Angle = a; }
@@ -84,9 +84,17 @@ namespace AdventOfCode2019.Puzzles.Day10
         public double Angle{get; set;}
         public double Distance{get; set;}
         public double SweepAngle{get; set;}
-        public static bool operator ==(Asteroid s, Asteroid t) => s.Equals(t);
-        public static bool operator !=(Asteroid s, Asteroid t) => !s.Equals(t);
-        public override bool Equals(object o) => (o is Asteroid a) && a?.X == X && a?.Y == Y;
-        public override int GetHashCode() => (X * 97) + Y;
+        public override int GetHashCode() => (X, Y).GetHashCode();
+        public static bool operator ==(Asteroid s, Asteroid t)
+        {
+            if (ReferenceEquals(s, t)) return true;
+            if (s is null || t is null) return false;
+            return (s.X == t.X && s.Y == t.Y);
+        }
+
+        public static bool operator !=(Asteroid s, Asteroid t) => !(s == t);
+        public bool Equals(Asteroid other) => this == other;
+        public override bool Equals(object obj) => (obj is Asteroid a) && this == a; 
+
     }
 }

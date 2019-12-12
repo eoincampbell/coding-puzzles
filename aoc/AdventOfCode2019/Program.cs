@@ -1,40 +1,31 @@
 ﻿using AdventOfCode2019.Base;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace AdventOfCode2019
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main()
         {
-            var puzzles = new List<IPuzzle>
-            {
-                //new Puzzles.Day01.Impl(),
-                //new Puzzles.Day02.Impl(),
-                //new Puzzles.Day02.Impl2(),
-                //new Puzzles.Day03.Impl(),
-                //new Puzzles.Day04.Impl(),
-                //new Puzzles.Day04.Impl2(),
-                //new Puzzles.Day04.Impl3(),
-                //new Puzzles.Day05.Impl(),
-                //new Puzzles.Day06.Impl(),
-                //new Puzzles.Day06.Impl2(),
-                //new Puzzles.Day07.Impl(),
-                //new Puzzles.Day08.Impl(),
-                //new Puzzles.Day09.Impl(),
-                //new Puzzles.Day10.Impl(),
-                new Puzzles.Day11.Impl(),
-                //new Puzzles.Day12.Impl(),
-                //new Puzzles.Day13.Impl(),
-                //new Puzzles.Day14.Impl(),
-            };
-
-            foreach (var puzzle in puzzles) 
-            {
+            await new Puzzles.Day11.Impl().RunBothPartsAsync();
+            
+            foreach (var puzzle in GetPuzzles()) 
                 await puzzle.RunBothPartsAsync();
-                
-            }
+        }
+
+        private static IEnumerable<IPuzzle> GetPuzzles()
+        {
+            return Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
+                .OrderBy(o => o.Namespace)
+                .ThenBy(n => n.Name)
+                .Select(s => Activator.CreateInstance(s) as IPuzzle);
         }
     }
 }

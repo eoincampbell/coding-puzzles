@@ -8,6 +8,8 @@
 namespace AdventOfCode2019.Puzzles.Day03
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -41,7 +43,7 @@ namespace AdventOfCode2019.Puzzles.Day03
             => (GetWire(a), GetWire(b));
 
         public static (char dir, int dist) Parse(string i) 
-            => (i[0], int.Parse(i[1..]));
+            => (i[0], int.Parse(i[1..], CultureInfo.CurrentCulture));
 
         public static (int x, int y) GetPoint(char dir, ref int x, ref int y)
         {
@@ -55,7 +57,7 @@ namespace AdventOfCode2019.Puzzles.Day03
                 };
         }
 
-        public Dict GetWire(string input)
+        public static Dict GetWire(string input)
         {
             var inst = input.Split(',').Select(Parse);
             int x = 0, y = 0, d = 0;

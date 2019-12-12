@@ -8,6 +8,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -22,7 +23,7 @@
 
         private async Task<int> DoWork(Func<string, bool> checkFunc) =>
             await Task.Run(() => GetRange(Inputs[0], Inputs[1])
-            .Count(x => checkFunc(x.ToString())));
+            .Count(x => checkFunc(x.ToString(CultureInfo.CurrentCulture))));
         
         private static bool Check(string s) 
             => (s[0] <= s[1] && s[1] <= s[2] && s[2] <= s[3] && 

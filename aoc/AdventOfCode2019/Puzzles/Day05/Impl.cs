@@ -25,8 +25,7 @@ namespace AdventOfCode2019.Puzzles.Day05
             => await RunVm(Inputs[0], 5);
 
         private async Task<BigInteger> RunVm(string tape, int input)
-        {
-            return await Task.Run(() =>
+            => await Task.Run(() =>
             {
                 var vm = new IntCodeVm(tape);
                 vm.SetInput(input);
@@ -35,9 +34,8 @@ namespace AdventOfCode2019.Puzzles.Day05
                 return vm.GetOutputs().Last();
 
             });
-        }
 
-        public void WriteOutput(string arg)
+        public static void WriteOutput(string arg)
             => Console.WriteLine(arg);
     }
 }
