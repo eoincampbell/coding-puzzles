@@ -2,22 +2,24 @@
  * Day 12: The N-Body Problem
  * https://adventofcode.com/2019/day/12
  * Part 1: 12644
- * Part 2: 
+ * Part 2: 290314621566528
+ * Test Data
+ * Part 1: 183    (179 - 10 Iterations)
+ * Part 2: 2772 
  */
 namespace AdventOfCode2019.Puzzles.Day12
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Base;
 
-    public class Impl : Puzzle<string, int>
+    public class Impl : Puzzle<string, long>
     {
-        public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input-test.txt") { }
-        //public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
+        //public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input-test.txt") { }
+        public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
+        public override async Task<long> RunPart1Async()
         {
             return await Task.Run(() =>
             {
@@ -38,7 +40,7 @@ namespace AdventOfCode2019.Puzzles.Day12
                                 moons[m].UpdateVelocity(moons[o]);
                     
                     foreach (var moon in moons)
-                        moon.UpdatePosition(s);
+                        moon.UpdatePosition();
 
                 }
 
@@ -48,7 +50,7 @@ namespace AdventOfCode2019.Puzzles.Day12
             });
         }
 
-        public override async Task<int> RunPart2Async()
+        public override async Task<long> RunPart2Async()
         {
             return await Task.Run(() =>
             {
@@ -59,31 +61,85 @@ namespace AdventOfCode2019.Puzzles.Day12
 
                 var moons = new[] {io, eu, ga, cl};
 
-                for (var s = 1; s <= 2772 ; s++)
+                HashSet<(int x1, int xv1, int x2, int xv2, int x3, int xv3, int x4, int xv4)> xHashes =
+                    new HashSet<(int, int, int, int, int, int, int, int)>();
+                HashSet<(int y1, int yv1, int y2, int yv2, int y3, int yv3, int y4, int yv4)> yHashes =
+                    new HashSet<(int, int, int, int, int, int, int, int)>();
+                HashSet<(int z1, int zv1, int z2, int zv2, int z3, int zv3, int z4, int zv4)> zHashes =
+                    new HashSet<(int, int, int, int, int, int, int, int)>();
+
+                int xi = 0, yi = 0, zi = 0;
+                
+                while (true)
                 {
+                    var xs = (io.X, io.vX, eu.X, eu.vX, ga.X, ga.vX, cl.X, cl.vX);
+                    if (xHashes.Contains(xs)) break;
+                    
+                    xHashes.Add(xs);
                     for (var m = 0; m < moons.Length; m++)
                     for (var o = 0; o < moons.Length; o++)
                         if (m != o)
-                            moons[m].UpdateVelocity(moons[o]);
-                    
-                    foreach (var moon in moons)
-                        moon.UpdatePosition(s);
+                            moons[m].UpdateVelocity(moons[o], 0);
 
+                    foreach (var moon in moons)
+                        moon.UpdatePosition(0);
+
+                    xi++;
                 }
 
-                //foreach (var m in moons)
-                //{
-                //    var xx = m.PrevPositions.Where(kv => kv.Value.Count > 1);
-                //    foreach (var r in xx)
-                //    {
-                //        Console.WriteLine(r.Key + " | " + string.Join(",", r.Value));
-                //    }
-                //}
+                while (true)
+                {
+                    var ys = (io.Y, io.vY, eu.Y, eu.vY, ga.Y, ga.vY, cl.Y, cl.vY);
+                    if (yHashes.Contains(ys)) break;
+                    
+                    yHashes.Add(ys);
+                    for (var m = 0; m < moons.Length; m++)
+                    for (var o = 0; o < moons.Length; o++)
+                        if (m != o)
+                            moons[m].UpdateVelocity(moons[o], 1);
+
+                    foreach (var moon in moons)
+                        moon.UpdatePosition(1);
+
+                    yi++;
+                }
+
+                while (true)
+                {
+                    var zs = (io.Z, io.vZ, eu.Z, eu.vZ, ga.Z, ga.vZ, cl.Z, cl.vZ);
+                    if (zHashes.Contains(zs)) break;
+                    
+                    zHashes.Add(zs);
+                    for (var m = 0; m < moons.Length; m++)
+                    for (var o = 0; o < moons.Length; o++)
+                        if (m != o)
+                            moons[m].UpdateVelocity(moons[o], 2);
+
+                    foreach (var moon in moons)
+                        moon.UpdatePosition(2);
+
+                    zi++;
+                }
 
 
-
-                return io.TotalEnergy + eu.TotalEnergy + ga.TotalEnergy + cl.TotalEnergy;
+                return Lcm(xi,Lcm(yi,zi));
             });
+        }
+
+        private static long Gcf(long a, long b)
+        {
+            while (b != 0)
+            {
+                var temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        private static long Lcm(long a, long b)
+        {
+            return (a / Gcf(a, b)) * b;
         }
     }
 
@@ -91,8 +147,6 @@ namespace AdventOfCode2019.Puzzles.Day12
 
     public class Moon
     {
-        //public Dictionary<Moon, List<int>> PrevPositions; 
-        
         public int X;
         public int Y;
         public int Z;
@@ -100,18 +154,6 @@ namespace AdventOfCode2019.Puzzles.Day12
         public int vY = 0;
         public int vZ = 0;
         public string Name { get; }
-
-        //private Moon(string name, int x, int y, int z, int vx, int vy, int vz)
-        //{
-        //    Name = name;
-        //    X = x;
-        //    Y = y;
-        //    Z = z;
-        //    vX = vx;
-        //    vY = vy;
-        //    vZ = vz;
-        //    PrevPositions = null;
-        //}
 
         public Moon(string name, string coords)
         {
@@ -123,49 +165,74 @@ namespace AdventOfCode2019.Puzzles.Day12
             X = int.Parse(c[0]);
             Y = int.Parse(c[1]);
             Z = int.Parse(c[2]);
-            
-            //PrevPositions = new Dictionary<Moon, List<int>>
-            //{
-            //    {Clone(), new List<int> {0}}
-            //};
         }
 
         public void UpdateVelocity(Moon other)
         {
-            if (other.X > X) vX++;
-            if (other.X < X) vX--;
-            if (other.Y > Y) vY++;
-            if (other.Y < Y) vY--;
-            if (other.Z > Z) vZ++;
-            if (other.Z < Z) vZ--;
+            UpdateVelocity(other, 0);
+            UpdateVelocity(other, 1);
+            UpdateVelocity(other, 2);
         }
 
-        public void UpdatePosition(int step)
+        public void UpdateVelocity(Moon other, int dimension)
         {
-            X += vX;
-            Y += vY;
-            Z += vZ;
+            if (dimension == 0)
+            {
+                if (other.X > X) vX++;
+                if (other.X < X) vX--;
+            }
 
-            //var clone = Clone();
-            //if (PrevPositions.ContainsKey(clone))
-            //{
-            //    PrevPositions[clone].Add(step);
-            //}
-            //else
-            //{
-            //    PrevPositions.Add(clone, new List<int> {step});
-            //}
-            
+            if (dimension == 1)
+            {
+                if (other.Y > Y) vY++;
+                if (other.Y < Y) vY--;
+            }
+
+            if (dimension == 2)
+            {
+                if (other.Z > Z) vZ++;
+                if (other.Z < Z) vZ--;
+            }
         }
 
-        //public Moon Clone() => new Moon(Name, X, Y, Z, vX, vY, vZ);
+        public void UpdatePosition()
+        {
+            UpdatePosition(0);
+            UpdatePosition(1);
+            UpdatePosition(2);
+        }
+
+        public void UpdatePosition(int dimension)
+        {
+            switch (dimension)
+            {
+                case 0:
+                    X += vX;
+                    break;
+                case 1:
+                    Y += vY;
+                    break;
+                case 2:
+                    Z += vZ;
+                    break;
+            }
+        }
+
 
         public int PotentialEnergy => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
         public int KineticEnergy => Math.Abs(vX) + Math.Abs(vY) + Math.Abs(vZ);
         public int TotalEnergy => PotentialEnergy * KineticEnergy;
 
-        //public override int GetHashCode() => (X, Y, Z, vX, vY, vZ).GetHashCode();
+        public override int GetHashCode() => (X, Y, Z, vX, vY, vZ).GetHashCode();
+        public override bool Equals(object? obj)
+        {
+            if (obj is Moon m)
+            {
+                return m.X == X && m.Y == Y && m.Z == Z && m.vX == vX && m.vY == vY && m.vZ == vZ;
+            }
 
+            return false;
+        }
         public override string ToString() => $"{Name:0,-10}: Pos: {{{X},{Y},{Z}}} Vel: {{{vX},{vY},{vZ}}}";
     }
 }
