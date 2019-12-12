@@ -13,8 +13,8 @@
 
         public CommandBase()
         {
-            Sm = new StateMachine(null);
-            Vm = new IntCodeVm("");
+            Sm = new StateMachine(new Dictionary<BigInteger, BigInteger>());
+            Vm = new IntCodeVm("0");
         }
 
         public void Execute(IntCodeVm vm, StateMachine sm)
