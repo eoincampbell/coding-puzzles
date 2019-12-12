@@ -11,21 +11,22 @@ namespace AdventOfCode2019
     {
         public static async Task Main()
         {
-            await new Puzzles.Day11.Impl().RunBothPartsAsync();
+            await new Puzzles.Day12.Impl().RunBothPartsAsync();
             
-            foreach (var puzzle in GetPuzzles()) 
-                await puzzle.RunBothPartsAsync();
+            //foreach (var puzzle in GetPuzzles()) 
+            //    await puzzle.RunBothPartsAsync();
         }
 
-        private static IEnumerable<IPuzzle> GetPuzzles()
-        {
-            return Assembly
-                .GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
-                .OrderBy(o => o.Namespace)
-                .ThenBy(n => n.Name)
-                .Select(s => Activator.CreateInstance(s) as IPuzzle);
-        }
+        //private static IEnumerable<IPuzzle> GetPuzzles()
+        //{
+        //    return Assembly
+        //        .GetExecutingAssembly()
+        //        .GetTypes()
+        //        .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
+        //        .Where(t => t.IsInstanceOfType(typeof(IPuzzle)))
+        //        .OrderBy(o => o.Namespace)
+        //        .ThenBy(n => n.Name)
+        //        .Select(s => Activator.CreateInstance(s) as IPuzzle);
+        //}
     }
 }
