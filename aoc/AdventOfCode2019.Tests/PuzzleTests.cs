@@ -39,7 +39,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(4462686, a);
         }
 
-
         [Test]
         public async Task Puzzle02_Impl1_Part2()
         {
@@ -57,7 +56,6 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(4462686, a);
         }
-
 
         [Test]
         public async Task Puzzle02_Impl2_Part2()
@@ -77,7 +75,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(399, a);
         }
 
-
         [Test]
         public async Task Puzzle03_Impl1_Part2()
         {
@@ -95,7 +92,6 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(1653, a);
         }
-
 
         [Test]
         public async Task Puzzle04_Impl1_Part2()
@@ -115,7 +111,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(1653, a);
         }
 
-
         [Test]
         public async Task Puzzle04_Imp2_Part2()
         {
@@ -134,7 +129,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(1653, a);
         }
 
-
         [Test]
         public async Task Puzzle04_Imp3_Part2()
         {
@@ -144,7 +138,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(1133, a);
         }
 
-
         [Test]
         public async Task Puzzle05_Impl1_Part1()
         {
@@ -153,7 +146,6 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(new BigInteger(16225258), a);
         }
-
 
         [Test]
         public async Task Puzzle05_Impl1_Part2()
@@ -173,7 +165,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(122782, a);
         }
 
-
         [Test]
         public async Task Puzzle06_Impl1_Part2()
         {
@@ -192,7 +183,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(122782, a);
         }
 
-
         [Test]
         public async Task Puzzle06_Impl2_Part2()
         {
@@ -202,7 +192,6 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(271, a);
         }
 
-
         [Test]
         public async Task Puzzle07_Impl1_Part1()
         {
@@ -211,7 +200,6 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(new BigInteger(22012), a);
         }
-
 
         [Test]
         public async Task Puzzle07_Impl1_Part2()
@@ -230,6 +218,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(1560, a);
         }
+
         [Test]
         public async Task Puzzle08_Impl1_Part2()
         {
@@ -247,6 +236,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(new BigInteger(2465411646), a);
         }
+
         [Test]
         public async Task Puzzle09_Impl1_Part2()
         {
@@ -264,6 +254,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(214, a);
         }
+
         [Test]
         public async Task Puzzle10_Impl1_Part2()
         {
@@ -281,6 +272,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(1564, a);
         }
+
         [Test]
         public async Task Puzzle11_Impl1_Part2()
         {
@@ -298,6 +290,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(12644, a);
         }
+
         [Test]
         public async Task Puzzle12_Impl1_Part2()
         {
@@ -315,6 +308,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(12644, a);
         }
+
         [Test]
         public async Task Puzzle12_Impl2_Part2()
         {
@@ -323,7 +317,6 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart2Async();
             Assert.AreEqual(290314621566528, a);
         }
-
         
         [Test]
         public async Task Puzzle13_Impl1_Part1()
@@ -333,6 +326,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(0, a);
         }
+
         [Test]
         public async Task Puzzle13_Impl1_Part2()
         {
@@ -350,6 +344,7 @@ namespace AdventOfCode2019.Tests
             var a = await p.RunPart1Async();
             Assert.AreEqual(0, a);
         }
+
         [Test]
         public async Task Puzzle14_Impl1_Part2()
         {
@@ -359,5 +354,76 @@ namespace AdventOfCode2019.Tests
             Assert.AreEqual(0, a);
         }
 
+        [Test]
+        public async Task Puzzle15_Impl1_Part1()
+        {
+            var p = new Puzzles.Day15.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart1Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle15_Impl1_Part2()
+        {
+            var p = new Puzzles.Day15.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart2Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle16_Impl1_Part1()
+        {
+            var p = new Puzzles.Day16.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart1Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle16_Impl1_Part2()
+        {
+            var p = new Puzzles.Day16.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart2Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle117_Impl1_Part1()
+        {
+            var p = new Puzzles.Day17.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart1Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle17_Impl1_Part2()
+        {
+            var p = new Puzzles.Day17.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart2Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle18_Impl1_Part1()
+        {
+            var p = new Puzzles.Day18.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart1Async();
+            Assert.AreEqual(0, a);
+        }
+
+        [Test]
+        public async Task Puzzle18_Impl1_Part2()
+        {
+            var p = new Puzzles.Day18.Impl();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart2Async();
+            Assert.AreEqual(0, a);
+        }
     }
 }

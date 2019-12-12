@@ -1,17 +1,17 @@
 ﻿/*
- * Day 14: 
- * https://adventofcode.com/2019/day/14
+ * Day 15: 
+ * https://adventofcode.com/2019/day/15
  * Part 1: 
  * Part 2: 
  */
-namespace AdventOfCode2019.Puzzles.Day14
+namespace AdventOfCode2019.Puzzles.Day15
 {
     using System.Threading.Tasks;
     using Base;
     
     public class Impl : Puzzle<string, int>
     {
-        public Impl() : base("Day 14: ", ".\\Puzzles\\Day14\\Input.txt") { }
+        public Impl() : base("Day 15: ", ".\\Puzzles\\Day15\\Input.txt") { }
 
         public override async Task<int> RunPart1Async()
             => await Task.Run(() =>

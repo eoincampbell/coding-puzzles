@@ -14,19 +14,16 @@ namespace AdventOfCode2019.Puzzles.Day13
         public Impl() : base("Day 13: ", ".\\Puzzles\\Day13\\Input.txt") { }
 
         public override async Task<int> RunPart1Async()
-        {
-            return await Task.Run(() =>
-            {
-                return 0;
-            });
-        }
+             => await Task.Run(() =>
+             {
+                 return 0;
+             });
+
 
         public override async Task<int> RunPart2Async()
-        {
-            return await Task.Run(() =>
+            => await Task.Run(() =>
             {
                 return 0;
             });
-        }
     }
 }
