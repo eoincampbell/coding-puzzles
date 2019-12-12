@@ -296,7 +296,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day12.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(12644, a);
         }
         [Test]
         public async Task Puzzle12_Impl1_Part2()
@@ -304,9 +304,27 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day12.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(290314621566528, a);
         }
 
+        [Test]
+        public async Task Puzzle12_Impl2_Part1()
+        {
+            var p = new Puzzles.Day12.Impl2();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart1Async();
+            Assert.AreEqual(12644, a);
+        }
+        [Test]
+        public async Task Puzzle12_Impl2_Part2()
+        {
+            var p = new Puzzles.Day12.Impl2();
+            await p.ResetInputsAsync();
+            var a = await p.RunPart2Async();
+            Assert.AreEqual(290314621566528, a);
+        }
+
+        
         [Test]
         public async Task Puzzle13_Impl1_Part1()
         {

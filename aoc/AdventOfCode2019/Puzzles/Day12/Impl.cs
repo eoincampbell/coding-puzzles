@@ -124,33 +124,19 @@ namespace AdventOfCode2019.Puzzles.Day12
 
         public void UpdateVelocity(Moon other)
         {
-            UpdateVelocity(other, 0);
-            UpdateVelocity(other, 1);
-            UpdateVelocity(other, 2);
-        }
-
-        public void UpdateVelocity(Moon other, int dimension)
-        {
-            if (dimension == 0 && other.X > X) VX++;
-            if (dimension == 0 && other.X < X) VX--;
-            if (dimension == 1 && other.Y > Y) VY++;
-            if (dimension == 1 && other.Y < Y) VY--;
-            if (dimension == 2 && other.Z > Z) VZ++;
-            if (dimension == 2 && other.Z < Z) VZ--;
+            if (other.X > X) VX++;
+            if (other.X < X) VX--;
+            if (other.Y > Y) VY++;
+            if (other.Y < Y) VY--;
+            if (other.Z > Z) VZ++;
+            if (other.Z < Z) VZ--;
         }
 
         public void UpdatePosition()
         {
-            UpdatePosition(0);
-            UpdatePosition(1);
-            UpdatePosition(2);
-        }
-
-        public void UpdatePosition(int dim)
-        {
-            X += (dim == 0 ? VX : 0);
-            Y += (dim == 1 ? VY : 0);
-            Z += (dim == 2 ? VZ : 0);
+            X += VX;
+            Y += VY;
+            Z += VZ;
         }
 
         public int PotentialEnergy => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
