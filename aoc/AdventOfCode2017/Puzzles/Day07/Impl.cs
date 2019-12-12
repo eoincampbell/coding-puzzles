@@ -28,7 +28,7 @@
 
             return await Task.FromResult($"");
         }
-        public Dictionary<string, TowerInput> ProcessInputs(IEnumerable<string> inputs)
+        public static Dictionary<string, TowerInput> ProcessInputs(IEnumerable<string> inputs)
         {
             //tbxxc (372)
             //ippmv (21) -> btxts, daonbjx, zebuqzh, gyqrut
@@ -51,7 +51,7 @@
 
                 if (!string.IsNullOrWhiteSpace(g[4].Value))
                 {
-                    foreach(var c in g[4].Value.Split(',').Select(s => s.Trim()))
+                    foreach (var c in g[4].Value.Split(',').Select(s => s.Trim()))
                     {
                         var childProgram = dict[c];
                         childProgram.ParentProgram = program;
@@ -59,19 +59,18 @@
                     }
                 }
             }
-            
+
             return dict;
         }
+    }
+    public class TowerInput
+    {
+        public TowerInput ParentProgram;
+        public string ProgramName;
+        public int Weight;
+        public List<TowerInput> ChildPrograms;
+        public int TotalWeight => Weight + (ChildPrograms.Any() ? ChildPrograms.Sum(c => c.TotalWeight) : 0);
 
-        public class TowerInput
-        {
-            public TowerInput ParentProgram;
-            public string ProgramName;
-            public int Weight;
-            public List<TowerInput> ChildPrograms;
-            public int TotalWeight => Weight + (ChildPrograms.Any() ? ChildPrograms.Sum(c => c.TotalWeight) : 0);
-
-            public override string ToString() => $"Name :{ProgramName} | TotalWeight: {TotalWeight}";
-        }
+        public override string ToString() => $"Name :{ProgramName} | TotalWeight: {TotalWeight}";
     }
 }

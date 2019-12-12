@@ -42,8 +42,13 @@ namespace AdventOfCode2019.Puzzles.Day03
         private (Dict firstWire, Dict secondWire) GetWires(string a, string b) 
             => (GetWire(a), GetWire(b));
 
-        public static (char dir, int dist) Parse(string i) 
-            => (i[0], int.Parse(i[1..], CultureInfo.CurrentCulture));
+        public static (char dir, int dist) Parse(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                throw new ArgumentNullException(nameof(input));
+
+            return (input[0], int.Parse(input[1..], CultureInfo.CurrentCulture));
+        }
 
         public static (int x, int y) GetPoint(char dir, ref int x, ref int y)
         {
@@ -59,6 +64,9 @@ namespace AdventOfCode2019.Puzzles.Day03
 
         public static Dict GetWire(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                throw new ArgumentNullException(nameof(input));
+
             var inst = input.Split(',').Select(Parse);
             int x = 0, y = 0, d = 0;
             var dict = new Dict();

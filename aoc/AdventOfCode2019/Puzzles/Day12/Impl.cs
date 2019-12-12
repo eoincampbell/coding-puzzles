@@ -10,6 +10,7 @@
 namespace AdventOfCode2019.Puzzles.Day12
 {
     using System;
+    using System.Globalization;
     using System.Threading.Tasks;
     using Base;
     using MoonHash = System.Collections.Generic.HashSet<(int, int, int, int, int, int, int, int)>;
@@ -117,9 +118,9 @@ namespace AdventOfCode2019.Puzzles.Day12
                     .Replace('<', ' ').Replace('=', ' ').Replace('>', ' ')
                     .Replace('x', ' ').Replace('y', ' ').Replace('z', ' ').Split(",");
 
-                X = int.Parse(c[0]);
-                Y = int.Parse(c[1]);
-                Z = int.Parse(c[2]);
+                X = int.Parse(c[0], CultureInfo.CurrentCulture);
+                Y = int.Parse(c[1], CultureInfo.CurrentCulture);
+                Z = int.Parse(c[2], CultureInfo.CurrentCulture);
             }
 
             public void UpdateVelocity(Moon other)
@@ -142,7 +143,6 @@ namespace AdventOfCode2019.Puzzles.Day12
             public int PotentialEnergy => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
             public int KineticEnergy => Math.Abs(VX) + Math.Abs(VY) + Math.Abs(VZ);
             public int TotalEnergy => PotentialEnergy * KineticEnergy;
-
             public override string ToString() => $"{Name}: Pos: {{{X},{Y},{Z}}} Vel: {{{VX},{VY},{VZ}}}";
         }
     }

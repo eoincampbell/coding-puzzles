@@ -11,6 +11,7 @@ namespace AdventOfCode2019.Puzzles.Day12
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading.Tasks;
     using Base;
     using MoonHash = System.Collections.Generic.HashSet<(int, int, int, int, int, int, int, int)>;
@@ -98,7 +99,7 @@ namespace AdventOfCode2019.Puzzles.Day12
             public Moon(string coords)
             {
                 var c = coords.Replace('<', ' ').Replace('=', ' ').Replace('>', ' ').Replace('x', ' ').Replace('y', ' ').Replace('z', ' ').Split(",");
-                for (var i = 0; i <= 2; i++) Data[i] = int.Parse(c[i]);
+                for (var i = 0; i <= 2; i++) Data[i] = int.Parse(c[i], CultureInfo.CurrentCulture);
             }
 
             public void UpdateVelocity(Moon other)

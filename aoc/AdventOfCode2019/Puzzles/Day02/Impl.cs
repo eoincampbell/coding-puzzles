@@ -8,6 +8,7 @@
 namespace AdventOfCode2019.Puzzles.Day02
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Base;
 
@@ -37,9 +38,11 @@ namespace AdventOfCode2019.Puzzles.Day02
         }
 
         public async static Task<int> RunIntCode(int[] c, int i = 0)
-        {
-            await Task.Run(() =>
+            => await Task.Run(() =>
             {
+                if (c == null || !c.Any()) 
+                    throw new ArgumentNullException(nameof(c));
+
                 while (c[i] != 99)
                 {
                     c[c[i + 3]] = c[i] switch
@@ -50,9 +53,8 @@ namespace AdventOfCode2019.Puzzles.Day02
                         };
                     i += 4;
                 }
+            
+                return c[0];
             });
-
-            return c[0];
-        }
     }
 }
