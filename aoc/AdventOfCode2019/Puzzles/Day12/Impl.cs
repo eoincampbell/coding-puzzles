@@ -109,7 +109,7 @@ namespace AdventOfCode2019.Puzzles.Day12
             public int VX { get; private set; }
             public int VY { get; private set; }
             public int VZ { get; private set; }
-            public string Name { get; }
+            private string Name { get; }
 
             public Moon(string name, string coords)
             {
@@ -140,8 +140,8 @@ namespace AdventOfCode2019.Puzzles.Day12
                 Z += VZ;
             }
 
-            public int PotentialEnergy => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
-            public int KineticEnergy => Math.Abs(VX) + Math.Abs(VY) + Math.Abs(VZ);
+            private int PotentialEnergy => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
+            private int KineticEnergy => Math.Abs(VX) + Math.Abs(VY) + Math.Abs(VZ);
             public int TotalEnergy => PotentialEnergy * KineticEnergy;
             public override string ToString() => $"{Name}: Pos: {{{X},{Y},{Z}}} Vel: {{{VX},{VY},{VZ}}}";
         }
