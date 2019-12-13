@@ -26,7 +26,7 @@ namespace AdventOfCode2019.Tests
         }
 
         [Test]
-        public async Task Puzzle117_Impl1_Part1()
+        public async Task Puzzle17_Impl1_Part1()
         {
             var p = new Puzzles.Day17.Impl();
             await p.ResetInputsAsync();

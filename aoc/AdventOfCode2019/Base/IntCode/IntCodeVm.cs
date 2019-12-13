@@ -5,6 +5,14 @@
     using System.Linq;
     using System.Numerics;
 
+    public enum VmState
+    {
+        Running,
+        Halted,
+        Paused,
+        PausedAwaitingInput
+    }
+
     public class IntCodeVm
     {
         private readonly StateMachine _sm;
@@ -12,8 +20,9 @@
         private readonly Queue<BigInteger> _out = new Queue<BigInteger>();
         public Action<string> LogAction { get; set; }
         private BigInteger _lastOutput;
-        public bool IsHalted { get; private set; }
-        public bool IsPaused { get; private set; }
+        public VmState State {get; private set; }
+        //public bool IsHalted { get; private set; }
+        //public bool IsPaused { get; private set; }
 
         public IntCodeVm(string memory) : this(Array.ConvertAll(memory?.Split(','), BigInteger.Parse)) { }
 
@@ -28,19 +37,20 @@
 
         #region Program Control Flow
 
-        public bool RunProgram()
+        public VmState RunProgram()
         {
-            while (!IsHalted) ProcessNextCommand();
+            State = VmState.Running;
+            while (State != VmState.Halted) ProcessNextCommand();
 
-            return IsHalted;
+            return State;
         }
 
-        public bool RunProgramPauseAtOutput()
+        public VmState RunProgramPauseAtOutput()
         {
-            IsPaused = false;
-            while (!IsPaused && !IsHalted) ProcessNextCommand();
+            State = VmState.Running;
+            while (State != VmState.Halted && State != VmState.Paused) ProcessNextCommand();
 
-            return IsHalted;
+            return State;
         }
 
         private void ProcessNextCommand()
@@ -51,8 +61,9 @@
             LogAction?.Invoke($"{oc:00} {_sm.GetPointer():0000} {com.CommandName}");            
         }
 
-        public void Halt() => IsHalted = true;
-        public void Pause() => IsPaused = true;
+        public void Halt() => State = VmState.Halted;
+        public void Pause() => State = VmState.Paused;
+        public void PauseAwaitingInput() => State = VmState.PausedAwaitingInput;
 
         #endregion
 
@@ -63,7 +74,12 @@
         public void SetValue(BigInteger p, BigInteger val) => _sm.SetValue(p, val);
 
         //Inputs
-        public BigInteger GetInput() => _in.Dequeue();
+        public BigInteger GetInput(out bool success)
+        {
+            success = _in.TryDequeue(out var temp);
+            return success ? temp : 0;
+        }
+
         public void SetInput(BigInteger input) => _in.Enqueue(input);
         
         //Output

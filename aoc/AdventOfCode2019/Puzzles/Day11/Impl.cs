@@ -24,7 +24,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         private int _maxX;
         private int _maxY;
         private int _color;
-        private bool _halted;
+        private VmState _halted;
         private IntCodeVm _robotBrain;
         private ConcurrentDictionary<(int x, int y), int> _pnls;
         private static readonly (int x, int y) [] Dirs = 
@@ -40,7 +40,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         public override async Task<int> RunPart1Async() => await Task.Run(() 
             => {
                 Reset(0); //part 1 - start on black
-                while (!_halted) PaintPanel();
+                while (_halted != VmState.Halted) PaintPanel();
 
                 return _pnls.Keys.Count;
             });
@@ -48,7 +48,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         public override async Task<int> RunPart2Async() => await Task.Run(() 
             => {
                 Reset(1); //part 2 - start on white
-                while (!_halted) PaintPanel();
+                while (_halted != VmState.Halted) PaintPanel();
                 
                 ShowPaint();
                 return _pnls.Keys.Count;
@@ -59,7 +59,7 @@ namespace AdventOfCode2019.Puzzles.Day11
             _pnls = new ConcurrentDictionary<(int x, int y), int>();
             _robotBrain = new IntCodeVm(Inputs[0]);
             _x = _y = _dirIdx = _minX = _maxX = _minY = _maxY = 0;
-            _halted = false;
+            _halted = VmState.Running;
             _color = color;
         }
 
@@ -73,7 +73,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         {
             _robotBrain.SetInput(_color);                       //Input
             _halted = _robotBrain.RunProgramPauseAtOutput();    //Panel Coloring
-            if (_halted) return;                                //Bail if Halted
+            if (_halted == VmState.Halted) return;                                //Bail if Halted
             _color = (int) _robotBrain.GetOutput();
             ApplyPaintToPanel(_color);
             _robotBrain.RunProgramPauseAtOutput();              //Turning & Movement

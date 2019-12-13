@@ -57,14 +57,14 @@ namespace AdventOfCode2019.Puzzles.Day07
                     var vms = GetVms(phaseSettings);
                     BigInteger result = 0;
 
-                    while (!vms[0].IsHalted)
+                    while (vms[0].State != VmState.Halted)
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            vms[i].RunProgramPauseAtOutput();
+                            var state = vms[i].RunProgramPauseAtOutput();
                             var nextOutput = vms[i].GetOutput();
-                                
-                            if (i == 4 && vms[4].IsHalted)
+                            
+                            if (i == 4 && vms[4].State == VmState.Halted)
                                 result = nextOutput;
                             else
                             {

@@ -77,8 +77,14 @@
         public override Command CommandName => Command.Inp;
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
-            Sm.SetValueOffset(1, modes, Vm.GetInput());
-            Sm.SetPointer(Sm.GetPointer() + 2);
+            var input = Vm.GetInput(out var hasInput);
+            if (hasInput)
+            {
+                Sm.SetValueOffset(1, modes, input);
+                Sm.SetPointer(Sm.GetPointer() + 2);
+            }
+
+            Vm.PauseAwaitingInput();
         }
     }
 
