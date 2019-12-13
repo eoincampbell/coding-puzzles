@@ -96,7 +96,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day13.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(341, a);
+            Assert.AreEqual(0, a);
         }
 
         [Test]

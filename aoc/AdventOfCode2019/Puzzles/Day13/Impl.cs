@@ -76,32 +76,32 @@ namespace AdventOfCode2019.Puzzles.Day13
 
         public override async Task<int> RunPart2Async()
         {
-            ResetVm();
-            _vm.SetValue(0, 2);
+            //ResetVm();
+            //_vm.SetValue(0, 2);
 
-            var state = VmState.Running;
+            //var state = VmState.Running;
 
-            while (state != VmState.Halted)
-            {
-                state = _vm.RunProgramUntilInputRequired();
+            //while (state != VmState.Halted)
+            //{
+            //    state = _vm.RunProgramUntilInputRequired();
 
-                if (state == VmState.Halted)
-                {
-                    ProcessAnyOutputs();
-                    break;
-                }
+            //    if (state == VmState.Halted)
+            //    {
+            //        ProcessAnyOutputs();
+            //        break;
+            //    }
 
-                if (state != VmState.PausedAwaitingInput) continue;
+            //    if (state != VmState.PausedAwaitingInput) continue;
 
-                ProcessAnyOutputs();
-                RenderOutput();
-                ProcessInputCommand();
+            //    ProcessAnyOutputs();
+            //    RenderOutput();
+            //    ProcessInputCommand();
 
-                await Task.Delay(2000);
+            //    await Task.Delay(2000);
 
-            }
+            //}
 
-            return _score;
+            return _blocks; //_score;
         }
 
         private void ProcessInputCommand()
@@ -179,6 +179,8 @@ namespace AdventOfCode2019.Puzzles.Day13
 
         private void RenderOutput()
         {
+            if(Console.IsOutputRedirected) return;
+
             Console.SetCursorPosition(0, 0);
             for (var yy = 0; yy <= _maxY; yy++)
             for (var xx = 0; xx <= _maxX; xx++)
