@@ -9,7 +9,7 @@
     {
         Running,
         Halted,
-        Paused,
+        PausedHasOutput,
         PausedAwaitingInput
     }
 
@@ -37,7 +37,7 @@
 
         #region Program Control Flow
 
-        public VmState RunProgram()
+        public VmState RunProgramUntilHalt()
         {
             State = VmState.Running;
             while (State != VmState.Halted) ProcessNextCommand();
@@ -45,13 +45,30 @@
             return State;
         }
 
-        public VmState RunProgramPauseAtOutput()
+        public VmState RunProgramUntilOutputAvailable()
         {
             State = VmState.Running;
-            while (State != VmState.Halted && State != VmState.Paused) ProcessNextCommand();
+            while (State != VmState.Halted && State != VmState.PausedHasOutput) ProcessNextCommand();
 
             return State;
         }
+
+        public VmState RunProgramUntilInputRequired()
+        {
+            State = VmState.Running;
+            while (State != VmState.Halted && State != VmState.PausedAwaitingInput) ProcessNextCommand();
+
+            return State;
+        }
+
+        public VmState RunProgramUntilUserActionRequired()
+        {
+            State = VmState.Running;
+            while (State == VmState.Running) ProcessNextCommand();
+
+            return State;
+        }
+
 
         private void ProcessNextCommand()
         {
@@ -62,7 +79,7 @@
         }
 
         public void Halt() => State = VmState.Halted;
-        public void Pause() => State = VmState.Paused;
+        public void PauseHasOutput() => State = VmState.PausedHasOutput;
         public void PauseAwaitingInput() => State = VmState.PausedAwaitingInput;
 
         #endregion
@@ -91,6 +108,7 @@
                 yield return (_lastOutput = _out.Dequeue());
         }
         public void SetOutput(BigInteger output) => _out.Enqueue(output);
+        public bool HasOutputs => _out.Any();
 
 
         #endregion

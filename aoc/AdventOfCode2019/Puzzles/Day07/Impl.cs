@@ -33,7 +33,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                         var vm = new IntCodeVm(Inputs[0]);
                         vm.SetInput(ps);
                         vm.SetInput(nextInput);
-                        vm.RunProgram();
+                        vm.RunProgramUntilHalt();
                         nextInput = vm.GetOutput();
                     }
 
@@ -61,7 +61,7 @@ namespace AdventOfCode2019.Puzzles.Day07
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            var state = vms[i].RunProgramPauseAtOutput();
+                            var state = vms[i].RunProgramUntilOutputAvailable();
                             var nextOutput = vms[i].GetOutput();
                             
                             if (i == 4 && vms[4].State == VmState.Halted)

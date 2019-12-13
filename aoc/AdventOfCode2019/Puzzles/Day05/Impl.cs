@@ -29,7 +29,7 @@ namespace AdventOfCode2019.Puzzles.Day05
             {
                 var vm = new IntCodeVm(tape);
                 vm.SetInput(input);
-                vm.RunProgram();
+                vm.RunProgramUntilHalt();
 
                 return vm.GetOutputs().Last();
 

@@ -96,7 +96,7 @@
         protected override void ExecuteImpl(Mode[] modes, BigInteger[] p)
         {
             Vm.SetOutput(p[0]);
-            Vm.Pause();
+            Vm.PauseHasOutput();
             Sm.SetPointer(Sm.GetPointer() + 2);
         }
     }

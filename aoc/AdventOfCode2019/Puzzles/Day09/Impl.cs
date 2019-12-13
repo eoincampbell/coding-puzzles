@@ -24,7 +24,7 @@ namespace AdventOfCode2019.Puzzles.Day09
         {
             var vm = new IntCodeVm(tape);
             vm.SetInput(input);
-            vm.RunProgram();
+            vm.RunProgramUntilHalt();
             var results = vm.GetOutputs().ToList();
             return results.Last();
         });

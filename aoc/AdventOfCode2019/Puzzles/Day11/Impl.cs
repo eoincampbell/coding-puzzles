@@ -72,11 +72,11 @@ namespace AdventOfCode2019.Puzzles.Day11
         private void PaintPanel()
         {
             _robotBrain.SetInput(_color);                       //Input
-            _halted = _robotBrain.RunProgramPauseAtOutput();    //Panel Coloring
+            _halted = _robotBrain.RunProgramUntilOutputAvailable();    //Panel Coloring
             if (_halted == VmState.Halted) return;                                //Bail if Halted
             _color = (int) _robotBrain.GetOutput();
             ApplyPaintToPanel(_color);
-            _robotBrain.RunProgramPauseAtOutput();              //Turning & Movement
+            _robotBrain.RunProgramUntilOutputAvailable();              //Turning & Movement
             Move(_robotBrain.GetOutput() == 0 ? -1 : 1);        //Convert Left 0 into a -1 for indexing
             _color= ReadColorFromCamera();                      //Camera for next Iteration
         }
