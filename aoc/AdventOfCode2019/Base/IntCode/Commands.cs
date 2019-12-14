@@ -1,5 +1,6 @@
 ﻿namespace AdventOfCode2019.Base.IntCode
 {
+    using System;
     using System.Collections.Generic;
     using System.Numerics;
 
@@ -20,6 +21,6 @@
         };
 
         public static ICommand Get(BigInteger key)
-            => Values?.GetValueOrDefault((Command)((int)key));
+            => Values?.GetValueOrDefault((Command)((int)key)) ?? throw new ArgumentNullException(nameof(key));
     }
 }

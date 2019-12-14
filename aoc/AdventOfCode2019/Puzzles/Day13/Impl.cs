@@ -15,12 +15,12 @@ namespace AdventOfCode2019.Puzzles.Day13
 
     public class Impl : Puzzle<string, int>
     {
-        private const char SPCE = ' ';
-        private const char BLOK = '▄';
-        private const char WALL = '█';
-        private const char PADL = '_';
-        private const char BALL = 'o';
-        private static readonly Dictionary<int, char> TileCodes = new Dictionary<int, char>
+        private const string SPCE = "  ";
+        private const string BLOK = "▄▄";
+        private const string WALL = "██";
+        private const string PADL = "▬▬";
+        private const string BALL = "()";
+        private static readonly Dictionary<int, string> TileCodes = new Dictionary<int, string>
         {
             {0, SPCE},
             {1, WALL},
@@ -32,23 +32,23 @@ namespace AdventOfCode2019.Puzzles.Day13
         private (int x, int y) _max;
         private int _blocks;
         private int _score;
-        private IntCodeVm _vm;
+        private IntCodeVm? _vm;
         private VmState _state;
         private (int x, int y) _ballPos;
         private (int x, int y) _ballPrevPos;
         private int _paddlePositionX;
         private bool _playAreaRendered;
         private readonly bool _render;
-        private Dictionary<(int x, int y), char> _tiles = new Dictionary<(int x, int y), char>();
+        private Dictionary<(int x, int y), string> _tiles = new Dictionary<(int x, int y), string>();
 
-        public Impl() : base("Day 13: ", ".\\Puzzles\\Day13\\Input.txt") => _render = false;
+        public Impl() : this(false) { }
         public Impl(bool render) : base("Day 13: ", ".\\Puzzles\\Day13\\Input.txt") => _render = render;
-
+        
         public override async Task<int> RunPart1Async()
              => await Task.Run(() =>
              {
                  ResetVm();
-                 _vm.RunProgramUntilHalt();
+                 _vm?.RunProgramUntilHalt();
                  ProcessAnyOutputs();
                  RenderOutput();
                  SetFinalCursorPosition(2);
@@ -58,10 +58,10 @@ namespace AdventOfCode2019.Puzzles.Day13
         public override async Task<int> RunPart2Async()
         {
             ResetVm();
-            _vm.SetValue(0, 2);
+            _vm?.SetValue(0, 2);
             while (_state != VmState.Halted)
             {
-                _state = _vm.RunProgramUntilInputRequired();
+                _state = _vm?.RunProgramUntilInputRequired() ?? VmState.Halted;
                 if (_state == VmState.Halted)
                 {
                     ProcessAnyOutputs();
@@ -114,17 +114,17 @@ namespace AdventOfCode2019.Puzzles.Day13
 
             if (_paddlePositionX < next)
             {
-                _vm.SetInput(1);
+                _vm?.SetInput(1);
                 _paddlePositionX++;
             }
             else if(_paddlePositionX > next)
             {
-                _vm.SetInput(-1);
+                _vm?.SetInput(-1);
                 _paddlePositionX--;
             }
             else
             {
-                _vm.SetInput(0);
+                _vm?.SetInput(0);
             }
         }
 
@@ -132,7 +132,7 @@ namespace AdventOfCode2019.Puzzles.Day13
         {
             _vm = new IntCodeVm(Inputs[0]);
             _state = _vm.State;
-            _tiles = new Dictionary<(int x, int y), char>();
+            _tiles = new Dictionary<(int x, int y), string>();
             _max = (0, 0);
             _blocks = 0;
             _ballPos = (0,0);
@@ -145,7 +145,7 @@ namespace AdventOfCode2019.Puzzles.Day13
         private bool ProcessAnyOutputs()
         {
             var ballMoved = false;
-            if (!_vm.HasOutputs) return false;
+            if (_vm == null || !_vm.HasOutputs) return false;
 
             var results = _vm.GetOutputs().ToList();
 
@@ -155,12 +155,7 @@ namespace AdventOfCode2019.Puzzles.Day13
                 if (results[i] == -1 && results[i + 1] == 0)
                 {
                     _score = (int)results[i + 2];
-
-                    if (_render)
-                    {
-                        Console.SetCursorPosition(0, _max.y + 1);
-                        Console.WriteLine($"Score: {_score}");
-                    }
+                    RenderScore();
                 }
                 else
                 {
@@ -190,7 +185,18 @@ namespace AdventOfCode2019.Puzzles.Day13
             return ballMoved;
         }
 
-        private async Task Wait() => await Task.Delay(_render ? 5 : 0);
+        private async Task Wait() => await Task.Delay(_render ? 1 : 0);
+
+
+        private void RenderScore()
+        {
+            if (_render)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, _max.y + 1);
+                Console.WriteLine($"Score: {_score}");
+            }
+        }
 
         private void RenderPlayArea()
         {
@@ -199,7 +205,7 @@ namespace AdventOfCode2019.Puzzles.Day13
             for (var yy = 0; yy <= _max.y; yy++)
             for (var xx = 0; xx <= _max.x; xx++)
             {
-                Console.Write(" ");
+                Console.Write(SPCE);
                 if (xx == _max.x) Console.WriteLine("");
             }
 
@@ -214,7 +220,20 @@ namespace AdventOfCode2019.Puzzles.Day13
             foreach (var key in _tiles.Keys)
             {
                 var t = _tiles[key];
-                Console.SetCursorPosition(key.x, key.y);
+                
+                if(t == BLOK)
+                {
+                    Console.ForegroundColor = (((key.x * 10) + key.y) % 3) switch
+                    {
+                        1 => ConsoleColor.Red,
+                        2 => ConsoleColor.Green,
+                        _ => ConsoleColor.Blue
+                    };
+                }
+                else {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.SetCursorPosition(key.x*2, key.y);
                 Console.Write(t);
             }
         }

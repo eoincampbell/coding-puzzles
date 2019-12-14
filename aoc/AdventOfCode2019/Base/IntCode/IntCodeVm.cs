@@ -18,13 +18,13 @@
         private readonly StateMachine _sm;
         private readonly Queue<BigInteger> _in = new Queue<BigInteger>();
         private readonly Queue<BigInteger> _out = new Queue<BigInteger>();
-        public Action<string> LogAction { get; set; }
+        public Action<string>? LogAction { get; set; }
         private BigInteger _lastOutput;
         public VmState State {get; private set; }
         //public bool IsHalted { get; private set; }
         //public bool IsPaused { get; private set; }
 
-        public IntCodeVm(string memory) : this(Array.ConvertAll(memory?.Split(','), BigInteger.Parse)) { }
+        public IntCodeVm(string memory) : this(memory != null ? Array.ConvertAll(memory.Split(','), BigInteger.Parse) : Array.Empty<BigInteger>()) { }
 
         public IntCodeVm(IEnumerable<BigInteger> memory)
         {

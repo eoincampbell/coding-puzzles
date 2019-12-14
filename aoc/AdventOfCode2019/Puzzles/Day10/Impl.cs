@@ -94,7 +94,7 @@ namespace AdventOfCode2019.Puzzles.Day10
 
         public static bool operator !=(Asteroid s, Asteroid t) => !(s == t);
         public bool Equals(Asteroid other) => this == other;
-        public override bool Equals(object obj) => (obj is Asteroid a) && this == a; 
+        public override bool Equals(object? obj) => (obj is Asteroid a) && this == a; 
 
     }
 }

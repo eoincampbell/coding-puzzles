@@ -25,8 +25,8 @@ namespace AdventOfCode2019.Puzzles.Day11
         private int _maxY;
         private int _color;
         private VmState _halted;
-        private IntCodeVm _robotBrain;
-        private ConcurrentDictionary<(int x, int y), int> _pnls;
+        private IntCodeVm? _robotBrain;
+        private ConcurrentDictionary<(int x, int y), int>? _pnls;
         private static readonly (int x, int y) [] Dirs = 
         {
             (0, -1), //N
@@ -42,7 +42,7 @@ namespace AdventOfCode2019.Puzzles.Day11
                 Reset(0); //part 1 - start on black
                 while (_halted != VmState.Halted) PaintPanel();
 
-                return _pnls.Keys.Count;
+                return _pnls?.Keys.Count ?? 0;
             });
 
         public override async Task<int> RunPart2Async() => await Task.Run(() 
@@ -51,7 +51,7 @@ namespace AdventOfCode2019.Puzzles.Day11
                 while (_halted != VmState.Halted) PaintPanel();
                 
                 ShowPaint();
-                return _pnls.Keys.Count;
+                return _pnls?.Keys.Count ?? 0;
             });
 
         private void Reset(int color)
@@ -64,21 +64,21 @@ namespace AdventOfCode2019.Puzzles.Day11
         }
 
         private int ReadColorFromCamera()
-            => _pnls.ContainsKey((_x,_y)) ? _pnls[(_x, _y)] : 0;
+            => (_pnls != null && _pnls.ContainsKey((_x,_y))) ? _pnls[(_x, _y)] : 0;
 
         private void ApplyPaintToPanel(int color) 
-            =>_pnls.AddOrUpdate((_x, _y), color, (x,y) => color);
+            =>_pnls?.AddOrUpdate((_x, _y), color, (x,y) => color);
 
         private void PaintPanel()
         {
-            _robotBrain.SetInput(_color);                       //Input
-            _halted = _robotBrain.RunProgramUntilOutputAvailable();    //Panel Coloring
-            if (_halted == VmState.Halted) return;                                //Bail if Halted
-            _color = (int) _robotBrain.GetOutput();
+            _robotBrain?.SetInput(_color);                                              //Input
+            _halted = _robotBrain?.RunProgramUntilOutputAvailable() ?? VmState.Halted;  //Panel Coloring
+            if (_halted == VmState.Halted) return;                                      //Bail if Halted
+            _color = (int)(_robotBrain?.GetOutput() ?? 0);
             ApplyPaintToPanel(_color);
-            _robotBrain.RunProgramUntilOutputAvailable();              //Turning & Movement
-            Move(_robotBrain.GetOutput() == 0 ? -1 : 1);        //Convert Left 0 into a -1 for indexing
-            _color= ReadColorFromCamera();                      //Camera for next Iteration
+            _robotBrain?.RunProgramUntilOutputAvailable();       //Turning & Movement
+            Move(_robotBrain?.GetOutput() == 0 ? -1 : 1);        //Convert Left 0 into a -1 for indexing
+            _color= ReadColorFromCamera();                       //Camera for next Iteration
         }
 
         private void Move(int turnCode)
@@ -96,7 +96,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         { 
             for (var iy = _minY; iy <= _maxY; iy++)
                 for (var ix = _minX; ix <= _maxX; ix++)
-                    Console.Write($"{(_pnls.GetOrAdd((ix, iy), _ => 0) == 1 ? White : Black)}{(ix == _maxX ? "\n" : "")}");
+                    Console.Write($"{(_pnls != null && _pnls.GetOrAdd((ix, iy), _ => 0) == 1 ? White : Black)}{(ix == _maxX ? "\n" : "")}");
         }
     }
 }

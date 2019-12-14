@@ -16,8 +16,8 @@ namespace AdventOfCode2019.Puzzles.Day06
     {
         public Impl() : base("Day 06: Universal Orbit Map", ".\\Puzzles\\Day06\\Input.txt") { }
 
-        private Dictionary<string, int> _levels;
-        private Dictionary<string, string> _orbits;
+        private Dictionary<string, int> _levels = new Dictionary<string, int>();
+        private Dictionary<string, string> _orbits = new Dictionary<string, string>();
         private int _numTransfers = 0;
 
         public override async Task<int> RunPart1Async()

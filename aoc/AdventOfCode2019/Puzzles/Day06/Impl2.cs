@@ -16,7 +16,10 @@
     public class Impl2 : Puzzle<string, int>
     {
         private Graph _graph;
-        public Impl2() : base("Day 06: Universal Orbit Map (QuickGraph)", ".\\Puzzles\\Day06\\Input.txt") { }        
+        public Impl2() : base("Day 06: Universal Orbit Map (QuickGraph)", ".\\Puzzles\\Day06\\Input.txt") 
+        {
+            _graph = new Graph();
+        }        
 
         public override async Task<int> RunPart1Async()
         {
