@@ -80,14 +80,18 @@ namespace AdventOfCode2019.Puzzles.Day13
 
                 await Wait();
             }
+            RenderWinner();
             SetFinalCursorPosition(3);
             return _score;
         }
 
         private void SetFinalCursorPosition(int i)
         {
-            if(_render)
-                Console.SetCursorPosition(0, _max.y + i);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            if (!_render) return;
+                
+            Console.SetCursorPosition(0, _max.y + i);
         }
 
         private void ProcessInputCommand()
@@ -185,7 +189,7 @@ namespace AdventOfCode2019.Puzzles.Day13
             return ballMoved;
         }
 
-        private async Task Wait() => await Task.Delay(_render ? 1 : 0);
+        private async Task Wait() => await Task.Delay(_render ? 0 : 0);
 
 
         private void RenderScore()
@@ -237,5 +241,45 @@ namespace AdventOfCode2019.Puzzles.Day13
                 Console.Write(t);
             }
         }
+
+        private void RenderWinner()
+        {
+            if (!_render) return;
+            string[] winner = new []
+            {
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "      ██      ██      ██   ██   ███   ██   ███   ██   ███████   ███████    ██       ",
+                "       ██    ████    ██    ██   ████  ██   ████  ██   ██        ██    ██   ██       ",
+                "        ██  ██  ██  ██     ██   ██ ██ ██   ██ ██ ██   █████     ██████     ██       ",
+                "         ████    ████      ██   ██  ████   ██  ████   ██        ██   ██             ",
+                "          ██      ██       ██   ██   ███   ██   ███   ███████   ██    ██   ██       ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+                "                                                                                    ",
+            };
+
+            int i = 1;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(2, i);
+
+            foreach(var s in winner)
+            {
+                Console.Write(s);
+                i++;
+                Console.SetCursorPosition(2, i);
+            }
+        }
+
+
     }
 }
