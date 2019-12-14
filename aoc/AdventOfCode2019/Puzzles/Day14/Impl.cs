@@ -4,11 +4,10 @@
  * Part 1: 1582325 ore for 1 fuel
  * Part 2: 2267486 fuel from 1 Trillion Ore
  */
-using System.Collections.Generic;
-
 namespace AdventOfCode2019.Puzzles.Day14
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,22 +17,19 @@ namespace AdventOfCode2019.Puzzles.Day14
     {
         public Impl() : base("Day 14: Space Stoichiometry", ".\\Puzzles\\Day14\\Input.txt")
         {
-            _componentLevels = new Dictionary<string, int>();
+            _lvls = new Dictionary<string, int>();
             _formulae = new Dictionary<string, (Chemical output, List<Chemical> inputs)>();
         }
 
         private Dictionary<string, (Chemical output, List<Chemical> inputs)> _formulae;
-        private Dictionary<string, int> _componentLevels;
+        private Dictionary<string, int> _lvls;
 
         public override async Task<long> RunPart1Async()
             => await Task.Run(() =>
             {
                 Setup();
-                
-                var amounts = new Dictionary<string, long>();
-                amounts.Add("FUEL", 1);
+                var amounts = new Dictionary<string, long> { { "FUEL", 1 } };
                 ProcessSubComponent(amounts);
-
                 return amounts["ORE"];
             });
 
@@ -43,9 +39,7 @@ namespace AdventOfCode2019.Puzzles.Day14
             => await Task.Run(() =>
             {
                 Setup();
-
-                long target = 1_000_000_000_000, ore = 0;
-                long min = 0, max = 5_000_000, mid = (min + max) / 2;
+                long target = 1_000_000_000_000, ore = 0, min = 0, max = 5_000_000, mid = (min + max) / 2;
                 var amounts = new Dictionary<string, long>();
                 while (min <= max)
                 {
@@ -54,78 +48,61 @@ namespace AdventOfCode2019.Puzzles.Day14
                     ProcessSubComponent(amounts);
                     ore = amounts["ORE"];
 
-                    Console.WriteLine($"{mid} fuel requires {ore} ore");
-
                     if (ore < target)
                         min = mid + 1;
                     else if (ore > target)
                         max = mid - 1;
                 }
-
                 return mid;
             });
 
-
-        private void SetLevels(Chemical component, int level)
+        private void SetLevels(string name, int level)
         {
-            var (o, i) = _formulae[component.Name];
-
-            foreach(var sc in i)
+            foreach(var sc in _formulae[name].inputs)
             {
-                if (_componentLevels.ContainsKey(sc.Name))
+                if (_lvls.ContainsKey(sc.Name))
                 {
-                    if(_componentLevels[sc.Name] < level + 1)
-                        _componentLevels[sc.Name] = level + 1;
+                    if(_lvls[sc.Name] < level + 1) //only change the level if it'll push it lower in the hierarchy
+                        _lvls[sc.Name] = level + 1;
                 }
                 else
-                    _componentLevels.Add(sc.Name, level + 1);
+                    _lvls.Add(sc.Name, level + 1);
                 
-                if (sc.Name != "ORE")
-                    SetLevels(_formulae[sc.Name].output, level + 1);
+                if (sc.Name != "ORE") SetLevels(sc.Name, level + 1); //don't recursively process ORE
             }
-
         }
+
         private void Setup()
         {
-            _componentLevels = new Dictionary<string, int>();
             _formulae = new Dictionary<string, (Chemical output, List<Chemical> inputs)>();
+            foreach (var (o,i) in Inputs.Select(ParseFormula))
+                _formulae.Add(o.Name, (o, i));
 
-            foreach (var i in Inputs)
-            {
-                var (output, inputs) = ParseFormula(i);
-                _formulae.Add(output.Name, (output, inputs));
-            }
-
-            _componentLevels.Add("FUEL", 1);
-            SetLevels(_formulae["FUEL"].output, 1);
+            _lvls = new Dictionary<string, int>() { { "FUEL", 1 } };
+            SetLevels("FUEL", 1);
         }
-
 
         private void ProcessSubComponent(Dictionary<string, long> _amounts)
         {
-            for(int currLevel = 1; currLevel <= _componentLevels.Values.Max(); currLevel++)
+            for(int currLevel = 1; currLevel <= _lvls.Values.Max(); currLevel++)
             {
-                var components = _componentLevels.Where(kv => kv.Value == currLevel && kv.Key != "ORE");
-
-                foreach (var c in components)
+                foreach (var (name, lvl) in _lvls.Where(kv => kv.Value == currLevel && kv.Key != "ORE"))
                 {
-                    var (o, i) = _formulae[c.Key];
-                    var amountRequired = _amounts[c.Key];
-                    var multiplier = (long)Math.Ceiling((double)amountRequired / o.Amount);
-
-                    foreach (var subc in i)
-                        if (_amounts.ContainsKey(subc.Name))
-                            _amounts[subc.Name] += (subc.Amount * multiplier);
+                    var (output, inputs) = _formulae[name];
+                    var amountRequired = _amounts[name];
+                    var multiplier = (long)Math.Ceiling((double)amountRequired / output.Amount);
+                    foreach (var i in inputs)
+                        if (_amounts.ContainsKey(i.Name))
+                            _amounts[i.Name] += (i.Amount * multiplier);
                         else
-                            _amounts.Add(subc.Name, subc.Amount * multiplier);
+                            _amounts.Add(i.Name, i.Amount * multiplier);
                 }
             }
         }
 
         private static (Chemical output, List<Chemical> inputs) ParseFormula(string s)
         {
-            if (string.IsNullOrWhiteSpace(s))
-                throw new ArgumentNullException(nameof(s));
+            if (string.IsNullOrWhiteSpace(s)) throw new ArgumentNullException(nameof(s));
 
             var ss = s.Split("=>");
             var oChem = new Chemical(ss[1]);
