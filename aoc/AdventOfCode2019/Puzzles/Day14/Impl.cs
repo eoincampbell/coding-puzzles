@@ -4,130 +4,104 @@
  * Part 1: 1582325 ore for 1 fuel
  * Part 2: 2267486 fuel from 1 Trillion Ore
  */
+using System.Collections.Generic;
 namespace AdventOfCode2019.Puzzles.Day14
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
-
+    using TrackerDict = Dictionary<string, long>;
+    using FormulaDict = Dictionary<string, (Chemical output, IEnumerable<Chemical> inputs)>;
     public class Impl : Puzzle<string, long>
     {
-        public Impl() : base("Day 14: Space Stoichiometry", ".\\Puzzles\\Day14\\Input.txt")
-        {
-            _lvls = new Dictionary<string, int>();
-            _formulae = new Dictionary<string, (Chemical output, List<Chemical> inputs)>();
-        }
+        private FormulaDict _formulae = new FormulaDict();
+        private TrackerDict _lvls = new TrackerDict();
+        private TrackerDict _amts = new TrackerDict();
+        private const string FUEL = "FUEL";
+        private const string ORE = "ORE";
 
-        private Dictionary<string, (Chemical output, List<Chemical> inputs)> _formulae;
-        private Dictionary<string, int> _lvls;
-
+        public Impl() : base("Day 14: Space Stoichiometry", ".\\Puzzles\\Day14\\Input.txt") { }
+        
         public override async Task<long> RunPart1Async()
             => await Task.Run(() =>
             {
                 Setup();
-                var amounts = new Dictionary<string, long> { { "FUEL", 1 } };
-                ProcessSubComponent(amounts);
-                return amounts["ORE"];
+                _amts = new TrackerDict { { FUEL, 1 } };
+                ProcessSubComponent();
+                return _amts[ORE];
             });
-
-
 
         public override async Task<long> RunPart2Async()
             => await Task.Run(() =>
             {
                 Setup();
-                long target = 1_000_000_000_000, ore = 0, min = 0, max = 5_000_000, mid = (min + max) / 2;
-                var amounts = new Dictionary<string, long>();
+                long tgt = 1_000_000_000_000, min = 0, max = 5_000_000, mid = (min + max) / 2;
                 while (min <= max)
                 {
-                    mid = (min + max) / 2;
-                    amounts = new Dictionary<string, long> { { "FUEL", mid } };
-                    ProcessSubComponent(amounts);
-                    ore = amounts["ORE"];
-
-                    if (ore < target)
-                        min = mid + 1;
-                    else if (ore > target)
-                        max = mid - 1;
+                    _amts = new TrackerDict { { FUEL,  mid = (min + max) / 2 } };
+                    ProcessSubComponent();
+                    if (_amts[ORE] < tgt)  min = mid + 1;
+                    if (_amts[ORE] > tgt)  max = mid - 1;
                 }
                 return mid;
             });
 
-        private void SetLevels(string name, int level)
+        private void SetLevels(string name, int lvl)
         {
-            foreach(var sc in _formulae[name].inputs)
+            if (!_lvls.ContainsKey(name)) _lvls.Add(name, lvl);
+            foreach(var n in _formulae[name].inputs.Select(s => s.Name))
             {
-                if (_lvls.ContainsKey(sc.Name))
-                {
-                    if(_lvls[sc.Name] < level + 1) //only change the level if it'll push it lower in the hierarchy
-                        _lvls[sc.Name] = level + 1;
-                }
+                if (_lvls.ContainsKey(n)) //only change the level if it'll push it lower in the hierarchy
+                    _lvls[n] = (_lvls[n] < lvl + 1) ? _lvls[n] = lvl + 1 : _lvls[n];
                 else
-                    _lvls.Add(sc.Name, level + 1);
+                    _lvls.Add(n, lvl + 1);
                 
-                if (sc.Name != "ORE") SetLevels(sc.Name, level + 1); //don't recursively process ORE
+                if (n != ORE) SetLevels(n, lvl + 1); //don't recursively process ORE
             }
         }
 
         private void Setup()
         {
-            _formulae = new Dictionary<string, (Chemical output, List<Chemical> inputs)>();
-            foreach (var (o,i) in Inputs.Select(ParseFormula))
-                _formulae.Add(o.Name, (o, i));
-
-            _lvls = new Dictionary<string, int>() { { "FUEL", 1 } };
+            _formulae = Inputs.Select(ParseFormula).ToDictionary(d => d.@out.Name, d => (d.@out, d.@in));
+            _lvls = new TrackerDict();
             SetLevels("FUEL", 1);
         }
 
-        private void ProcessSubComponent(Dictionary<string, long> _amounts)
+        private void ProcessSubComponent()
         {
-            for(int currLevel = 1; currLevel <= _lvls.Values.Max(); currLevel++)
-            {
-                foreach (var (name, lvl) in _lvls.Where(kv => kv.Value == currLevel && kv.Key != "ORE"))
+            for(int cLvl = 1; cLvl <= _lvls.Values.Max(); cLvl++)
+                foreach (var (name, lvl) in _lvls.Where(kv => kv.Value == cLvl && kv.Key != ORE))
                 {
-                    var (output, inputs) = _formulae[name];
-                    var amountRequired = _amounts[name];
-                    var multiplier = (long)Math.Ceiling((double)amountRequired / output.Amount);
-                    foreach (var i in inputs)
-                        if (_amounts.ContainsKey(i.Name))
-                            _amounts[i.Name] += (i.Amount * multiplier);
+                    var (@out, @in) = _formulae[name];
+                    var mul = (long)Math.Ceiling((double)_amts[name] / @out.Amount);
+                    foreach (var (sn, amt) in @in.Select(s => (s.Name, s.Amount*mul)))
+                        if (_amts.ContainsKey(sn))
+                            _amts[sn] += amt;
                         else
-                            _amounts.Add(i.Name, i.Amount * multiplier);
+                            _amts.Add(sn, amt);
                 }
-            }
         }
 
-        private static (Chemical output, List<Chemical> inputs) ParseFormula(string s)
+        private static (Chemical @out, IEnumerable<Chemical> @in) ParseFormula(string s)
         {
             if (string.IsNullOrWhiteSpace(s)) throw new ArgumentNullException(nameof(s));
-
-            var ss = s.Split("=>");
-            var oChem = new Chemical(ss[1]);
-            var iChems = new List<Chemical>();
-            var inputs = ss[0].Split(",");
-            foreach (var i in inputs)
-                iChems.Add(new Chemical(i.Trim()));
-
-            return (oChem, iChems);
+            var io = s.Split("=>");
+            return (new Chemical(io[1]), io[0].Split(",").Select(i => new Chemical(i)));
         }
-
-        private class Chemical
+    }
+    public class Chemical
+    {
+        public Chemical(string label)
         {
-            public Chemical(string label)
-            {
-                if (string.IsNullOrWhiteSpace(label))
-                    throw new ArgumentNullException(nameof(label));
-
-                var p = label.Trim().Split(" ");
-                Name = p[1].Trim();
-                Amount = long.Parse(p[0].Trim(), CultureInfo.CurrentCulture);
-            }
-            public string Name { get; set; }
-            public long Amount { get; set; }
-            public override string ToString() => $"{Amount} {Name}";
+            if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
+            var p = label.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            Name = p[1];
+            Amount = long.Parse(p[0], CultureInfo.CurrentCulture);
         }
+        public string Name { get; set; }
+        public long Amount { get; set; }
+        public override string ToString() => $"{Amount} {Name}";
     }
 }
