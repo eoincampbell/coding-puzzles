@@ -1,5 +1,5 @@
 ﻿/*
- * Day 13: 
+ * Day 13: Care Package
  * https://adventofcode.com/2019/day/13
  * Part 1: 341
  * Part 2: 17138
@@ -42,7 +42,7 @@ namespace AdventOfCode2019.Puzzles.Day13
         private Dictionary<(int x, int y), string> _tiles = new Dictionary<(int x, int y), string>();
 
         public Impl() : this(false) { }
-        public Impl(bool render) : base("Day 13: ", ".\\Puzzles\\Day13\\Input.txt") => _render = render;
+        public Impl(bool render) : base("Day 13: Care Package", ".\\Puzzles\\Day13\\Input.txt") => _render = render;
         
         public override async Task<int> RunPart1Async()
              => await Task.Run(() =>
