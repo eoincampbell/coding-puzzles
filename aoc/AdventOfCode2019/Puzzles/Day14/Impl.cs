@@ -1,8 +1,8 @@
 ﻿/*
  * Day 14: Space Stoichiometry
  * https://adventofcode.com/2019/day/14
- * Part 1: 1582325
- * Part 2: 
+ * Part 1: 1582325 ore for 1 fuel
+ * Part 2: 2267486 fuel from 1 Trillion Ore
  */
 using System.Collections.Generic;
 
@@ -42,8 +42,27 @@ namespace AdventOfCode2019.Puzzles.Day14
         public override async Task<long> RunPart2Async()
             => await Task.Run(() =>
             {
-                return 0;
-                
+                Setup();
+
+                long target = 1_000_000_000_000, ore = 0;
+                long min = 0, max = 5_000_000, mid = (min + max) / 2;
+                var amounts = new Dictionary<string, long>();
+                while (min <= max)
+                {
+                    mid = (min + max) / 2;
+                    amounts = new Dictionary<string, long> { { "FUEL", mid } };
+                    ProcessSubComponent(amounts);
+                    ore = amounts["ORE"];
+
+                    Console.WriteLine($"{mid} fuel requires {ore} ore");
+
+                    if (ore < target)
+                        min = mid + 1;
+                    else if (ore > target)
+                        max = mid - 1;
+                }
+
+                return mid;
             });
 
 
@@ -92,7 +111,7 @@ namespace AdventOfCode2019.Puzzles.Day14
                 {
                     var (o, i) = _formulae[c.Key];
                     var amountRequired = _amounts[c.Key];
-                    var multiplier = (int)Math.Ceiling((double)amountRequired / o.Amount);
+                    var multiplier = (long)Math.Ceiling((double)amountRequired / o.Amount);
 
                     foreach (var subc in i)
                         if (_amounts.ContainsKey(subc.Name))
