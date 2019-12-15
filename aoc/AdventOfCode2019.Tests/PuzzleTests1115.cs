@@ -123,7 +123,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day15.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(304, a);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace AdventOfCode2019.Tests
             var p = new Puzzles.Day15.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(310, a);
         }
     }
 }

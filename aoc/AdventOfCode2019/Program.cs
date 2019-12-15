@@ -11,7 +11,7 @@ namespace AdventOfCode2019
     {
         public static async Task Main()
         {
-            await new Puzzles.Day14.Impl().RunBothPartsAsync();
+            await new Puzzles.Day15.Impl(true).RunBothPartsAsync();
 
             //foreach (var puzzle in GetPuzzles()) 
             //    await puzzle.RunBothPartsAsync();
