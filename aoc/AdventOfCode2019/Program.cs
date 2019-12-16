@@ -9,13 +9,13 @@ namespace AdventOfCode2019
 {
     public static class Program
     {
-        //public static async Task Main() => await new Puzzles.Day15.Impl(true).RunBothPartsAsync();
+        public static async Task Main() => await new Puzzles.Day16.Impl().RunBothPartsAsync();
 
-        public static async Task Main()
-        {
-            foreach (var p in GetPuzzles())
-                await p.RunBothPartsAsync();
-        }
+        //public static async Task Main()
+        //{
+        //    foreach (var p in GetPuzzles())
+        //        await p.RunBothPartsAsync();
+        //}
 
 
         private static IEnumerable<IPuzzle> GetPuzzles() 
