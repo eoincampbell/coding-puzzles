@@ -1,5 +1,5 @@
 ﻿/*
- * Day 12: The N-Body Problem
+ * Day 12: The N-Body Problem 
  * https://adventofcode.com/2019/day/12
  * Part 1: 12644
  * Part 2: 290314621566528
@@ -18,7 +18,7 @@ namespace AdventOfCode2019.Puzzles.Day12
 
     public class Impl2 : Puzzle<string, long>
     {
-        public Impl2() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
+        public Impl2() : base("Day 12: The N-Body Problem (Concise)", ".\\Puzzles\\Day12\\Input.txt") { }
 
         public override async Task<long> RunPart1Async()
             => await Task.Run(() =>
@@ -89,8 +89,7 @@ namespace AdventOfCode2019.Puzzles.Day12
             return a;
         }
 
-        private static long LeastCommonMultiple(long a, long b)
-            => (a / GreatestCommonFactor(a, b)) * b;
+        private static long LeastCommonMultiple(long a, long b) => (a / GreatestCommonFactor(a, b)) * b;
 
         private class Moon
         {
@@ -111,10 +110,8 @@ namespace AdventOfCode2019.Puzzles.Day12
                 }
             }
 
-            public void UpdatePosition()
-            {
-                for (var i = 0; i <= 2; i++) Data[i] += Data[i + 3];
-            }
+            public void UpdatePosition() { for (var i = 0; i <= 2; i++) Data[i] += Data[i + 3]; }
+            
 
             public int PotentialEnergy => Math.Abs(Data[0]) + Math.Abs(Data[1]) + Math.Abs(Data[2]);
             public int KineticEnergy => Math.Abs(Data[3]) + Math.Abs(Data[4]) + Math.Abs(Data[5]);

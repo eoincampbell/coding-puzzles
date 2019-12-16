@@ -48,6 +48,16 @@
     <None Remove="Puzzles\Day13\Input-test.txt" />
     <None Remove="Puzzles\Day13\Input.txt" />
     <None Remove="Puzzles\Day14\Input-test2.txt" />
+    <None Remove="Puzzles\Day20 - Copy (2)\Input-test.txt" />
+    <None Remove="Puzzles\Day20 - Copy (2)\Input.txt" />
+    <None Remove="Puzzles\Day20 - Copy (3)\Input-test.txt" />
+    <None Remove="Puzzles\Day20 - Copy (3)\Input.txt" />
+    <None Remove="Puzzles\Day20 - Copy (4)\Input-test.txt" />
+    <None Remove="Puzzles\Day20 - Copy (4)\Input.txt" />
+    <None Remove="Puzzles\Day20 - Copy (6)\Input-test.txt" />
+    <None Remove="Puzzles\Day20 - Copy (6)\Input.txt" />
+    <None Remove="Puzzles\Day21\Input-test.txt" />
+    <None Remove="Puzzles\Day21\Input.txt" />
     <None Remove="Puzzles\Day20\Input-test.txt" />
     <None Remove="Puzzles\Day20\Input.txt" />
     <None Remove="Puzzles\Day19\Input-test.txt" />
@@ -165,6 +175,36 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day14\Input-test2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day22\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day22\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day23\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day23\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day24\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day24\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day25\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day25\Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day21\Input-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Puzzles\Day21\Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Puzzles\Day20\Input-test.txt">

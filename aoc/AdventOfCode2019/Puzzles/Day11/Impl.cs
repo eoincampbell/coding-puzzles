@@ -24,6 +24,7 @@ namespace AdventOfCode2019.Puzzles.Day11
         private int _maxX;
         private int _maxY;
         private int _color;
+        private readonly bool _render;
         private VmState _halted;
         private IntCodeVm? _robotBrain;
         private ConcurrentDictionary<(int x, int y), int>? _pnls;
@@ -35,7 +36,8 @@ namespace AdventOfCode2019.Puzzles.Day11
             (-1, 0)  //W
         };
 
-        public Impl() : base("Day 11: Space Police", ".\\Puzzles\\Day11\\Input.txt") { }
+        public Impl() : this(false) { }
+        public Impl(bool render) : base("Day 11: Space Police", ".\\Puzzles\\Day11\\Input.txt") => _render = render;
 
         public override async Task<int> RunPart1Async() => await Task.Run(() 
             => {
@@ -93,7 +95,8 @@ namespace AdventOfCode2019.Puzzles.Day11
         }
 
         private void ShowPaint()
-        { 
+        {
+            if (!_render) return;
             for (var iy = _minY; iy <= _maxY; iy++)
                 for (var ix = _minX; ix <= _maxX; ix++)
                     Console.Write($"{(_pnls != null && _pnls.GetOrAdd((ix, iy), _ => 0) == 1 ? White : Black)}{(ix == _maxX ? "\n" : "")}");

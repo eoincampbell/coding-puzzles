@@ -9,24 +9,24 @@ namespace AdventOfCode2019
 {
     public static class Program
     {
+        //public static async Task Main() => await new Puzzles.Day15.Impl(true).RunBothPartsAsync();
+
         public static async Task Main()
         {
-            await new Puzzles.Day15.Impl(true).RunBothPartsAsync();
-
-            //foreach (var puzzle in GetPuzzles()) 
-            //    await puzzle.RunBothPartsAsync();
+            foreach (var p in GetPuzzles())
+                await p.RunBothPartsAsync();
         }
 
-        //private static IEnumerable<IPuzzle> GetPuzzles()
-        //{
-        //    return Assembly
-        //        .GetExecutingAssembly()
-        //        .GetTypes()
-        //        .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
-        //        .Where(t => t.IsInstanceOfType(typeof(IPuzzle)))
-        //        .OrderBy(o => o.Namespace)
-        //        .ThenBy(n => n.Name)
-        //        .Select(s => Activator.CreateInstance(s) as IPuzzle);
-        //}
+
+        private static IEnumerable<IPuzzle> GetPuzzles() 
+            => Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
+            .OrderBy(o => o.Namespace)
+            .ThenBy(n => n?.Name)
+            .Select(s => Activator.CreateInstance(s))
+            .Cast<IPuzzle>()
+            .ToList();
     }
 }

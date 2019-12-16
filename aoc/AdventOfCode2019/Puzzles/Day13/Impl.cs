@@ -88,9 +88,8 @@ namespace AdventOfCode2019.Puzzles.Day13
         private void SetFinalCursorPosition(int i)
         {
 
-            Console.ForegroundColor = ConsoleColor.White;
             if (!_render) return;
-                
+            Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(0, _max.y + i);
         }
 
@@ -194,17 +193,15 @@ namespace AdventOfCode2019.Puzzles.Day13
 
         private void RenderScore()
         {
-            if (_render)
-            {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _max.y + 1);
-                Console.WriteLine($"Score: {_score}");
-            }
+            if (!_render) return;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(0, _max.y + 1);
+            Console.WriteLine($"Score: {_score}");
         }
 
         private void RenderPlayArea()
         {
-            if (_playAreaRendered) return;
+            if (!_render || _playAreaRendered) return;
             Console.SetCursorPosition(0, 0);
             for (var yy = 0; yy <= _max.y; yy++)
             for (var xx = 0; xx <= _max.x; xx++)

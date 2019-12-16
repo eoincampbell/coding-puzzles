@@ -8,23 +8,24 @@ namespace AdventOfCode2019.Puzzles.Day08
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
 
     public class Impl : Puzzle<string, int>
     {
-        public Impl() : base("Day 08: Space Image Format", ".\\Puzzles\\Day08\\Input.txt") { }
+        private readonly bool _render;
+        public Impl() : this(false) { }
+        public Impl(bool render) : base("Day 08: Space Image Format", ".\\Puzzles\\Day08\\Input.txt") => _render = render;
 
         public override async Task<int> RunPart1Async()
             => await Task.Run(() =>
             {
-                var r = (from l in GetLayers(Inputs[0])
+                var (ones, twos) = (from l in GetLayers(Inputs[0])
                          orderby l.Count(s => s == '0')
-                         select (l.Count(s => s == '1'), l.Count(s => s == '2'))).First();
+                         select (ones: l.Count(s => s == '1'), twos: l.Count(s => s == '2'))).First();
 
-                return r.Item1 * r.Item2;
+                return ones * twos;
             });
 
         public override async Task<int> RunPart2Async()
@@ -35,7 +36,7 @@ namespace AdventOfCode2019.Puzzles.Day08
                     foreach (var layer in layers)
                         if (layer[i] != '2')
                         {
-                            Console.Write((layer[i] == '0' ? " " : "#") + ((i % 25 == 24) ? Environment.NewLine : ""));
+                            if(_render) Console.Write((layer[i] == '0' ? " " : "#") + ((i % 25 == 24) ? Environment.NewLine : ""));
                             break;
                         }
 

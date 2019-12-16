@@ -17,6 +17,9 @@ namespace AdventOfCode2019.Puzzles.Day15
     public enum Tile { START = 'S', OXYGEN = 'X', FLOOR = ' ', FOG = '.', WALL = '#', BOT = 'O', BLOCK = '█' };
     public class Impl : Puzzle<string, int>
     {
+        public Impl(bool render) : base("Day 15: Oxygen System", ".\\Puzzles\\Day15\\Input.txt") => _render = render;
+        public Impl() : this(false) { }
+
         private static (int X, int Y) _orig = (0, 0);
         private (int X, int Y) _min = (-30, -25);
         private (int X, int Y) _max = (30, 25);
@@ -30,9 +33,6 @@ namespace AdventOfCode2019.Puzzles.Day15
         private readonly bool _render;
         private IntCodeVm? _vm;
         private TrackerDict? _map;
-
-        public Impl() : this(false) { }
-        public Impl(bool render): base("Day 15: ", ".\\Puzzles\\Day15\\Input.txt") => _render = render;
 
         public override async Task<int> RunPart1Async() => await Task.Run(() => 
         {

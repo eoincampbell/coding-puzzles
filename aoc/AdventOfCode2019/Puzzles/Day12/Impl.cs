@@ -18,7 +18,7 @@ namespace AdventOfCode2019.Puzzles.Day12
     public class Impl : Puzzle<string, long>
     {
         //public Impl() : base("Day 12: The N-Body Problem", ".\\Puzzles\\Day12\\Input-test.txt") { }
-        public Impl() : base("Day 12: ", ".\\Puzzles\\Day12\\Input.txt") { }
+        public Impl() : base("Day 12: The N-Body Problem", ".\\Puzzles\\Day12\\Input.txt") { }
 
         public override async Task<long> RunPart1Async()
             => await Task.Run(() =>
