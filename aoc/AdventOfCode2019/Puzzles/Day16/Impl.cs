@@ -8,6 +8,7 @@ namespace AdventOfCode2019.Puzzles.Day16
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Base;
@@ -19,8 +20,8 @@ namespace AdventOfCode2019.Puzzles.Day16
         public override async Task<int> RunPart1Async()
             => await Task.Run(() =>
             {
-                var numPhases = int.Parse(Inputs[0]);
-                var input = Array.ConvertAll(Inputs[1].ToCharArray().Select(s => s.ToString()).ToArray(), int.Parse);
+                var numPhases = int.Parse(Inputs[0], CultureInfo.CurrentCulture);
+                var input = Array.ConvertAll(Inputs[1].ToCharArray().Select(s => s.ToString(CultureInfo.CurrentCulture)).ToArray(), int.Parse);
                 var len = input.Length;
                 var patterns = new List<int[]>();
 
@@ -33,28 +34,25 @@ namespace AdventOfCode2019.Puzzles.Day16
                     {
                         var pat = patterns[o];
                         var digit = 0;
-                        for (var i = 0; i < len; i++)
-                            digit += (input[i] * pat[i]);
-
-                        outputList[o] = Math.Abs(digit % 10);
+                        for (var i = 0; i < len; i++) digit += (input[i] * pat[i]);
+                        outputList[o] = ((digit < 0) ? digit * -1 : digit) % 10;
                     }
                     input = outputList;
                 }
-
-                return int.Parse(string.Join("", input[0..8]));
+                return int.Parse(string.Join("", input[0..8]),CultureInfo.CurrentCulture);
             });
         
 
         public override async Task<int> RunPart2Async()
             => await Task.Run(() =>
             {
-                var numPhases = int.Parse(Inputs[0]);
-                var offset = int.Parse(Inputs[1].Substring(0, 7));
+                var numPhases = int.Parse(Inputs[0],CultureInfo.CurrentCulture);
+                var offset = int.Parse(Inputs[1].Substring(0, 7),CultureInfo.CurrentCulture);
                 var inp = string.Join("", Enumerable.Repeat(Inputs[1], 10000));
-                var input = Array.ConvertAll(inp.ToCharArray().Select(s => s.ToString()).ToArray(), int.Parse);
+                var input = Array.ConvertAll(inp.ToCharArray().Select(s => s.ToString(CultureInfo.CurrentCulture)).ToArray(), int.Parse);
                 var len = input.Length;
 
-                for (var i = 0; i < 100; i++)
+                for (var i = 0; i < numPhases; i++)
                 {
                     var p_sum = 0;
                     for (var j = offset; j < len; j++) p_sum += input[j];
@@ -65,29 +63,21 @@ namespace AdventOfCode2019.Puzzles.Day16
                         input[k] = temp * ((temp >= 0) ? 1 : -1) % 10;
                     }
                 }
-
                 var result = input[offset..(offset+8)];
-
-                return int.Parse(string.Join("", result));
+                return int.Parse(string.Join("", result),CultureInfo.CurrentCulture);
             });
 
-        private int [] GetPattern(int element, int length)
+        private static int[] GetPattern(int element, int length)
         {
-            var fzeros = Enumerable.Repeat(0, element + 1).ToList();
-            var ones =  Enumerable.Repeat(1, element + 1).ToList();
-            var sZeros = Enumerable.Repeat(0, element + 1).ToList();
-            var negOnes=  Enumerable.Repeat(-1, element + 1).ToList();
-            var pattern = fzeros.Concat(ones).Concat(sZeros).Concat(negOnes).ToList();
+            int[] result = new int [length + 1], values = {0, 1, 0, -1};
             
-            var repeater = (length / pattern.Count) + 1;
+            for (int i = 1, cur = 0, e = element + 1; i <= length + 1; i++)
+            {
+                result[i-1] = values[cur];
+                if(i % e == 0) cur = (cur + 1) % 4;
+            }
 
-            var result = new List<int>();
-
-            for (var i = 0; i <= repeater; i++)
-                result.AddRange(pattern);
-
-
-            return result.ToArray()[1..(length+1)];
+            return result[1..(length + 1)];
         }
     }
 }
