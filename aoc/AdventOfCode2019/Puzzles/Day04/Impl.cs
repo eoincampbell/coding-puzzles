@@ -15,14 +15,12 @@ namespace AdventOfCode2019.Puzzles.Day04
     {
         public Impl() : base("Day 04: Secure Container (Ints - No Optimizaton)", ".\\Puzzles\\Day04\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async() 
-            => await DoWork(CheckPartA);
+        public override async Task<int> RunPart1Async() => await DoWork(CheckPartA);
 
-        public override async Task<int> RunPart2Async() 
-            => await DoWork(CheckPartB);
+        public override async Task<int> RunPart2Async() => await DoWork(CheckPartB);
 
-        public async Task<int> DoWork(Func<int, int, int, int, int, int, bool> checkFunc)
-            => await Task.Run(() => Enumerable.Range(Inputs[0], Inputs[1] - Inputs[0])
+        public async Task<int> DoWork(Func<int, int, int, int, int, int, bool> checkFunc) => await Task.Run(() 
+            => Enumerable.Range(Inputs[0], Inputs[1] - Inputs[0])
                 .Select(Split)
                 .Count(x => checkFunc(x.a, x.b, x.c, x.d, x.e, x.f)));
 

@@ -21,22 +21,18 @@
 
         public override async Task<int> RunPart2Async() => await DoWork(CheckPartB);
 
-        private async Task<int> DoWork(Func<string, bool> checkFunc) =>
-            await Task.Run(() => GetRange(Inputs[0], Inputs[1])
-            .Count(x => checkFunc(x.ToString(CultureInfo.CurrentCulture))));
+        private async Task<int> DoWork(Func<string, bool> checkFunc) => await Task.Run(() =>
+            GetRange(Inputs[0], Inputs[1])
+                .Count(x => checkFunc(x.ToString(CultureInfo.CurrentCulture))));
         
-        private static bool Check(string s) 
-            => (s[0] <= s[1] && s[1] <= s[2] && s[2] <= s[3] && 
-             s[3] <= s[4] && s[4] <= s[5]);
+        private static bool Check(string s) => 
+            (s[0] <= s[1] && s[1] <= s[2] && s[2] <= s[3] && s[3] <= s[4] && s[4] <= s[5]);
 
-        private static bool CheckPartA(string s) 
-            => Check(s) && 
-            (s[0] == s[1] || s[1] == s[2] || s[2] == s[3] || 
-             s[3] == s[4] || s[4] == s[5]);
+        private static bool CheckPartA(string s) => 
+            Check(s) && (s[0] == s[1] || s[1] == s[2] || s[2] == s[3] || s[3] == s[4] || s[4] == s[5]);
 
-        private static bool CheckPartB(string s) 
-            => Check(s) &&
-            (
+        private static bool CheckPartB(string s) => 
+            Check(s) && (
                                 (s[0] == s[1] && s[1] < s[2]) ||
                 (s[1] > s[0] && s[1] == s[2] && s[2] < s[3]) ||
                 (s[2] > s[1] && s[2] == s[3] && s[3] < s[4]) ||
@@ -57,23 +53,5 @@
                 else                        yield return s++;
             }
         }
-
-        //private static IEnumerable<int> GetRange2(int s, int e)
-        //{
-        //    while (s <= e)
-        //    {
-        //        var ss = $"{s}";
-        //        for (int i = 0, j = PasswordLength - 2, p = 10.Pow(PasswordLength - 2);
-        //                 i < PasswordLength - 1;
-        //                 i++, j--, p = 10.Pow(j))
-        //        {
-        //            if (ss[i] <= ss[i + 1]) continue;
-        //            s = ((s += p) / p) * p;
-        //            goto skip;
-        //        }
-        //        yield return s++;
-        //    skip:;
-        //    }
-        //}
     }
 }

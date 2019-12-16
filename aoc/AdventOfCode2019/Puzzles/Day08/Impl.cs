@@ -18,38 +18,34 @@ namespace AdventOfCode2019.Puzzles.Day08
         public Impl() : this(false) { }
         public Impl(bool render) : base("Day 08: Space Image Format", ".\\Puzzles\\Day08\\Input.txt") => _render = render;
 
-        public override async Task<int> RunPart1Async()
-            => await Task.Run(() =>
-            {
-                var (ones, twos) = (from l in GetLayers(Inputs[0])
-                         orderby l.Count(s => s == '0')
-                         select (ones: l.Count(s => s == '1'), twos: l.Count(s => s == '2'))).First();
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
+        {
+            var (ones, twos) = (from l in GetLayers(Inputs[0])
+                orderby l.Count(s => s == '0')
+                select (ones: l.Count(s => s == '1'), twos: l.Count(s => s == '2'))).First();
+            return ones * twos;
+        });
 
-                return ones * twos;
-            });
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
+        {
+            var layers = GetLayers(Inputs[0]);
+            for (var i = 0; i < 150; i++)
+                foreach (var l in layers)
+                    if (l[i] != '2')
+                    {
+                        if (_render) Console.Write((l[i] == '0' ? " " : "#") + ((i % 25 == 24) ? Environment.NewLine : ""));
+                        break;
+                    }
 
-        public override async Task<int> RunPart2Async()
-            => await Task.Run(() =>
-            {
-                var layers = GetLayers(Inputs[0]);
-                for (var i = 0; i < 150; i++)
-                    foreach (var layer in layers)
-                        if (layer[i] != '2')
-                        {
-                            if(_render) Console.Write((layer[i] == '0' ? " " : "#") + ((i % 25 == 24) ? Environment.NewLine : ""));
-                            break;
-                        }
+            return Inputs[0].Length;
+        });
 
-                return Inputs[0].Length;
-            });
         public static IList<string> GetLayers(string input)
         {
-            if (string.IsNullOrWhiteSpace(input))
-                throw new ArgumentNullException(nameof(input));
+            if (string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
 
             return Enumerable.Range(0, input.Length / 150)
-                  .Select(i => input[(i * 150)..((i * 150) + 150)])
-                  .ToList();
+                  .Select(i => input[(i * 150)..((i * 150) + 150)]).ToList();
         }
     }
 }

@@ -28,33 +28,25 @@ namespace AdventOfCode2019.Puzzles.Day11
         private VmState _halted;
         private IntCodeVm? _robotBrain;
         private ConcurrentDictionary<(int x, int y), int>? _pnls;
-        private static readonly (int x, int y) [] Dirs = 
-        {
-            (0, -1), //N
-            (1, 0),  //E
-            (0, 1),  //S
-            (-1, 0)  //W
-        };
+        private static readonly (int x, int y) [] Dirs = { (0, -1), (1, 0), (0, 1), (-1, 0) }; //NESW
 
         public Impl() : this(false) { }
         public Impl(bool render) : base("Day 11: Space Police", ".\\Puzzles\\Day11\\Input.txt") => _render = render;
 
-        public override async Task<int> RunPart1Async() => await Task.Run(() 
-            => {
-                Reset(0); //part 1 - start on black
-                while (_halted != VmState.Halted) PaintPanel();
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
+        {
+            Reset(0); //part 1 - start on black
+            while (_halted != VmState.Halted) PaintPanel();
+            return _pnls?.Keys.Count ?? 0;
+        });
 
-                return _pnls?.Keys.Count ?? 0;
-            });
-
-        public override async Task<int> RunPart2Async() => await Task.Run(() 
-            => {
-                Reset(1); //part 2 - start on white
-                while (_halted != VmState.Halted) PaintPanel();
-                
-                ShowPaint();
-                return _pnls?.Keys.Count ?? 0;
-            });
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
+        {
+            Reset(1); //part 2 - start on white
+            while (_halted != VmState.Halted) PaintPanel();
+            ShowPaint();
+            return _pnls?.Keys.Count ?? 0;
+        });
 
         private void Reset(int color)
         {
@@ -65,11 +57,9 @@ namespace AdventOfCode2019.Puzzles.Day11
             _color = color;
         }
 
-        private int ReadColorFromCamera()
-            => (_pnls != null && _pnls.ContainsKey((_x,_y))) ? _pnls[(_x, _y)] : 0;
+        private int ReadColorFromCamera() => (_pnls != null && _pnls.ContainsKey((_x,_y))) ? _pnls[(_x, _y)] : 0;
 
-        private void ApplyPaintToPanel(int color) 
-            =>_pnls?.AddOrUpdate((_x, _y), color, (x,y) => color);
+        private void ApplyPaintToPanel(int color) =>_pnls?.AddOrUpdate((_x, _y), color, (x,y) => color);
 
         private void PaintPanel()
         {

@@ -21,19 +21,12 @@
         public Action<string>? LogAction { get; set; }
         private BigInteger _lastOutput;
         public VmState State {get; private set; }
-        //public bool IsHalted { get; private set; }
-        //public bool IsPaused { get; private set; }
 
         public IntCodeVm(string memory) : this(memory != null ? Array.ConvertAll(memory.Split(','), BigInteger.Parse) : Array.Empty<BigInteger>()) { }
 
-        public IntCodeVm(IEnumerable<BigInteger> memory)
-        {
-            var mem = memory
-                .Select((value, index) => new { value, index })
-                .ToDictionary(k => new BigInteger(k.index), v => v.value);
-
-            _sm = new StateMachine(mem);
-        }
+        public IntCodeVm(IEnumerable<BigInteger> memory) 
+            =>_sm = new StateMachine(memory.Select((v, i) => new { v, i }).ToDictionary(kv => (BigInteger)kv.i, kv => kv.v));
+        
 
         #region Program Control Flow
 
@@ -41,7 +34,6 @@
         {
             State = VmState.Running;
             while (State != VmState.Halted) ProcessNextCommand();
-
             return State;
         }
 
@@ -49,7 +41,6 @@
         {
             State = VmState.Running;
             while (State != VmState.Halted && State != VmState.PausedHasOutput) ProcessNextCommand();
-
             return State;
         }
 
@@ -57,19 +48,9 @@
         {
             State = VmState.Running;
             while (State != VmState.Halted && State != VmState.PausedAwaitingInput) ProcessNextCommand();
-
             return State;
         }
-
-        public VmState RunProgramUntilUserActionRequired()
-        {
-            State = VmState.Running;
-            while (State == VmState.Running) ProcessNextCommand();
-
-            return State;
-        }
-
-
+        
         private void ProcessNextCommand()
         {
             var oc = _sm.GetValue() % 100;
@@ -104,12 +85,10 @@
         
         public IEnumerable<BigInteger> GetOutputs()
         {
-            while (_out.Any())
-                yield return (_lastOutput = _out.Dequeue());
+            while (_out.Any()) yield return (_lastOutput = _out.Dequeue());
         }
         public void SetOutput(BigInteger output) => _out.Enqueue(output);
         public bool HasOutputs => _out.Any();
-
 
         #endregion
     }

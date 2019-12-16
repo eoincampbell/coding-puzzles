@@ -10,20 +10,14 @@
         private BigInteger _relativeBasePointer = 0;
         private BigInteger _pointer = 0;
 
-        public StateMachine(Memory memory) 
-            => _memory = memory;
+        public StateMachine(Memory memory) => _memory = memory;
         
-
         #region Pointer Stuff 
+        public BigInteger GetPointer() => _pointer;
 
-        public BigInteger GetPointer()
-            => _pointer;
-
-        public void SetPointer(BigInteger pointer) 
-            => _pointer = pointer;
+        public void SetPointer(BigInteger pointer) => _pointer = pointer;
         
-        public BigInteger GetPointer(int offset, Mode mode)
-            => mode switch
+        public BigInteger GetPointer(int offset, Mode mode) => mode switch
             {
                 Mode.Position => GetValue(_pointer + offset),
                 Mode.Immediate => _pointer + offset,
@@ -39,16 +33,13 @@
 
         public BigInteger GetValue(BigInteger pointer)
         {
-            if (!_memory.TryGetValue(pointer, out var val))
-                _memory.Add(pointer, 0);
+            if (!_memory.TryGetValue(pointer, out var val)) _memory.Add(pointer, 0);
             return val;
         }
 
-        public BigInteger GetValue() 
-            => GetValue(_pointer);
+        public BigInteger GetValue() => GetValue(_pointer);
 
-        public BigInteger GetValueOffset(int offset, Mode mode) 
-            => GetValue(GetPointer(offset, mode));
+        public BigInteger GetValueOffset(int offset, Mode mode)  => GetValue(GetPointer(offset, mode));
         
 
         public void SetValue(BigInteger pointer, BigInteger value)
@@ -57,8 +48,7 @@
             else _memory[pointer] = value;
         }
 
-        public void SetValueOffset(int offset, Mode[] modes, BigInteger value)
-            => SetValue(GetPointer(offset, modes[offset - 1]), value);
+        public void SetValueOffset(int offset, Mode[] modes, BigInteger value) => SetValue(GetPointer(offset, modes[offset - 1]), value);
 
         #endregion
     }

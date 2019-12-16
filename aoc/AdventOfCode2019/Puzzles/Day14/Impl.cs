@@ -23,30 +23,29 @@ namespace AdventOfCode2019.Puzzles.Day14
         private const string ORE = "ORE";
 
         public Impl() : base("Day 14: Space Stoichiometry", ".\\Puzzles\\Day14\\Input.txt") { }
-        
-        public override async Task<long> RunPart1Async()
-            => await Task.Run(() =>
-            {
-                Setup();
-                _amts = new TrackerDict { { FUEL, 1 } };
-                ProcessSubComponent();
-                return _amts[ORE];
-            });
 
-        public override async Task<long> RunPart2Async()
-            => await Task.Run(() =>
+        public override async Task<long> RunPart1Async() => await Task.Run(() =>
+        {
+            Setup();
+            _amts = new TrackerDict {{FUEL, 1}};
+            ProcessSubComponent();
+            return _amts[ORE];
+        });
+
+        public override async Task<long> RunPart2Async() => await Task.Run(() =>
+        {
+            Setup();
+            long tgt = 1_000_000_000_000, min = 0, max = 5_000_000, mid = (min + max) / 2;
+            while (min <= max)
             {
-                Setup();
-                long tgt = 1_000_000_000_000, min = 0, max = 5_000_000, mid = (min + max) / 2;
-                while (min <= max)
-                {
-                    _amts = new TrackerDict { { FUEL,  mid = (min + max) / 2 } };
-                    ProcessSubComponent();
-                    if (_amts[ORE] < tgt)  min = mid + 1;
-                    if (_amts[ORE] > tgt)  max = mid - 1;
-                }
-                return mid;
-            });
+                _amts = new TrackerDict {{FUEL, mid = (min + max) / 2}};
+                ProcessSubComponent();
+                if (_amts[ORE] < tgt) min = mid + 1;
+                if (_amts[ORE] > tgt) max = mid - 1;
+            }
+
+            return mid;
+        });
 
         private void SetLevels(string name, int lvl)
         {
@@ -71,7 +70,7 @@ namespace AdventOfCode2019.Puzzles.Day14
 
         private void ProcessSubComponent()
         {
-            for(int cLvl = 1; cLvl <= _lvls.Values.Max(); cLvl++)
+            for(var cLvl = 1; cLvl <= _lvls.Values.Max(); cLvl++)
                 foreach (var (name, lvl) in _lvls.Where(kv => kv.Value == cLvl && kv.Key != ORE))
                 {
                     var (@out, @in) = _formulae[name];

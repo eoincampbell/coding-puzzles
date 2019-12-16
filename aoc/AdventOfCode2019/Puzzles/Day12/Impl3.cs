@@ -9,11 +9,11 @@
  */
 namespace AdventOfCode2019.Puzzles.Day12
 {
-    using System;
-    using System.Globalization;
+//    using System;
+  //  using System.Globalization;
     using System.Threading.Tasks;
     using Base;
-    using MoonHash = System.Collections.Generic.HashSet<(int, int, int, int, int, int)>;
+    //using MoonHash = System.Collections.Generic.HashSet<(int, int, int, int, int, int)>;
 
     public class Impl3 : Puzzle<string, long>
     {

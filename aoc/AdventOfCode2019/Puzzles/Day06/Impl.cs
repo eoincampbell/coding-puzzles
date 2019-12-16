@@ -6,7 +6,6 @@
  */
 namespace AdventOfCode2019.Puzzles.Day06
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,11 +13,11 @@ namespace AdventOfCode2019.Puzzles.Day06
 
     public class Impl : Puzzle<string, int>
     {
-        public Impl() : base("Day 06: Universal Orbit Map", ".\\Puzzles\\Day06\\Input.txt") { }
-
         private Dictionary<string, int> _levels = new Dictionary<string, int>();
         private Dictionary<string, string> _orbits = new Dictionary<string, string>();
-        private int _numTransfers = 0;
+        private int _numTransfers;
+
+        public Impl() : base("Day 06: Universal Orbit Map", ".\\Puzzles\\Day06\\Input.txt") { }
 
         public override async Task<int> RunPart1Async()
         {
@@ -31,7 +30,6 @@ namespace AdventOfCode2019.Puzzles.Day06
             await DoWork();
             return _numTransfers;
         }
-     
         
         public async Task DoWork()
         {
@@ -40,10 +38,8 @@ namespace AdventOfCode2019.Puzzles.Day06
 
             await Task.Run(() =>
             {
-                var inputs = Inputs
-                    .Select(s => s.Split(')'))
-                    .Select(o => (Center: o[0], Planet: o[1]))
-                    .ToList();
+                var inputs = Inputs.Select(ss => ss.Split(')'))
+                    .Select(o => (Center: o[0], Planet: o[1])).ToList();
 
                 var planets = inputs.Select(p => p.Planet);
                 var cou = inputs.Select(c => c.Center).First(p => !planets.Contains(p));

@@ -16,8 +16,7 @@ namespace AdventOfCode2019.Puzzles.Day02
     {
         public Impl() : base("Day 02: 1202 Program Alarm", ".\\Puzzles\\Day02\\Input.txt") {}
         
-        public override async Task<int> RunPart1Async() 
-            => await RunIntCode(GetIntCode(12,2));
+        public override async Task<int> RunPart1Async() => await RunIntCode(GetIntCode(12,2));
 
         public override async Task<int> RunPart2Async()
         {
@@ -37,24 +36,22 @@ namespace AdventOfCode2019.Puzzles.Day02
             return arr;
         }
 
-        public async static Task<int> RunIntCode(int[] c, int i = 0)
-            => await Task.Run(() =>
-            {
-                if (c == null || !c.Any()) 
-                    throw new ArgumentNullException(nameof(c));
+        public static async Task<int> RunIntCode(int[] c, int i = 0) => await Task.Run(() =>
+        {
+            if (c == null || !c.Any()) throw new ArgumentNullException(nameof(c));
 
-                while (c[i] != 99)
+            while (c[i] != 99)
+            {
+                c[c[i + 3]] = c[i] switch
                 {
-                    c[c[i + 3]] = c[i] switch
-                        {
-                            1 => c[c[i + 1]] + c[c[i + 2]],
-                            2 => c[c[i + 1]] * c[c[i + 2]],
-                            _ => throw new NotSupportedException()
-                        };
-                    i += 4;
-                }
-            
-                return c[0];
-            });
+                    1 => c[c[i + 1]] + c[c[i + 2]],
+                    2 => c[c[i + 1]] * c[c[i + 2]],
+                    _ => throw new NotSupportedException()
+                };
+                i += 4;
+            }
+
+            return c[0];
+        });
     }
 }

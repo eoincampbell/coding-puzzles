@@ -8,7 +8,6 @@
 namespace AdventOfCode2019.Puzzles.Day03
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,53 +18,44 @@ namespace AdventOfCode2019.Puzzles.Day03
     {
         public Impl() : base("Day 03: Crossed Wires", ".\\Puzzles\\Day03\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
         {
-            return await Task.Run(() => {
-                var (a, b) = GetWires(Inputs[0], Inputs[1]);
-                return a.Keys
-                    .Intersect(b.Keys)
-                    .Min(p => Math.Abs(p.x) + Math.Abs(p.y));
-            });
-        }
+            var (a, b) = GetWires(Inputs[0], Inputs[1]);
+            return a.Keys
+                .Intersect(b.Keys)
+                .Min(p => Math.Abs(p.x) + Math.Abs(p.y));
+        });
 
-        public override async Task<int> RunPart2Async()
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
         {
-            return await Task.Run(() => {
-                var (a, b) = GetWires(Inputs[0], Inputs[1]);
-                return a.Keys
-                    .Intersect(b.Keys)
-                    .Min(key => a[key] + b[key]);
-            });
-        }
+            var (a, b) = GetWires(Inputs[0], Inputs[1]);
+            return a.Keys
+                .Intersect(b.Keys)
+                .Min(key => a[key] + b[key]);
+        });
 
-        private (Dict firstWire, Dict secondWire) GetWires(string a, string b) 
-            => (GetWire(a), GetWire(b));
+        private (Dict firstWire, Dict secondWire) GetWires(string a, string b) => (GetWire(a), GetWire(b));
 
         public static (char dir, int dist) Parse(string input)
         {
-            if (string.IsNullOrWhiteSpace(input))
-                throw new ArgumentNullException(nameof(input));
+            if (string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
 
             return (input[0], int.Parse(input[1..], CultureInfo.CurrentCulture));
         }
 
-        public static (int x, int y) GetPoint(char dir, ref int x, ref int y)
+        public static (int x, int y) GetPoint(char dir, ref int x, ref int y) => dir switch
         {
-            return dir switch
-                {
-                    'R' => (++x, y),
-                    'U' => (x, ++y),
-                    'L' => (--x, y),
-                    'D' => (x, --y),
-                    _ => throw new NotSupportedException()
-                };
-        }
+            'R' => (++x, y),
+            'U' => (x, ++y),
+            'L' => (--x, y),
+            'D' => (x, --y),
+            _ => throw new NotSupportedException()
+        };
+        
 
         public static Dict GetWire(string input)
         {
-            if (string.IsNullOrWhiteSpace(input))
-                throw new ArgumentNullException(nameof(input));
+            if (string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
 
             var inst = input.Split(',').Select(Parse);
             int x = 0, y = 0, d = 0;

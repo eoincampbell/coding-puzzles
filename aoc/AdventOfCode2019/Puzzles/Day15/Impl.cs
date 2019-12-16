@@ -10,7 +10,7 @@ namespace AdventOfCode2019.Puzzles.Day15
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using AdventOfCode2019.Base.IntCode;
+    using Base.IntCode;
     using Base;
     using TrackerDict = System.Collections.Generic.Dictionary<(int x, int y), (Tile tile, int dist, bool filledWithAir, int distFromOxy)>;
     public enum Dir { NORTH = 1, SOUTH = 2, WEST = 3, EAST = 4 }
@@ -20,12 +20,12 @@ namespace AdventOfCode2019.Puzzles.Day15
         public Impl(bool render) : base("Day 15: Oxygen System", ".\\Puzzles\\Day15\\Input.txt") => _render = render;
         public Impl() : this(false) { }
 
-        private static (int X, int Y) _orig = (0, 0);
+        private static readonly (int X, int Y) Orig = (0, 0);
         private (int X, int Y) _min = (-30, -25);
         private (int X, int Y) _max = (30, 25);
-        private (int X, int Y) _cur = _orig;
-        private (int X, int Y) _prev = _orig;
-        private (int X, int Y) _upd = _orig;
+        private (int X, int Y) _cur = Orig;
+        private (int X, int Y) _prev = Orig;
+        private (int X, int Y) _upd = Orig;
         private Dir _currDirection = Dir.NORTH;
         private Dir _prevDirection = Dir.NORTH;
         private int _dist = 0;
@@ -37,14 +37,14 @@ namespace AdventOfCode2019.Puzzles.Day15
         public override async Task<int> RunPart1Async() => await Task.Run(() => 
         {
             RunTheMaze();
-            var kv = _map.Where(w => w.Value.tile == Tile.OXYGEN).First();
+            var kv = _map.First(w => w.Value.tile == Tile.OXYGEN);
             return kv.Value.dist;
         });
 
         public override async Task<int> RunPart2Async() => await Task.Run(() =>
         {
             if(_vm == null) RunTheMaze();
-            var oxy = _map.Where(w => w.Value.tile == Tile.OXYGEN).First();
+            var oxy = _map.First(w => w.Value.tile == Tile.OXYGEN);
             if (_render) Console.ForegroundColor = ConsoleColor.DarkRed;
             FillCellWithAir(oxy.Key.x, oxy.Key.y, 0);
             if (!_render) return _maxDistFromOxy;

@@ -17,35 +17,28 @@ namespace AdventOfCode2019.Puzzles.Day10
     {
         public Impl() : base("Day 10: Monitoring Station", ".\\Puzzles\\Day10\\Input.txt") { }
 
-        public override async Task<int> RunPart1Async()
-            => await Task.Run(() => 
-            { 
-                var asteroids = GetAsteroids();
-                return asteroids.ToList().OrderByDescending(o => o.Value.Count)
-                    .First().Value.Count;
-            });
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
+            GetAsteroids().ToList().OrderByDescending(o => o.Value.Count).First().Value.Count);
 
-        public override async Task<int> RunPart2Async()
-            => await Task.Run(() =>
-            {
-                var asteroids = GetAsteroids();
-                var src = asteroids.ToList().OrderByDescending(o => o.Value.Count)
-                    .First().Key;
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
+        {
+            var asteroids = GetAsteroids();
+            var src = asteroids.ToList().OrderByDescending(o => o.Value.Count).First().Key;
+            var targets = new List<Asteroid>();
 
-                var targets = new List<Asteroid>();
-
-                foreach (var ang in asteroids[src])
-                    ang.Value
+            foreach (var ang in asteroids[src])
+                ang.Value
                     .Select((ast, idx) => (Asteroid: ast.Value, Angle: ast.Value.Angle + (360 * idx)))
                     .ToList()
                     .ForEach(f =>
                     {
-                        f.Asteroid.SweepAngle = f.Angle;//angle;
-                        targets.Add(f.Asteroid);
+                        var (asteroid, angle) = f;
+                        asteroid.SweepAngle = angle;
+                        targets.Add(asteroid);
                     });
 
-                return targets.OrderBy(t => t.SweepAngle).Skip(199).Take(1).Select(s => (s.X * 100) + s.Y).First();
-            });
+            return targets.OrderBy(t => t.SweepAngle).Skip(199).Take(1).Select(s => (s.X * 100) + s.Y).First();
+        });
     
         private Dict GetAsteroids()
         {
@@ -69,10 +62,8 @@ namespace AdventOfCode2019.Puzzles.Day10
             return asteroids;
         }
 
-        private static double GetAngle(Asteroid s, Asteroid t)
-            => ((Math.Atan2(t.Y - s.Y, t.X - s.X) * 180 / Math.PI) + 450) % 360;
-        private static double GetDist(Asteroid src, Asteroid trg)
-            => Math.Sqrt(Math.Pow(trg.X - src.X, 2) + Math.Pow(trg.Y - src.Y, 2));
+        private static double GetAngle(Asteroid s, Asteroid t) => ((Math.Atan2(t.Y - s.Y, t.X - s.X) * 180 / Math.PI) + 450) % 360;
+        private static double GetDist(Asteroid src, Asteroid trg) => Math.Sqrt(Math.Pow(trg.X - src.X, 2) + Math.Pow(trg.Y - src.Y, 2));
     }
 
     public class Asteroid : IEquatable<Asteroid>
@@ -94,7 +85,6 @@ namespace AdventOfCode2019.Puzzles.Day10
 
         public static bool operator !=(Asteroid s, Asteroid t) => !(s == t);
         public bool Equals(Asteroid other) => this == other;
-        public override bool Equals(object? obj) => (obj is Asteroid a) && this == a; 
-
+        public override bool Equals(object? obj) => (obj is Asteroid a) && this == a;
     }
 }

@@ -11,7 +11,7 @@
         public abstract int InputCount { get; }
         public abstract Command CommandName { get; }
 
-        public CommandBase()
+        protected CommandBase()
         {
             Sm = new StateMachine(new Dictionary<BigInteger, BigInteger>());
             Vm = new IntCodeVm("0");

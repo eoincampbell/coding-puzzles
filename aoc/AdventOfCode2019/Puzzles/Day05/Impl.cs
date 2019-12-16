@@ -6,8 +6,6 @@
  */
 namespace AdventOfCode2019.Puzzles.Day05
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Numerics;
     using System.Threading.Tasks;
@@ -18,24 +16,16 @@ namespace AdventOfCode2019.Puzzles.Day05
     {
         public Impl() : base("Day 05: Sunny with a Chance of Asteroids", ".\\Puzzles\\Day05\\Input.txt") { }
 
-        public override async Task<BigInteger> RunPart1Async() 
-            => await RunVm(Inputs[0], 1); 
+        public override async Task<BigInteger> RunPart1Async() => await RunVm(Inputs[0], 1); 
         
-        public override async Task<BigInteger> RunPart2Async() 
-            => await RunVm(Inputs[0], 5);
+        public override async Task<BigInteger> RunPart2Async() => await RunVm(Inputs[0], 5);
 
-        private async Task<BigInteger> RunVm(string tape, int input)
-            => await Task.Run(() =>
-            {
-                var vm = new IntCodeVm(tape);
-                vm.SetInput(input);
-                vm.RunProgramUntilHalt();
-
-                return vm.GetOutputs().Last();
-
-            });
-
-        public static void WriteOutput(string arg)
-            => Console.WriteLine(arg);
+        private async Task<BigInteger> RunVm(string tape, int input) => await Task.Run(() =>
+        {
+            var vm = new IntCodeVm(tape);
+            vm.SetInput(input);
+            vm.RunProgramUntilHalt();
+            return vm.GetOutputs().Last();
+        });
     }
 }

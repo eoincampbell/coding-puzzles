@@ -22,11 +22,7 @@ namespace AdventOfCode2019.Puzzles.Day13
         private const string BALL = "()";
         private static readonly Dictionary<int, string> TileCodes = new Dictionary<int, string>
         {
-            {0, SPCE},
-            {1, WALL},
-            {2, BLOK},
-            {3, PADL},
-            {4, BALL}
+            {0, SPCE}, {1, WALL}, {2, BLOK}, {3, PADL}, {4, BALL}
         };
 
         private (int x, int y) _max;
@@ -43,17 +39,16 @@ namespace AdventOfCode2019.Puzzles.Day13
 
         public Impl() : this(false) { }
         public Impl(bool render) : base("Day 13: Care Package", ".\\Puzzles\\Day13\\Input.txt") => _render = render;
-        
-        public override async Task<int> RunPart1Async()
-             => await Task.Run(() =>
-             {
-                 ResetVm();
-                 _vm?.RunProgramUntilHalt();
-                 ProcessAnyOutputs();
-                 RenderOutput();
-                 SetFinalCursorPosition(2);
-                 return _blocks;
-             });
+
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
+        {
+            ResetVm();
+            _vm?.RunProgramUntilHalt();
+            ProcessAnyOutputs();
+            RenderOutput();
+            SetFinalCursorPosition(2);
+            return _blocks;
+        });
 
         public override async Task<int> RunPart2Async()
         {
@@ -75,9 +70,7 @@ namespace AdventOfCode2019.Puzzles.Day13
                 //So only go into the InputCommandCode if the update included a ball-position updated
                 var ballMoved = ProcessAnyOutputs();
                 RenderOutput();
-                if (ballMoved)
-                    ProcessInputCommand();
-
+                if (ballMoved) ProcessInputCommand();
                 await Wait();
             }
             RenderWinner();
@@ -87,7 +80,6 @@ namespace AdventOfCode2019.Puzzles.Day13
 
         private void SetFinalCursorPosition(int i)
         {
-
             if (!_render) return;
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(0, _max.y + i);
@@ -109,12 +101,9 @@ namespace AdventOfCode2019.Puzzles.Day13
                     ? 1 
                     : -1;
             
-            if (_ballPos.x + 1 == _max.x || _ballPos.x - 1 == 0) //at the wall
-                dir *= -1;
+            if (_ballPos.x + 1 == _max.x || _ballPos.x - 1 == 0) dir *= -1; //at the wall
 
             var next = _ballPos.x + dir;
-
-
             if (_paddlePositionX < next)
             {
                 _vm?.SetInput(1);
@@ -242,7 +231,7 @@ namespace AdventOfCode2019.Puzzles.Day13
         private void RenderWinner()
         {
             if (!_render) return;
-            string[] winner = new []
+            var winner = new []
             {
                 "                                                                                    ",
                 "                                                                                    ",
@@ -265,15 +254,14 @@ namespace AdventOfCode2019.Puzzles.Day13
                 "                                                                                    ",
             };
 
-            int i = 1;
+            var i = 1;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(2, i);
 
             foreach(var s in winner)
             {
                 Console.Write(s);
-                i++;
-                Console.SetCursorPosition(2, i);
+                Console.SetCursorPosition(2, ++i);
             }
         }
 

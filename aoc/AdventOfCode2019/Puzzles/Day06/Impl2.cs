@@ -16,43 +16,34 @@
     public class Impl2 : Puzzle<string, int>
     {
         private Graph _graph;
-        public Impl2() : base("Day 06: Universal Orbit Map (QuickGraph)", ".\\Puzzles\\Day06\\Input.txt") 
-        {
-            _graph = new Graph();
-        }        
+        public Impl2() : base("Day 06: Universal Orbit Map (QuickGraph)", ".\\Puzzles\\Day06\\Input.txt")  => _graph = new Graph();
 
-        public override async Task<int> RunPart1Async()
+        public override async Task<int> RunPart1Async() => await Task.Run(() =>
         {
-            return await Task.Run(() =>
-            {
-                LoadGraph();
-                var distFunc = _graph.ShortestPathsDijkstra(EdgeWeight, "COM");
-                return _graph.Vertices.Where(w => w != "COM")
-                    .Select(s =>
-                    {
-                        distFunc(s, out var path);
-                        return path.Count();
-                    }).Sum();
-            });
-        }
-        
-        public override async Task<int> RunPart2Async()
+            LoadGraph();
+            var distFunc = _graph.ShortestPathsDijkstra(EdgeWeight, "COM");
+            return _graph.Vertices.Where(w => w != "COM")
+                .Select(s =>
+                {
+                    distFunc(s, out var path);
+                    return path.Count();
+                }).Sum();
+        });
+
+        public override async Task<int> RunPart2Async() => await Task.Run(() =>
         {
-            return await Task.Run(() =>
-            {
-                LoadGraph();
-                var distFunc = _graph.ShortestPathsDijkstra(EdgeWeight, "YOU");
-                var s = distFunc("SAN", out var path);
-                return path.Count() - 2;
-            });
-        }
+            LoadGraph();
+            var distFunc = _graph.ShortestPathsDijkstra(EdgeWeight, "YOU");
+            var s = distFunc("SAN", out var path);
+            return path.Count() - 2;
+        });
 
         private static double EdgeWeight(Edge<string> input) => 1;
+        
         private void LoadGraph()
         {
             _graph = new Graph();
-            _graph.AddVerticesAndEdgeRange(
-                Inputs
+            _graph.AddVerticesAndEdgeRange(Inputs
                     .Select(s => s.Split(')'))
                     .Select(o => new Edge<string>(o[0], o[1]))
             );

@@ -6,7 +6,6 @@
  */
 namespace AdventOfCode2019.Puzzles.Day02
 {
-    using System;
     using System.Threading.Tasks;
     using Base;
     using Base.IntCode;
@@ -15,8 +14,7 @@ namespace AdventOfCode2019.Puzzles.Day02
     {
         public Impl2() : base("Day 02: 1202 Program Alarm (IntCodeVm)", ".\\Puzzles\\Day02\\Input.txt") {}
 
-        public override async Task<int> RunPart1Async()
-            => await RunCode(12, 2);
+        public override async Task<int> RunPart1Async() => await RunCode(12, 2);
 
         public override async Task<int> RunPart2Async()
         {
@@ -28,20 +26,13 @@ namespace AdventOfCode2019.Puzzles.Day02
             return 0;
         }
 
-        public async Task<int> RunCode(int noun, int verb)
-        {
-            return await Task.Run(() =>
+        public async Task<int> RunCode(int noun, int verb) => await Task.Run(() =>
             {
                 var vm = new IntCodeVm(Inputs[0]);
                 vm.SetValue(1, noun);
                 vm.SetValue(2, verb);
-                //vm.LogAction = WriteOutput;
                 vm.RunProgramUntilHalt();
                 return (int)vm.GetValue(0);
             });
-        }
-
-        public static void WriteOutput(string arg)
-            => System.Diagnostics.Debug.WriteLine(arg);
     }
 }

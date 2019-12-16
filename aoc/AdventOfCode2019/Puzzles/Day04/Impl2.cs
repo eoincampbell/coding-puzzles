@@ -20,8 +20,8 @@
 
         public override async Task<int> RunPart2Async() => await DoWork(CheckPartB);
 
-        public async Task<int> DoWork(Func<int, int, int, int, int, int, bool> checkFunc)
-            => await Task.Run(() => GetRange(Inputs[0], Inputs[1])
+        public async Task<int> DoWork(Func<int, int, int, int, int, int, bool> checkFunc) => await Task.Run(() => 
+            GetRange(Inputs[0], Inputs[1])
                 .Select(Split)
                 .Count(x => checkFunc(x.a, x.b, x.c, x.d, x.e, x.f)));
 
@@ -85,20 +85,6 @@
                     yield return s;
                     s++;
                 }
-
-                //while (s <= e)
-                //{
-                //    var ss = s.ToString();
-                //    for (int i = 0, p = 4; i < 5; i++, p--)
-                //    {
-                //        if (ss[i] <= ss[i + 1]) continue;
-                //        var pp = (int)Math.Pow(10, p);
-                //        s = ((s += pp) / pp) * pp;
-                //        goto skip;
-                //    }
-                //    yield return s++;
-                //skip:;
-                //}
             }
         }
     }
