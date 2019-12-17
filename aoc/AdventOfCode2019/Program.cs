@@ -9,7 +9,7 @@ namespace AdventOfCode2019
 {
     public static class Program
     {
-        public static async Task Main() => await new Puzzles.Day16.Impl().RunBothPartsAsync();
+        public static async Task Main() => await new Puzzles.Day17.Impl(true).RunBothPartsAsync();
 
         //public static async Task Main()
         //{
@@ -25,7 +25,7 @@ namespace AdventOfCode2019
             .Where(t => t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(Puzzle<,>))
             .OrderBy(o => o.Namespace)
             .ThenBy(n => n?.Name)
-            .Select(s => Activator.CreateInstance(s))
+            .Select(Activator.CreateInstance)
             .Cast<IPuzzle>()
             .ToList();
     }

@@ -11,7 +11,7 @@
             var p = new Puzzles.Day17.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart1Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(5740, a);
         }
 
         [Test]
@@ -20,7 +20,7 @@
             var p = new Puzzles.Day17.Impl();
             await p.ResetInputsAsync();
             var a = await p.RunPart2Async();
-            Assert.AreEqual(0, a);
+            Assert.AreEqual(1022165, a);
         }
     }
 }
