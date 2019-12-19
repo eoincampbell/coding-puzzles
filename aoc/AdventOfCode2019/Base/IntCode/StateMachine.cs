@@ -7,6 +7,7 @@
     internal class StateMachine
     {
         private readonly Memory _memory;
+
         private BigInteger _relativeBasePointer = 0;
         private BigInteger _pointer = 0;
 
