@@ -62,7 +62,7 @@
         public void Halt() => State = VmState.Halted;
         public void PauseHasOutput() => State = VmState.PausedHasOutput;
         public void PauseAwaitingInput() => State = VmState.PausedAwaitingInput;
-        public void Reset() => _sm.SetPointer(0);
+        public void Reset() => _sm.Reset();
         #endregion
 
         #region IO

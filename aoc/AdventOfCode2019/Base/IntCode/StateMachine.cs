@@ -6,13 +6,25 @@
 
     internal class StateMachine
     {
-        private readonly Memory _memory;
+        private Memory _memory;
+        private readonly Memory _memoryBackup;
 
         private BigInteger _relativeBasePointer = 0;
         private BigInteger _pointer = 0;
 
-        public StateMachine(Memory memory) => _memory = memory;
-        
+        public StateMachine(Memory memory)
+        {
+            _memoryBackup = memory;
+            _memory = new Memory(_memoryBackup);
+        }
+
+        public void Reset()
+        {
+            _memory = new Memory(_memoryBackup);
+            _relativeBasePointer = 0;
+            _pointer = 0;
+        }
+
         #region Pointer Stuff 
         public BigInteger GetPointer() => _pointer;
 
