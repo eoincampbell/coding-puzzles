@@ -17,7 +17,6 @@ namespace AdventOfCode2019
         //        await p.RunBothPartsAsync();
         //}
 
-
         private static IEnumerable<IPuzzle> GetPuzzles() 
             => Assembly
             .GetExecutingAssembly()
