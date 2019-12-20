@@ -9,7 +9,7 @@ namespace AdventOfCode2019
 {
     public static class Program
     {
-        public static async Task Main() => await new Puzzles.Day19.Impl(false).RunBothPartsAsync();
+        public static async Task Main() => await new Puzzles.Day20.Impl().RunBothPartsAsync();
 
         //public static async Task Main()
         //{
